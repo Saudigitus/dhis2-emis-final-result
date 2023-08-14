@@ -44,6 +44,8 @@ function Table() {
         setpage(1)
     }
 
+    console.log(columns, "columsn");
+
     return (
         <Paper>
             {loading &&
