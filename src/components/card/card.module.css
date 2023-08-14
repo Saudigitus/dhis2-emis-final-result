@@ -1,0 +1,43 @@
+/* ========== Summary Cards styles ============== */
+.success {
+    border: solid 1px #4CAF50;
+    background-color: #F4FBF4;
+    width: 120px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.error {
+    border: solid 1px #DEA9A7;
+    background-color: #FFECE7;
+    width: 120px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.secondary {
+    border: solid 1px #D5DDE5;
+    background-color: #FBFCFD;
+    width: 120px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.success h5,
+.error h5,
+.secondary h5
+{
+text-align: center;
+}

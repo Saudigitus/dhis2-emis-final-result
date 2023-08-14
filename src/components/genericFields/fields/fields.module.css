@@ -1,0 +1,26 @@
+.textfield {
+    border-radius: 3px;
+}
+
+.auto-complete__container {
+    display: flex;
+    align-items: center !important;
+    width: 100%;
+    height: 100%;
+    gap: 8px;
+}
+
+.auto-complete__component {
+    flex: 1 !important;
+}
+
+.alert-icon__area {
+    height: 24px;
+    max-width: 24px;
+    margin-bottom: 15px;
+    flex: 1;
+}
+
+.alert-icon__area svg {
+    color: rgb(211, 47, 47);
+}
