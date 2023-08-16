@@ -10,10 +10,9 @@ import { ProgramConfigState } from "../../schema/programSchema";
 import { useParams } from "../../hooks/commons/useQueryParams";
 import usePostTei from "../../hooks/tei/usePostTei";
 import { format } from "date-fns";
-import { useGetPatternCode } from "../../hooks/tei/useGetPatternCode";
-import { useGetAttributes } from "../../hooks/programs/useGetAttributes";
 import { teiPostBody } from "../../utils/tei/formatPostBody";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
+import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 interface ContentProps {
   setOpen: (value: boolean) => void
 }
@@ -29,17 +28,12 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const [values, setValues] = useState<object>({})
   const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsData])
   const { postTei, loading, data } = usePostTei()
+  const [selected] = useRecoilState(RowSelectionState);
   const [clickedButton, setClickedButton] = useState<string>("");
   const [initialValues] = useState<object>({
     registerschoolstaticform: orgUnitName,
     eventdatestaticform: format(new Date(), "yyyy-MM-dd")
   })
-  const { attributes = [] } = useGetAttributes()
-  const { returnPattern, loadingCodes, generatedVariables } = useGetPatternCode()
-
-  useEffect(() => {
-    void returnPattern(attributes)
-  }, [data])
 
   useEffect(() => { setClicked(false) }, [])
 
@@ -63,11 +57,10 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   const modalActions = [
     { id: "cancel", type: "button", label: "Cancel", disabled: loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
-    { id: "saveandnew", type: "submit", label: "Save and add new", primary: true, disabled: loading, onClick: () => { setClickedButton("saveandnew"); setClicked(true) } },
-    { id: "saveandcontinue", type: "submit", label: "Save and close", primary: true, disabled: loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
+    { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
   ];
 
-  if (enrollmentsData.length < 1 || loadingCodes) {
+  if (enrollmentsData.length < 1) {
     return (
       <CenteredContent>
         <CircularLoader />
@@ -91,7 +84,8 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   return (
     <WithPadding>
-      <Form initialValues={{ ...initialValues, ...generatedVariables }} onSubmit={onSubmit}>
+      {selected.selectedRows[0]?.trackedEntity}
+      <Form initialValues={initialValues} onSubmit={onSubmit}>
         {({ handleSubmit, values, pristine, form }) => {
           formRef.current = form;
           return <form
@@ -111,7 +105,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
             }
             <br />
             <ModalActions>
-              <ButtonStrip end className="mr-4">
+              <ButtonStrip end>
                 {modalActions.map((action, i) => (
                   <Button
                     key={i}

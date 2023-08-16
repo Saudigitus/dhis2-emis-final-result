@@ -1,0 +1,14 @@
+.config-table__columns {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.config-table__columns .root {
+    border-radius: 7px !important;
+}
+
+.config-table__columns h6 {
+    font-size: 16px !important;
+    font-weight: 700;
+}

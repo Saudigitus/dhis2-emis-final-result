@@ -1,5 +1,5 @@
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { DataStoreState } from "../../schema/dataStoreSchema";
 import { useState } from "react";
 import { useDataEngine } from "@dhis2/app-runtime";
@@ -7,6 +7,7 @@ import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
 import { useParams } from "../commons/useQueryParams";
 import { HeaderFieldsState } from "../../schema/headersSchema";
 import useShowAlerts from "../commons/useShowAlert";
+import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 
 type TableDataProps = Record<string, string>;
 
@@ -101,6 +102,7 @@ export function useTableData() {
     const [tableData, setTableData] = useState<TableDataProps[]>([])
     const { hide, show } = useShowAlerts()
     const school = urlParamiters().school as unknown as string
+    const [selected, setSelected] = useRecoilState(RowSelectionState);
 
     async function getData(page: number, pageSize: number) {
         setLoading(true)
@@ -142,6 +144,7 @@ export function useTableData() {
             })
             : { results: { instances: [] } }
 
+        setSelected({ ...selected, rows: teiResults?.results?.instances })
         setTableData(formatResponseRows({
             eventsInstances: eventsResults?.results?.instances,
             teiInstances: teiResults?.results?.instances

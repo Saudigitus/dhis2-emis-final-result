@@ -1,0 +1,15 @@
+.status-container {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: capitalize !important;
+}
+
+.ACTIVE,
+.COMPLETED {
+    color: #277314;
+}
+
+.CANCELLED {
+    color: #D64D4D;
+}
