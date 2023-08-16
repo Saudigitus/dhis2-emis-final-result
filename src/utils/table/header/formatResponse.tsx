@@ -28,56 +28,30 @@ export function formatResponse(data: ProgramConfig): CustomAttributeProps[] {
                 type: VariablesTypes.Attribute
             }
         })
-            // .concat(
-            //     Object.keys(originalData).length > 0
-            //         ? originalData?.programStageDataElements?.map((programStageDataElement) => {
-            //             return {
-            //                 id: programStageDataElement.dataElement.id,
-            //                 displayName: programStageDataElement.dataElement.displayName,
-            //                 header: programStageDataElement.dataElement.displayName,
-            //                 required: programStageDataElement.compulsory,
-            //                 name: programStageDataElement.dataElement.displayName,
-            //                 labelName: programStageDataElement.dataElement.displayName,
-            //                 valueType: programStageDataElement.dataElement.optionSet?.options?.length > 0 ? Attribute.valueType.LIST as unknown as CustomAttributeProps["valueType"] : programStageDataElement.dataElement.valueType as unknown as CustomAttributeProps["valueType"],
-            //                 options: { optionSet: programStageDataElement.dataElement.optionSet },
-            //                 visible: programStageDataElement.displayInReports,
-            //                 disabled: false,
-            //                 pattern: '',
-            //                 searchable: false,
-            //                 error: false,
-            //                 content: '',
-            //                 key: programStageDataElement.dataElement.id,
-            //                 type: VariablesTypes.DataElement
-            //             }
-            //         }) as []
-            //         : []
-            // )
-            .concat({
-                id: "wue7sdh2h3sdeH",
-                displayName: "Status",
-                header: "Status",
-                required: false,
-                name: "Status",
-                labelName: "Status",
-                valueType: Attribute.valueType.TEXT as unknown as CustomAttributeProps["valueType"],
-                options: {
-                    optionSet: {
-                        id: "string",
-                        options: [{
-                            value: "string",
-                            label: "string"
-                        }]
-                    }
-                },
-                visible: true,
-                disabled: false,
-                pattern: '',
-                searchable: false,
-                error: false,
-                content: '',
-                key: "wue7sdh2h3sdeH",
-                type: VariablesTypes.DataElement
-            })
+        // .concat(
+        //     Object.keys(originalData).length > 0
+        //         ? originalData?.programStageDataElements?.map((programStageDataElement) => {
+        //             return {
+        //                 id: programStageDataElement.dataElement.id,
+        //                 displayName: programStageDataElement.dataElement.displayName,
+        //                 header: programStageDataElement.dataElement.displayName,
+        //                 required: programStageDataElement.compulsory,
+        //                 name: programStageDataElement.dataElement.displayName,
+        //                 labelName: programStageDataElement.dataElement.displayName,
+        //                 valueType: programStageDataElement.dataElement.optionSet?.options?.length > 0 ? Attribute.valueType.LIST as unknown as CustomAttributeProps["valueType"] : programStageDataElement.dataElement.valueType as unknown as CustomAttributeProps["valueType"],
+        //                 options: { optionSet: programStageDataElement.dataElement.optionSet },
+        //                 visible: programStageDataElement.displayInReports,
+        //                 disabled: false,
+        //                 pattern: '',
+        //                 searchable: false,
+        //                 error: false,
+        //                 content: '',
+        //                 key: programStageDataElement.dataElement.id,
+        //                 type: VariablesTypes.DataElement
+        //             }
+        //         }) as []
+        //         : []
+        // )
     }, [data]);
 
     return headerResponse;

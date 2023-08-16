@@ -1,6 +1,6 @@
-import React from "react"
-import styles from "./formatResponseRows.module.css"
-import classNames from "classnames"
+// import React from "react"
+// import styles from "./formatResponseRows.module.css"
+// import classNames from "classnames"
 
 interface dataValuesProps {
     dataElement: string
@@ -37,8 +37,8 @@ export function formatResponseRows({ eventsInstances, teiInstances }: formatResp
     const allRows: RowsProps[] = []
     for (const event of eventsInstances) {
         const teiDetails = teiInstances.find(tei => tei.trackedEntity === event.trackedEntity)
-        const statusStyle = teiDetails?.enrollments[0].status ?? "";
-        allRows.push({ /* ...dataValues(event.dataValues), */...(attributes((teiDetails?.attributes) ?? [])), ...{ wue7sdh2h3sdeH: <span className={classNames(styles["status-container"], styles[statusStyle])} >{teiDetails?.enrollments[0].status}</span> } })
+        // const statusStyle = teiDetails?.enrollments[0].status ?? "";
+        allRows.push({ /* ...dataValues(event.dataValues), */...(attributes((teiDetails?.attributes) ?? [])), ...{ trackedEntity: teiDetails?.trackedEntity } /* ...{ wue7sdh2h3sdeH: <span className={classNames(styles["status-container"], styles[statusStyle])} >{teiDetails?.enrollments[0].status}</span> } */ })
     }
     return allRows;
 }

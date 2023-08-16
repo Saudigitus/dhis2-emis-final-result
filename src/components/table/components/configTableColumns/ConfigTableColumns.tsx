@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n';
-import { IconSettings24 } from '@dhis2/ui';
+import { IconSettings24, NoticeBox } from '@dhis2/ui';
 import { IconButton, Tooltip } from '@material-ui/core';
 import DialogConfigColumns from './DialogConfigColumns';
+import styles from "./configTableColumns.module.css"
+import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
+import { useRecoilState } from 'recoil';
 
 interface ConfigTableColumnsProps {
     headers: any[]
@@ -11,6 +14,7 @@ interface ConfigTableColumnsProps {
 
 function ConfigTableColumns(props: ConfigTableColumnsProps) {
     const { headers, updateVariables } = props;
+    const [selected] = useRecoilState(RowSelectionState);
     const [open, setopen] = useState(false)
 
     const closeDialog = () => {
@@ -27,11 +31,14 @@ function ConfigTableColumns(props: ConfigTableColumnsProps) {
     // }
 
     return (
-        <React.Fragment>
+        <div className={styles['config-table__columns']}>
+            {
+                selected.selectedRows.length > 0 && <NoticeBox title={`${selected.selectedRows.length} rows selected`} />
+            }
             <Tooltip
                 disableFocusListener
                 disableTouchListener
-                enterDelay={500}
+                enterDelay={50}
                 title={i18n.t('Select columns')}
                 className="my-auto"
             >
@@ -48,7 +55,7 @@ function ConfigTableColumns(props: ConfigTableColumnsProps) {
                 updateVariables={updateVariables}
                 headers={headers}
             />
-        </React.Fragment>
+        </div>
     )
 }
 
