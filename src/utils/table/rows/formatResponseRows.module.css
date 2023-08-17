@@ -1,15 +1,18 @@
-.status-container {
+.final-result__status {
     font-family: "Roboto", sans-serif;
     font-weight: 700;
     font-size: 14px;
-    text-transform: capitalize !important;
 }
 
-.ACTIVE,
+.passed {
+    color: #277314;
+}
+
 .COMPLETED {
     color: #277314;
 }
 
-.CANCELLED {
+.failed,
+.dropout {
     color: #D64D4D;
 }
