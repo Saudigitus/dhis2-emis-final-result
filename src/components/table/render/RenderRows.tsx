@@ -54,7 +54,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
             >
                 <RowCell
                     className={classNames(classes.cell, classes.bodyCell)}
-                    colspan={headerData?.filter(x => x.visible)?.length}
+                    colspan={headerData?.filter(x => x.visible)?.length + 1}
                 >
                     {i18n.t('No data to display')}
                 </RowCell>
@@ -87,7 +87,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                                     className={classNames(classes.cell, classes.bodyCell)}
                                 >
                                     <div>
-                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] })}
+                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] }) || "---"}
                                     </div>
                                 </RowCell>
                             ))
