@@ -113,7 +113,7 @@ export function useTableData() {
             pageSize,
             program: dataStoreState?.program as unknown as string,
             order: "createdAt:desc",
-            programStage: dataStoreState?.registration?.programStage as unknown as string,
+            programStage: dataStoreState?.["final-result"]?.programStage as unknown as string,
             filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
