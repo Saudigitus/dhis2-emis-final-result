@@ -47,8 +47,6 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
         setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
     }
 
-    console.log(headerData, "headerData");
-
     if (rowsData.length === 0) {
         return (
             <RowTable
