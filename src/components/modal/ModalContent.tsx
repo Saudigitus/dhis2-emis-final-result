@@ -1,43 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent } from "@dhis2/ui";
+import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
 import WithPadding from "../template/WithPadding";
 import { Form } from "react-final-form";
 import { formFields } from "../../utils/constants/enrollmentForm/enrollmentForm";
 import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
 import GroupForm from "../form/GroupForm";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { ProgramConfigState } from "../../schema/programSchema";
+import { useRecoilState } from "recoil";
 import { useParams } from "../../hooks/commons/useQueryParams";
 import usePostTei from "../../hooks/tei/usePostTei";
 import { format } from "date-fns";
-import { teiPostBody } from "../../utils/tei/formatPostBody";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import { usePostEvent } from "../../hooks/events/useCreateEvents";
 interface ContentProps {
   setOpen: (value: boolean) => void
 }
 
 function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
-  const getProgram = useRecoilValue(ProgramConfigState);
   const { useQuery } = useParams();
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
-  const orgUnit = useQuery().get("school");
   const orgUnitName = useQuery().get("schoolName");
   const { enrollmentsData } = useGetEnrollmentForm();
   const [, setClicked] = useRecoilState<boolean>(onSubmitClicked);
-  const [values, setValues] = useState<object>({})
+  const [, setValues] = useState<object>({})
   const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsData])
-  const { postTei, loading, data } = usePostTei()
-  const [selected] = useRecoilState(RowSelectionState);
   const [clickedButton, setClickedButton] = useState<string>("");
+  const [selected] = useRecoilState(RowSelectionState);
+  const { loadUpdateEvent, updateEvent, data } = usePostEvent();
   const [initialValues] = useState<object>({
     registerschoolstaticform: orgUnitName,
     eventdatestaticform: format(new Date(), "yyyy-MM-dd")
   })
 
-  useEffect(() => { setClicked(false) }, [])
-
-  // When Save and continue button clicked and data posted, close the modal
   useEffect(() => {
     if (data !== undefined && data?.status === "OK") {
       if (clickedButton === "saveandcontinue") {
@@ -48,16 +42,27 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
     }
   }, [data])
 
+  useEffect(() => { setClicked(false) }, [])
+
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
     if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
-      void postTei({ data: teiPostBody(fieldsWitValue, (getProgram != null) ? getProgram.id : "", orgUnit ?? "", values?.eventdatestaticform ?? "") })
+      // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+      const events = []
+      for (const event of selected.selectedRows) {
+        events.push(
+          {
+            ...event,
+            dataValues: [{ dataElement: allFields[0].id, value: allFields[0].value }]
+          })
+      }
+      void updateEvent({ data: { events } })
     }
   }
 
   const modalActions = [
-    { id: "cancel", type: "button", label: "Cancel", disabled: loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
-    { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
+    { id: "cancel", type: "button", label: "Cancel", disabled: loadUpdateEvent, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
+    { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: loadUpdateEvent, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
   ];
 
   if (enrollmentsData.length < 1) {
@@ -84,9 +89,14 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   return (
     <WithPadding>
-      {selected.selectedRows[0]?.trackedEntity}
+      <React.Fragment>
+        < NoticeBox title={`WARNING! ${selected.selectedRows.length} rows will be affected`} warning>
+          No one will be able to access this program. Add some Organisation Units to the access list.
+        </NoticeBox>
+        <br />
+      </React.Fragment>
       <Form initialValues={initialValues} onSubmit={onSubmit}>
-        {({ handleSubmit, values, pristine, form }) => {
+        {({ handleSubmit, values, form }) => {
           formRef.current = form;
           return <form
             onSubmit={handleSubmit}
@@ -111,7 +121,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
                     key={i}
                     {...action}
                   >
-                    {(loading && action.id === clickedButton) ? <CircularLoader small /> : action.label}
+                    {(loadUpdateEvent && action.id === clickedButton) ? <CircularLoader small /> : action.label}
                   </Button>
                 ))}
               </ButtonStrip>
