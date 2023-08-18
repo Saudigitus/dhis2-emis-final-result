@@ -48,15 +48,14 @@ const staticForm = () => {
 }
 
 function formFields(enrollmentsData: any[]): FormSectionProps[] {
-  const [enrollmentDetails] = enrollmentsData;
+  const [finalResultForm] = enrollmentsData;
+
   return [
     {
-      section: "Enrollment Details",
-      description: "Details related to the enrollment process",
+      section: "Final Result",
+      description: "Student final result",
       fields: [
-        staticForm().registeringSchool,
-        ...enrollmentDetails,
-        staticForm().enrollmentDate
+        ...finalResultForm
       ]
     }
   ];

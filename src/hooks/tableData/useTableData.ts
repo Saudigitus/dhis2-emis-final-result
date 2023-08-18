@@ -144,7 +144,7 @@ export function useTableData() {
             })
             : { results: { instances: [] } }
 
-        setSelected({ ...selected, rows: teiResults?.results?.instances })
+        setSelected({ ...selected, rows: eventsResults?.results?.instances })
         setTableData(formatResponseRows({
             eventsInstances: eventsResults?.results?.instances,
             teiInstances: teiResults?.results?.instances
