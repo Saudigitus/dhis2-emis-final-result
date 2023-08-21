@@ -1,6 +1,5 @@
 import React from 'react'
 import WithPadding from '../../../../template/WithPadding'
-import { Chip } from "@dhis2/ui";
 import EnrollmentActionsButtons from '../../enrollmentButtons/EnrollmentActionsButtons';
 
 function WorkingLits() {
@@ -8,7 +7,7 @@ function WorkingLits() {
     <WithPadding>
       <div className='d-flex justify-content-between'>
         <div>
-          <Chip>
+          {/* <Chip>
             Active enrollments
           </Chip>
           <Chip>
@@ -16,10 +15,10 @@ function WorkingLits() {
           </Chip>
           <Chip>
             Cancelled enrollments
-          </Chip>
+          </Chip> */}
         </div>
 
-        <EnrollmentActionsButtons/>
+        <EnrollmentActionsButtons />
       </div>
     </WithPadding>
   )
