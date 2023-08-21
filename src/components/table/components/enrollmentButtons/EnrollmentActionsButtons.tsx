@@ -24,16 +24,11 @@ function EnrollmentActionsButtons() {
           </span>
         </Tooltip>
 
-        {/* <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
+        <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
           <span>
-            <DropdownButtonComponent
-              disabled={orgUnit == null}
-              name="Bulk enrollment"
-              icon={<IconUserGroup16 />}
-              options={enrollmentOptions}
-            />
+            <Button disabled icon={<IconAddCircle24 />}>Perform promotion</Button>
           </span>
-        </Tooltip> */}
+        </Tooltip>
       </ButtonStrip>
 
       {open && <ModalComponent title="Bulk Student Final Result" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
