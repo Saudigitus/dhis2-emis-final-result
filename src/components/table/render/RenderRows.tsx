@@ -80,12 +80,14 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                         <RowCell
                             className={classNames(classes.cell, classes.bodyCell)}
                         >
-                            <Checkbox
-                                checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element.trackedEntity === row.trackedEntity).length > 0}
-                                name="Ex"
-                                onChange={() => { onToggle(selected.rows[index]); }}
-                                value="checked"
-                            />
+                            <div onClick={(event) => { event.stopPropagation(); }}>
+                                <Checkbox
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element.trackedEntity === row.trackedEntity).length > 0}
+                                    name="Ex"
+                                    onChange={() => { onToggle(selected.rows[index]); }}
+                                    value="checked"
+                                />
+                            </div>
                         </RowCell>
                         {
                             headerData?.filter(x => x.visible)?.map(column => (
