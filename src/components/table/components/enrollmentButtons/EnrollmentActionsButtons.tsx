@@ -15,18 +15,12 @@ function EnrollmentActionsButtons() {
   const orgUnit = useQuery().get("school")
   const [selected] = useRecoilState(RowSelectionState);
 
-  // const enrollmentOptions: FlyoutOptionsProps[] = [
-  //   { label: "Import students", divider: true, onClick: () => { setOpenImport(true); } },
-  //   { label: "Export empty template", divider: false, onClick: () => { alert("Export empty template"); } },
-  //   { label: "Export template with data", divider: false, onClick: () => { alert("Export template with data"); } }
-  // ];
-
   return (
     <div>
       <ButtonStrip>
         <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
           <span>
-            <Button disabled={orgUnit == null || selected.selectedRows.length === 0} onClick={() => { setOpen(true); }} icon={<IconAddCircle24 />}>Perform promotion</Button>
+            <Button disabled={orgUnit == null || selected.selectedRows.length === 0} onClick={() => { setOpen(true); }} icon={<IconAddCircle24 />}>Assign final result</Button>
           </span>
         </Tooltip>
 
@@ -42,7 +36,7 @@ function EnrollmentActionsButtons() {
         </Tooltip> */}
       </ButtonStrip>
 
-      {open && <ModalComponent title="Bulk Student Promotion" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
+      {open && <ModalComponent title="Bulk Student Final Result" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
       {openImport && <ModalComponent title="Import Students" open={openImport} setOpen={setOpenImport}><ImportContent setOpen={setOpen} /></ModalComponent>}
     </div >
   )
