@@ -45,7 +45,7 @@ export function formatResponseRows({ eventsInstances, teiInstances }: formatResp
 function dataValues(data: dataValuesProps[]): RowsProps {
     const localData: RowsProps = {}
     for (const dataElement of data) {
-        localData[dataElement.dataElement] = <span className={classNames(styles['final-result__status'], styles[dataElement.value])}>{dataElement.value}</span>
+        localData[dataElement.dataElement] = <span className={classNames(styles['final-result__status'], styles[dataElement.value.toLowerCase()])}>{dataElement.value}</span>
     }
     return localData
 }
