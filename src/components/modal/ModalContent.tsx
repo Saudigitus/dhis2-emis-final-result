@@ -7,7 +7,6 @@ import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
 import GroupForm from "../form/GroupForm";
 import { useRecoilState } from "recoil";
 import { useParams } from "../../hooks/commons/useQueryParams";
-import usePostTei from "../../hooks/tei/usePostTei";
 import { format } from "date-fns";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
@@ -44,8 +43,6 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   useEffect(() => { setClicked(false) }, [])
 
-  console.log(selected);
-
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
     if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
@@ -64,7 +61,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   const modalActions = [
     { id: "cancel", type: "button", label: "Cancel", disabled: loadUpdateEvent, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
-    { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: loadUpdateEvent, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
+    { id: "saveandcontinue", type: "submit", label: "Assign final result", primary: true, disabled: loadUpdateEvent, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
   ];
 
   if (enrollmentsData.length < 1) {

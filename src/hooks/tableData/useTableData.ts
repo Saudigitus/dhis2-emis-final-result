@@ -143,8 +143,8 @@ export function useTableData() {
             setTimeout(hide, 5000);
         })
 
-        const finalResultFirlteredEvents = finalResultEventsResult.results.instances.filter(event => {
-            return eventsResults.results.instances.some(item => item.trackedEntity === event.trackedEntity);
+        const finalResultFirlteredEvents = finalResultEventsResult?.results.instances.filter(event => {
+            return eventsResults?.results.instances.some(item => item.trackedEntity === event.trackedEntity);
         });
 
         const teiResults: TeiQueryResults = trackedEntityToFetch?.length > 0

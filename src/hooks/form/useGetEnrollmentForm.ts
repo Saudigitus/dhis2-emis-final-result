@@ -6,14 +6,17 @@ import { formatResponseEvents } from '../../utils/events/formatResponseEvents';
 
 export default function useGetEnrollmentForm() {
     const [enrollmentsData, setEnrollmentsData] = useState<any[]>([])
+    const [enrollmentsDetailsData, setEnrollmentsDetailsData] = useState<any[]>([])
     const getProgram = useRecoilValue(ProgramConfigState);
     const getDataStoreData = useRecoilValue(DataStoreState);
 
     const buildForm = () => {
         if (getDataStoreData != null && getProgram !== undefined) {
-            const { "final-result": { programStage } } = getDataStoreData
+            const { "final-result": { programStage }, registration } = getDataStoreData
             const { programStages } = getProgram
+            const enrollmentDetailProgramStage = programStages.filter(elemnt => elemnt.id === registration.programStage)[0]
             const finalResultProgramStage = programStages.filter(elemnt => elemnt.id === programStage)[0]
+            setEnrollmentsDetailsData([formatResponseEvents(enrollmentDetailProgramStage)])
             setEnrollmentsData([formatResponseEvents(finalResultProgramStage)])
         }
     }
@@ -21,5 +24,5 @@ export default function useGetEnrollmentForm() {
         buildForm()
     }, [])
 
-    return { enrollmentsData }
+    return { enrollmentsData, enrollmentsDetailsData }
 }
