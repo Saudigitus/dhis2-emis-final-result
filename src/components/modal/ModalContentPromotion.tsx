@@ -13,6 +13,7 @@ import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import { usePostEvent } from "../../hooks/events/useCreateEvents";
 import { enrollmentDetailsForm } from "../../utils/constants/enrollmentForm/enrollmentDetailsForm";
+import useShowAlerts from "../../hooks/commons/useShowAlert";
 interface ContentProps {
     setOpen: (value: boolean) => void
 }
@@ -27,6 +28,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
     const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsDetailsData])
     const [clickedButton, setClickedButton] = useState<string>("");
     const [selected] = useRecoilState(RowSelectionState);
+    const { hide, show } = useShowAlerts()
     const { loadUpdateEvent, updateEvent, data } = usePostEvent();
     const [initialValues] = useState<object>({
         registerschoolstaticform: orgUnitName,
@@ -45,22 +47,22 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
 
     useEffect(() => { setClicked(false) }, [])
 
-    console.log(selected);
-
     function onSubmit() {
-        const allFields = fieldsWitValue.flat()
-        if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
-            // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
-            const events = []
-            for (const event of selected.selectedRows) {
-                events.push(
-                    {
-                        ...event,
-                        dataValues: [{ dataElement: allFields[0].id, value: allFields[0].value }]
-                    })
-            }
-            void updateEvent({ data: { events } })
-        }
+        show({ message: "Promotiom updated successfully", type: { success: true } })
+        setOpen(false)
+        // const allFields = fieldsWitValue.flat()
+        // if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
+        //     // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+        //     const events = []
+        //     for (const event of selected.selectedRows) {
+        //         events.push(
+        //             {
+        //                 ...event,
+        //                 dataValues: [{ dataElement: allFields[0].id, value: allFields[0].value }]
+        //             })
+        //     }
+        //     void updateEvent({ data: { events } })
+        // }
     }
 
     const modalActions = [
