@@ -45,7 +45,7 @@ export function formatResponse(data: ProgramConfig, finalResultProgramStage: str
                             error: false,
                             content: '',
                             key: programStageDataElement.dataElement.id,
-                            type: VariablesTypes.DataElement
+                            type: VariablesTypes.FinalResult
                         }
                     }) as []
                     : []

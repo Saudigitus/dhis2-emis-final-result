@@ -113,7 +113,7 @@ export function useTableData() {
             pageSize,
             program: dataStoreState?.program as unknown as string,
             order: "createdAt:desc",
-            programStage: dataStoreState?.["final-result"]?.programStage as unknown as string,
+            programStage: dataStoreState?.registration?.programStage as unknown as string,
             filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
@@ -126,6 +126,26 @@ export function useTableData() {
         })
 
         const trackedEntityToFetch = eventsResults?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
+
+        const finalResultEventsResult: EventQueryResults = await engine.query(EVENT_QUERY({
+            ouMode: school != null ? "SELECTED" : "ACCESSIBLE",
+            page,
+            pageSize,
+            program: dataStoreState?.program as unknown as string,
+            order: "createdAt:desc",
+            programStage: dataStoreState?.["final-result"]?.programStage as unknown as string,
+            orgUnit: school
+        })).catch((error) => {
+            show({
+                message: `${("Could not get data")}: ${error.message}`,
+                type: { critical: true }
+            });
+            setTimeout(hide, 5000);
+        })
+
+        const finalResultFirlteredEvents = finalResultEventsResult.results.instances.filter(event => {
+            return eventsResults.results.instances.some(item => item.trackedEntity === event.trackedEntity);
+        });
 
         const teiResults: TeiQueryResults = trackedEntityToFetch?.length > 0
             ? await engine.query(TEI_QUERY({
@@ -144,9 +164,9 @@ export function useTableData() {
             })
             : { results: { instances: [] } }
 
-        setSelected({ ...selected, rows: eventsResults?.results?.instances })
+        setSelected({ ...selected, rows: finalResultFirlteredEvents })
         setTableData(formatResponseRows({
-            eventsInstances: eventsResults?.results?.instances,
+            eventsInstances: finalResultFirlteredEvents,
             teiInstances: teiResults?.results?.instances
         }));
 

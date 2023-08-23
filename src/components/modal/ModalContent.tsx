@@ -44,6 +44,8 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   useEffect(() => { setClicked(false) }, [])
 
+  console.log(selected);
+
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
     if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {

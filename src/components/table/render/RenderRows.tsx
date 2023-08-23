@@ -43,12 +43,6 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
-    const openTeiInCaptureApp = (event: object) => {
-        const { trackedEntity, enrollment, orgUnit, program } = event;
-        console.log(event, "ds");
-        window.open(`https://emis.dhis2.org/dev/dhis-web-capture/index.html#/enrollment?enrollmentId=${enrollment}&orgUnitId=${orgUnit}&programId=${program}&teiId=${trackedEntity}`, '_blank')
-    }
-
     const onToggle = (rawRowData: object) => {
         setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
     }
@@ -74,7 +68,6 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                 rowsData.map((row, index) => (
                     <RowTable
                         key={index}
-                        onClick={() => { openTeiInCaptureApp(selected.rows[index]); }}
                         className={classNames(classes.row, classes.dataRow)}
                     >
                         <RowCell
@@ -96,7 +89,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                                     className={classNames(classes.cell, classes.bodyCell)}
                                 >
                                     <div>
-                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] }) || "---"}
+                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] }) ?? "---"}
                                     </div>
                                 </RowCell>
                             ))

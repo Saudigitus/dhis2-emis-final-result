@@ -9,7 +9,6 @@ export function useHeader() {
     const [columnHeader, setcolumnHeader] = useState()
     const getDataStoreData = useRecoilValue(DataStoreState);
 
-
     return {
         columns: formatResponse(programConfigState, getDataStoreData?.["final-result"]?.programStage),
         columnHeader,
