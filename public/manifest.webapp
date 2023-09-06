@@ -1,8 +1,8 @@
 {
   "appType": "APP",
-  "short_name": "SEMIS-Enrollment",
-  "name": "SEMIS-Enrollment",
-  "description": "SEMIS-Enrollment",
+  "short_name": "SEMIS-Final-Result",
+  "name": "SEMIS-Final-Result",
+  "description": "SEMIS-Final-Result",
   "version": "1.0.0",
   "launch_path": "index.html",
   "default_locale": "en",

@@ -1,13 +1,13 @@
 {
   "type": "app",
-  "name": "SEMIS-Enrollment",
-  "description": "SEMIS-Enrollment",
+  "name": "SEMIS-Final-Result",
+  "description": "SEMIS-Final-Result",
   "version": "1.0.0",
   "author": {
     "name": "Hisp Mozambique (Saudigitus) & Hisp Uganda",
     "email": "info@saudigitus.org"
   },
-  "title": "SEMIS-Enrollment",
+  "title": "SEMIS-Final-Result",
   "entryPoints": {
     "app": "index.html"
   }
