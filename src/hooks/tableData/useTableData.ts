@@ -60,7 +60,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
             pageSize,
             trackedEntity,
             orgUnit,
-            fields: "trackedEntity,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt]"
+            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[createdAt,createdBy,deleted,enrolledAt,enrollment,followUp,notes,occurredAt,orgUnit,orgUnitName,program,status,trackedEntity,updatedAt,updatedBy]"
         }
     }
 })
@@ -164,9 +164,16 @@ export function useTableData() {
             })
             : { results: { instances: [] } }
 
-        setSelected({ ...selected, rows: finalResultFirlteredEvents })
+        const eventsWithTei = finalResultFirlteredEvents.map(event => (
+            {
+                ...event,
+                tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
+            }
+        ));
+
+        setSelected({ ...selected, rows: eventsWithTei })
         setTableData(formatResponseRows({
-            eventsInstances: finalResultFirlteredEvents,
+            eventsInstances: eventsWithTei,
             teiInstances: teiResults?.results?.instances
         }));
 

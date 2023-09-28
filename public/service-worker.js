@@ -6,7 +6,6 @@ self.addEventListener('install', () => {
 })
 
 self.addEventListener('activate', async () => {
-    console.log('Removing previous service worker')
     // Unregister, in case app doesn't
     self.registration.unregister()
     // Delete all caches
