@@ -29,23 +29,11 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
     const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsDetailsData])
     const [clickedButton, setClickedButton] = useState<string>("");
     const [selected] = useRecoilState(RowSelectionState);
-    const { promoteStudents } = usePromoteStudent();
-    const { hide, show } = useShowAlerts()
-    const { loadUpdateEvent, updateEvent, data } = usePostEvent();
+    const { promoteStudents, mutateState } = usePromoteStudent();
     const [initialValues] = useState<object>({
         registerschoolstaticform: orgUnitName,
         eventdatestaticform: format(new Date(), "yyyy-MM-dd")
     })
-
-    useEffect(() => {
-        if (data !== undefined && data?.status === "OK") {
-            if (clickedButton === "saveandcontinue") {
-                setOpen(false)
-            }
-            setClicked(false)
-            formRef.current.restart()
-        }
-    }, [data])
 
     useEffect(() => { setClicked(false) }, [])
 
@@ -56,14 +44,16 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
             const trackedEntities = selected.rows.map((row: any) => row.tei).filter(tei => {
                 return selected.selectedRows.some(event => tei?.trackedEntity === event?.trackedEntity);
             })
-            // setOpen(false)
-            void promoteStudents(trackedEntities, fieldsWitValue);
+            void promoteStudents(trackedEntities, fieldsWitValue)
+                .then(() => {
+                    setOpen(false)
+                })
         }
     }
 
     const modalActions = [
-        { id: "cancel", type: "button", label: "Cancel", disabled: loadUpdateEvent, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
-        { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: loadUpdateEvent, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
+        { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
+        { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: mutateState.loading, loading: mutateState.loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
     ];
 
     if (enrollmentsDetailsData.length < 1) {
@@ -122,7 +112,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
                                         key={i}
                                         {...action}
                                     >
-                                        {(loadUpdateEvent && action.id === clickedButton) ? <CircularLoader small /> : action.label}
+                                        {action.label}
                                     </Button>
                                 ))}
                             </ButtonStrip>

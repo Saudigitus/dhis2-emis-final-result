@@ -3,6 +3,9 @@
 import { useDataMutation } from "@dhis2/app-runtime"
 import { promoteTeiPostBody } from "../../utils/tei/formatPostBody"
 import useShowAlerts from '../commons/useShowAlert';
+import { useRecoilState } from "recoil";
+import { teiRefetch } from "./usePostTei";
+import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 
 const UPDATE_ENROLLMENT_MUTATION: any = {
     resource: "tracker",
@@ -15,8 +18,11 @@ const UPDATE_ENROLLMENT_MUTATION: any = {
 }
 
 const usePromoteStudent = () => {
-    const [mutate] = useDataMutation(UPDATE_ENROLLMENT_MUTATION)
+    const [mutate, mutateState] = useDataMutation(UPDATE_ENROLLMENT_MUTATION)
     const { hide, show } = useShowAlerts()
+    const [selected, setSelected] = useRecoilState(RowSelectionState);
+    const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch)
+
 
     const promoteStudents = async (students: any[], fieldsWitValue: any) => {
         // GET AND CLOSE ACTIVE ENROLLMENTS
@@ -38,11 +44,13 @@ const usePromoteStudent = () => {
                 })
                 await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue) })
                     .then(() => {
+                        setSelected({ ...selected, selectedRows: [], isAllRowsSelected: false })
                         show({ message: "Promotion completed successfully", type: { success: true } })
+                        setRefetch(!refetch)
                     })
             })
     }
 
-    return { promoteStudents }
+    return { promoteStudents, mutateState }
 }
 export default usePromoteStudent
