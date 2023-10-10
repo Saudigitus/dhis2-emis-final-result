@@ -34,7 +34,7 @@ export function formatResponseEvents(object: ProgramStageConfig) {
 
 export function formatResponseHeader(object: ProgramConfig) {
     const dataElements: CustomAttributeProps[] = [];
-    const originalData = ((object?.programStages?.find(programStge => programStge.id === "Ni2qsy2WJn4")) ?? {} as ProgramConfig["programStages"][0])
+    const originalData = ((object?.programStages?.find(programStge => programStge.id === "yXOtuTzmdqn")) ?? {} as ProgramConfig["programStages"][0])
     if (object != null) {
         for (const programStageDataElement of originalData.programStageDataElements) {
             dataElements.push({
