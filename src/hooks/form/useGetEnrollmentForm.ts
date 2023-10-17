@@ -11,8 +11,8 @@ export default function useGetEnrollmentForm() {
     const getDataStoreData = useRecoilValue(DataStoreState);
 
     const buildForm = () => {
-        if (getDataStoreData != null && getProgram !== undefined) {
-            const { "final-result": { programStage }, registration } = getDataStoreData
+        if (Object.keys(getDataStoreData)?.length !== 0 && getProgram !== undefined) {
+            const { registration, 'socio-economics': { programStage } } = getDataStoreData
             const { programStages } = getProgram
             const enrollmentDetailProgramStage = programStages.filter(elemnt => elemnt.id === registration.programStage)[0]
             const finalResultProgramStage = programStages.filter(elemnt => elemnt.id === programStage)[0]

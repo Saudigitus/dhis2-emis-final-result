@@ -21,26 +21,30 @@ const PROGRAMQUERY = (id: string) => ({
     }
 })
 
-export function useGetProgramConfig() {
+export function useGetProgramConfig(program: string) {
+    const { isSetSectionType } = useGetInitialValues()
     const setProgramConfigState = useSetRecoilState(ProgramConfigState);
     const { hide, show } = useShowAlerts()
 
-    const { data, loading } = useDataQuery<{ results: ProgramConfig }>(PROGRAMQUERY("a6t4ASRXwPZ"), {
+    const { loading, refetch } = useDataQuery<{ results: ProgramConfig }>(PROGRAMQUERY(program), {
         onError(error) {
             show({
-                message: `${("Could not get data")}: ${error.message}`,
+                message: `${("Could not get program")}: ${error.message}`,
                 type: { critical: true }
             });
             setTimeout(hide, 5000);
-        }
+        },
+        onComplete(response) {
+            setProgramConfigState(response?.results);
+        },
+        lazy: true
     })
 
     useEffect(() => {
-        setProgramConfigState(data?.results);
-    }, [loading])
+        if (isSetSectionType && (program !== undefined || program !== null)) {
+            void refetch()
+        }
+    }, [isSetSectionType])
 
-    return {
-        data,
-        loading
-    }
+    return { loading }
 }

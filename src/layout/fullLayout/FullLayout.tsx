@@ -5,7 +5,26 @@ import { useParams } from '../../hooks/commons/useQueryParams';
 import InfoPage from '../../components/info/InfoPage';
 
 export default function FullLayout({ children }: { children: React.ReactNode }) {
-    const { urlParamiters } = useParams();
+    useGetInitialValues()
+    const { isSetSectionType } = useGetInitialValues()
+    const { getDataStoreData } = getSelectedKey()
+    const { loading } = useGetProgramConfig(getDataStoreData.program);
+
+    if (!isSetSectionType) {
+        return (
+            <CenteredContent>
+                Cant load the app without section type
+            </CenteredContent>
+        )
+    }
+
+    if (loading) {
+        return (
+            <CenteredContent>
+                <CircularLoader />
+            </CenteredContent>
+        )
+    }
 
     return (
         <div className={style.LayoutContainer}>
