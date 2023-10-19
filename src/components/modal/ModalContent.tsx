@@ -11,6 +11,8 @@ import { format } from "date-fns";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import { usePostEvent } from "../../hooks/events/useCreateEvents";
+import useGetUsedPProgramStages from "../../hooks/programStages/useGetUsedPProgramStages";
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 interface ContentProps {
   setOpen: (value: boolean) => void
 }
@@ -19,9 +21,11 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const { useQuery } = useParams();
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
   const orgUnitName = useQuery().get("schoolName");
+  const performanceProgramStages = useGetUsedPProgramStages();
   const { enrollmentsData } = useGetEnrollmentForm();
   const [, setClicked] = useRecoilState<boolean>(onSubmitClicked);
   const [, setValues] = useState<object>({})
+  const { getDataStoreData } = getSelectedKey();
   const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsData])
   const [clickedButton, setClickedButton] = useState<string>("");
   const [selected] = useRecoilState(RowSelectionState);
@@ -75,7 +79,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   function onChange(e: any): void {
     const sections = enrollmentsData;
     for (const [key, value] of Object.entries(e)) {
-      for (let i = 0; i < sections.length; i++) {
+      for (let i = 0; i < sections?.length; i++) {
         if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
           // Sending onChanging form value to variables object
           sections[i].find((element: any) => element.id === key).value = value

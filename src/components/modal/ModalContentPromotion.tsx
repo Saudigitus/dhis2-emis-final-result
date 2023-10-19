@@ -7,13 +7,10 @@ import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
 import GroupForm from "../form/GroupForm";
 import { useRecoilState } from "recoil";
 import { useParams } from "../../hooks/commons/useQueryParams";
-import usePostTei from "../../hooks/tei/usePostTei";
 import { format } from "date-fns";
 import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
-import { usePostEvent } from "../../hooks/events/useCreateEvents";
 import { enrollmentDetailsForm } from "../../utils/constants/enrollmentForm/enrollmentDetailsForm";
-import useShowAlerts from "../../hooks/commons/useShowAlert";
 import usePromoteStudent from "../../hooks/tei/usePromoteStudents";
 interface ContentProps {
     setOpen: (value: boolean) => void
