@@ -4,6 +4,7 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
 import { type ProgramConfig } from "../../types/programConfig/ProgramConfig";
 import useShowAlerts from "../commons/useShowAlert";
+import { useGetInitialValues } from "../initialValues/useGetInitialValues";
 
 const PROGRAMQUERY = (id: string) => ({
     results: {

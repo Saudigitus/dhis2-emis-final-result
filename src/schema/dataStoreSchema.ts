@@ -1,46 +1,51 @@
 import { atom } from "recoil"
-import { z } from "zod";
 
-const attendance = z.object({
-    absenceReason: z.string(),
-    programStage: z.string(),
-    status: z.string()
-})
+interface attendance {
+    absenceReason: string
+    programStage: string
+    status: string
+    statusOptions: [{
+        code: string
+        icon: string
+    }]
+}
 
-const programStages = z.object({
-    programStage: z.string()
-})
+interface programStages {
+    programStage: string
+}
 
-const performance = z.object({
-    programStages: z.array(programStages)
-})
+interface performance {
+    programStages: programStages[]
+}
 
-const registration = z.object({
-    academicYear: z.string(),
-    grade: z.string(),
-    programStage: z.string(),
-    section: z.string()
-})
+interface registration {
+    academicYear: string
+    grade: string
+    programStage: string
+    section: string
+}
 
-const finalResult = z.object({
-    programStage: z.string(),
-    status: z.string()
-})
+interface transfer {
+    destinySchool: string
+    programStage: string
+    status: string
+}
 
-const dataStoreRecord = z.object({
-    attendance,
-    key: z.string(),
-    lastUpdate: z.string(),
-    performance,
-    program: z.string(),
-    registration,
-    "socio-economics": programStages,
-    "final-result": finalResult
-})
+export interface dataStoreRecord {
+    attendance: attendance
+    key: string
+    trackedEntityType: string
+    lastUpdate: string
+    performance: performance
+    program: string
+    registration: registration
+    ["socio-economics"]: programStages
+    transfer: transfer
+    ["final-result"]: programStages
 
-export type DataStoreConfig = z.infer<typeof dataStoreRecord>
+}
 
-export const DataStoreState = atom<DataStoreConfig | null>({
+export const DataStoreState = atom<dataStoreRecord[]>({
     key: "dataStore-get-state",
-    default: null
+    default: []
 })

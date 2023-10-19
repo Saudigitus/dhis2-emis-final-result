@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useRecoilValue } from 'recoil';
 import { ProgramConfigState } from '../../schema/programSchema';
-import { DataStoreState } from '../../schema/dataStoreSchema';
 import { formatResponseEvents } from '../../utils/events/formatResponseEvents';
+import { getSelectedKey } from '../../utils/commons/dataStore/getSelectedKey';
 
 export default function useGetEnrollmentForm() {
     const [enrollmentsData, setEnrollmentsData] = useState<any[]>([])
     const [enrollmentsDetailsData, setEnrollmentsDetailsData] = useState<any[]>([])
     const getProgram = useRecoilValue(ProgramConfigState);
-    const getDataStoreData = useRecoilValue(DataStoreState);
+    const { getDataStoreData } = getSelectedKey()
 
     const buildForm = () => {
-        if (Object.keys(getDataStoreData)?.length !== 0 && getProgram !== undefined) {
-            const { registration, 'socio-economics': { programStage } } = getDataStoreData
+        if (getDataStoreData != null && getProgram !== undefined) {
             const { programStages } = getProgram
-            const enrollmentDetailProgramStage = programStages.filter(elemnt => elemnt.id === registration.programStage)[0]
-            const finalResultProgramStage = programStages.filter(elemnt => elemnt.id === programStage)[0]
+            const enrollmentDetailProgramStage = programStages.filter(elemnt => elemnt.id === getDataStoreData?.registration?.programStage)[0]
+            const finalResultProgramStage = programStages.filter(elemnt => elemnt.id === getDataStoreData?.['final-result']?.programStage)[0]
             setEnrollmentsDetailsData([formatResponseEvents(enrollmentDetailProgramStage)])
             setEnrollmentsData([formatResponseEvents(finalResultProgramStage)])
         }

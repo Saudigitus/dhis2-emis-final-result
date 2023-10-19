@@ -6,6 +6,7 @@ import useShowAlerts from '../commons/useShowAlert';
 import { useRecoilState } from "recoil";
 import { teiRefetch } from "./usePostTei";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import useGetUsedPProgramStages from "../programStages/useGetUsedPProgramStages";
 
 const UPDATE_ENROLLMENT_MUTATION: any = {
     resource: "tracker",
@@ -21,8 +22,8 @@ const usePromoteStudent = () => {
     const [mutate, mutateState] = useDataMutation(UPDATE_ENROLLMENT_MUTATION)
     const { hide, show } = useShowAlerts()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
-    const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch)
-
+    const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch);
+    const performanceProgramStages = useGetUsedPProgramStages()
 
     const promoteStudents = async (students: any[], fieldsWitValue: any) => {
         // GET AND CLOSE ACTIVE ENROLLMENTS
@@ -42,7 +43,7 @@ const usePromoteStudent = () => {
                         }
                     }
                 })
-                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue) })
+                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages) })
                     .then(() => {
                         setSelected({ ...selected, selectedRows: [], isAllRowsSelected: false })
                         show({ message: "Promotion completed successfully", type: { success: true } })
