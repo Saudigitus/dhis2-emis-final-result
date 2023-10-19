@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import { dataStoreRecord } from "../../schema/dataStoreSchema";
 import { Attribute } from "../../types/generated/models";
 import { ProgramConfig } from "../../types/programConfig/ProgramConfig";
 import { type ProgramStageConfig } from "../../types/programStageConfig/ProgramStageConfig";
@@ -32,9 +34,9 @@ export function formatResponseEvents(object: ProgramStageConfig) {
     return dataElements;
 }
 
-export function formatResponseHeader(object: ProgramConfig) {
+export function formatResponseHeader(object: ProgramConfig, getDataStoreData: dataStoreRecord) {
     const dataElements: CustomAttributeProps[] = [];
-    const originalData = ((object?.programStages?.find(programStge => programStge.id === "yXOtuTzmdqn")) ?? {} as ProgramConfig["programStages"][0])
+    const originalData = ((object?.programStages?.find(programStge => programStge.id === getDataStoreData?.registration?.programStage)) ?? {} as ProgramConfig["programStages"][0])
     if (object != null) {
         for (const programStageDataElement of originalData.programStageDataElements) {
             dataElements.push({

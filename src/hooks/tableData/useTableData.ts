@@ -1,6 +1,5 @@
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { DataStoreState } from "../../schema/dataStoreSchema";
 import { useState } from "react";
 import { useDataEngine } from "@dhis2/app-runtime";
 import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
@@ -8,6 +7,7 @@ import { useParams } from "../commons/useQueryParams";
 import { HeaderFieldsState } from "../../schema/headersSchema";
 import useShowAlerts from "../commons/useShowAlert";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 
 type TableDataProps = Record<string, string>;
 
@@ -97,12 +97,12 @@ interface TeiQueryResults {
 
 export function useTableData() {
     const engine = useDataEngine();
-    const dataStoreState = useRecoilValue(DataStoreState);
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
     const { urlParamiters } = useParams()
     const [loading, setLoading] = useState<boolean>(false)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
     const { hide, show } = useShowAlerts()
+    const { getDataStoreData } = getSelectedKey()
     const school = urlParamiters().school as unknown as string
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
@@ -113,9 +113,9 @@ export function useTableData() {
             ouMode: school != null ? "SELECTED" : "ACCESSIBLE",
             page,
             pageSize,
-            program: dataStoreState?.program as unknown as string,
+            program: getDataStoreData?.program as unknown as string,
             order: "createdAt:desc",
-            programStage: dataStoreState?.registration?.programStage as unknown as string,
+            programStage: getDataStoreData?.registration?.programStage as unknown as string,
             filter: headerFieldsState?.dataElements,
             programStatus: "ACTIVE",
             filterAttributes: headerFieldsState?.attributes,
@@ -134,10 +134,10 @@ export function useTableData() {
             ouMode: school != null ? "SELECTED" : "ACCESSIBLE",
             page,
             pageSize,
-            program: dataStoreState?.program as unknown as string,
+            program: getDataStoreData?.program as unknown as string,
             order: "createdAt:desc",
             programStatus: "ACTIVE",
-            programStage: dataStoreState?.["final-result"]?.programStage as unknown as string,
+            programStage: getDataStoreData?.["final-result"]?.programStage as unknown as string,
             orgUnit: school
         })).catch((error) => {
             show({
@@ -156,7 +156,7 @@ export function useTableData() {
                 ouMode: school != null ? "SELECTED" : "ACCESSIBLE",
                 order: "created:desc",
                 pageSize,
-                program: dataStoreState?.program as unknown as string,
+                program: getDataStoreData?.program as unknown as string,
                 orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {
