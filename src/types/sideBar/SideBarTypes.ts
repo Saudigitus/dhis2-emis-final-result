@@ -14,7 +14,7 @@ interface SideBarSubItemProps {
     disabled: boolean
     route: string
     appName: string
-    pathName: string
+    pathName?: string
 }
 
 interface SideBarCollapseProps {
