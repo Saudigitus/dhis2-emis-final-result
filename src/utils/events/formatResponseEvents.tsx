@@ -8,7 +8,7 @@ import { VariablesTypes, type CustomAttributeProps } from "../../types/table/Att
 export function formatResponseEvents(object: ProgramStageConfig) {
     const dataElements: CustomAttributeProps[] = [];
     if (object != null) {
-        for (const programStageDataElement of object?.programStageDataElements || []) {
+        for (const programStageDataElement of object?.programStageDataElements) {
             dataElements.push({
                 required: programStageDataElement.compulsory,
                 name: programStageDataElement.dataElement.id,
@@ -27,7 +27,7 @@ export function formatResponseEvents(object: ProgramStageConfig) {
                 displayName: programStageDataElement.dataElement?.displayName,
                 header: programStageDataElement.dataElement?.displayName,
                 type: VariablesTypes.DataElement,
-                value: undefined
+                assignedValue: undefined
             });
         }
     }
@@ -57,7 +57,7 @@ export function formatResponseHeader(object: ProgramConfig, getDataStoreData: da
                 displayName: programStageDataElement.dataElement?.displayName,
                 header: programStageDataElement.dataElement?.displayName,
                 type: VariablesTypes.DataElement,
-                value: undefined
+                assignedValue: undefined
             });
         }
     }

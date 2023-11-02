@@ -29,7 +29,7 @@ function sideBarData(): SideBarItemProps[] {
                     route: "attendance?sectionType=student&academicYear=2023",
                     pathName: "/attendance"
                 },
-/*                 {
+                {
                     icon: fileDocument,
                     label: "Performance",
                     showBadge: false,
@@ -37,21 +37,21 @@ function sideBarData(): SideBarItemProps[] {
                     appName: "SEMIS-Performance",
                     route: "performance?sectionType=student&academicYear=2023",
                     pathName: "/performance"
-                }, */
+                },
                 {
                     icon: gauge,
                     label: "Final result",
                     showBadge: false,
-                    disabled: true,
+                    disabled: false,
                     appName: "SEMIS-Final-Result",
-                    route: "final-result?sectionType=student",
+                    route: "final-result?sectionType=student&academicYear=2023",
                     pathName: "/final-result"
                 },
                 {
                     icon: logOut,
                     label: "Transfer",
                     showBadge: false,
-                    disabled: true,
+                    disabled: false,
                     appName: "SEMIS-Student-Transfer",
                     route: "student-transfer?sectionType=student",
                     pathName: "/student-transfer"
@@ -67,7 +67,7 @@ function sideBarData(): SideBarItemProps[] {
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Enrollment-Staff",
-                    route: "teacher?sectionType=staff&academicYear=2023",
+                    route: "enrollment-teacher?sectionType=staff&academicYear=2023",
                     pathName: "/enrollment-teacher"
                 },
                 {
@@ -83,9 +83,9 @@ function sideBarData(): SideBarItemProps[] {
                     icon: logOut,
                     label: "Transfer",
                     showBadge: false,
-                    disabled: true,
+                    disabled: false,
                     appName: "SEMIS-Staff-Transfer",
-                    route: "staff-transfer",
+                    route: "staff-transfer?sectionType=staff",
                     pathName: "/staff-transfer"
                 }
             ]

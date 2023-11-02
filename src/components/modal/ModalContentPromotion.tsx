@@ -36,7 +36,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
 
     function onSubmit() {
         const allFields = fieldsWitValue.flat()
-        if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
+        if (allFields.filter((element: any) => (element?.assignedValue === undefined && element.required)).length === 0) {
             // FILTER ALL SELECTED ROWS TEI
             const trackedEntities = selected.rows.map((row: any) => row.tei).filter(tei => {
                 return selected.selectedRows.some(event => tei?.trackedEntity === event?.trackedEntity);
@@ -67,7 +67,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
             for (let i = 0; i < sections.length; i++) {
                 if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
                     // Sending onChanging form value to variables object
-                    sections[i].find((element: any) => element.id === key).value = value
+                    sections[i].find((element: any) => element.id === key).assignedValue = value
                 }
             }
         }

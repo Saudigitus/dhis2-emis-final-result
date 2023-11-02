@@ -49,14 +49,14 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
 
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
-    if (allFields.filter((element: any) => (element?.value === undefined && element.required)).length === 0) {
+    if (allFields.filter((element: any) => (element?.assignedValue === undefined && element.required)).length === 0) {
       // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const events = []
       for (const event of selected.selectedRows) {
         events.push(
           {
             ...event,
-            dataValues: [{ dataElement: allFields[0].id, value: allFields[0].value }]
+            dataValues: [{ dataElement: allFields[0].id, value: allFields[0].assignedValue }]
           })
       }
       void updateEvent({ data: { events } })
@@ -82,7 +82,7 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
       for (let i = 0; i < sections?.length; i++) {
         if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
           // Sending onChanging form value to variables object
-          sections[i].find((element: any) => element.id === key).value = value
+          sections[i].find((element: any) => element.id === key).assignedValue = value
         }
       }
     }
