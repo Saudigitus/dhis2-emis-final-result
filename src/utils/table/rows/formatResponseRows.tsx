@@ -12,13 +12,6 @@ interface attributesProps {
     value: string
 }
 
-interface enrollmentProps {
-    enrolledAt: string
-    enrollment: string
-    orgUnit: string
-    status: string
-}
-
 interface formatResponseRowsProps {
     eventsInstances: [{
         trackedEntity: string
@@ -27,20 +20,37 @@ interface formatResponseRowsProps {
     teiInstances: [{
         trackedEntity: string
         attributes: attributesProps[]
-        enrollments: enrollmentProps[]
     }]
+    marksInstances: [{
+        trackedEntity: string
+        dataValues: dataValuesProps[]
+    }]
+}
+
+interface formatResponseRowsMarksProps {
+    marksInstance: {
+        trackedEntity: string
+        dataValues: dataValuesProps[]
+    }
 }
 
 type RowsProps = Record<string, string | number | boolean | any>;
 
-export function formatResponseRows({ eventsInstances, teiInstances }: formatResponseRowsProps): RowsProps[] {
+export function formatResponseRows({ eventsInstances, teiInstances,marksInstances }: formatResponseRowsProps): RowsProps[] {
     const allRows: RowsProps[] = []
     for (const event of eventsInstances) {
         const teiDetails = teiInstances.find(tei => tei.trackedEntity === event.trackedEntity)
-        allRows.push({ ...dataValues(event.dataValues), ...(attributes((teiDetails?.attributes) ?? [])), ...{ trackedEntity: teiDetails?.trackedEntity } })
+        const marksDetails = marksInstances.find(mark => mark.trackedEntity === event.trackedEntity)
+        allRows.push({...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues) } : {}), ...(attributes((teiDetails?.attributes) ?? [])), ...{ trackedEntity: teiDetails?.trackedEntity } })
     }
+    console.log(allRows,"...{ trackedEntity: teiDetails?.trackedEntity } }")
     return allRows;
 }
+
+export function formatResponseRowsMarks({ marksInstance }: formatResponseRowsMarksProps): RowsProps[] {
+    return dataValues(marksInstance?.dataValues ?? [])
+}
+
 
 function dataValues(data: dataValuesProps[]): RowsProps {
     const localData: RowsProps = {}

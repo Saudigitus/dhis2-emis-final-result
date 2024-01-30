@@ -43,6 +43,8 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
+    console.log(selected,"se")
+
     const onToggle = (rawRowData: object) => {
         setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
     }
@@ -75,7 +77,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
-                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element.trackedEntity === row.trackedEntity).length > 0}
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element?.trackedEntity === row.trackedEntity).length > 0}
                                     name="Ex"
                                     onChange={() => { onToggle(selected.rows[index]); }}
                                     value="checked"
