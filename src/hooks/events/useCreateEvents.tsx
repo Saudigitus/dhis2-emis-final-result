@@ -17,14 +17,14 @@ export function usePostEvent() {
     const { hide, show } = useShowAlerts()
     const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch)
 
-    const [create, { loading, data }] = useDataMutation(POST_EVENT, {
+    const [create, { loading, data,error }] = useDataMutation(POST_EVENT, {
         onComplete: () => {
             show({ message: "Final results updated successfully", type: { success: true } })
             setRefetch(!refetch)
         },
         onError: (error) => {
             show({
-                message: `Could not save the enrollment details: ${error.message}`,
+                message: `Could not save the final result details: ${error.message}`,
                 type: { critical: true }
             });
             setTimeout(hide, 5000);

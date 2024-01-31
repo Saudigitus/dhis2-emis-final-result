@@ -12,6 +12,7 @@ import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import { enrollmentDetailsForm } from "../../utils/constants/enrollmentForm/enrollmentDetailsForm";
 import usePromoteStudent from "../../hooks/tei/usePromoteStudents";
+import useShowAlerts from "../../hooks/commons/useShowAlert";
 interface ContentProps {
     setOpen: (value: boolean) => void
 }
@@ -27,6 +28,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
     const [clickedButton, setClickedButton] = useState<string>("");
     const [selected] = useRecoilState(RowSelectionState);
     const { promoteStudents, mutateState } = usePromoteStudent();
+    const { hide, show } = useShowAlerts()
     const [initialValues] = useState<object>({
         registerschoolstaticform: orgUnitName,
         eventdatestaticform: format(new Date(), "yyyy-MM-dd")
@@ -53,6 +55,10 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
         { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
         { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: mutateState.loading, loading: mutateState.loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
     ];
+
+    if(mutateState.error){
+        show({ message: "An unknown error occurred while promoting the student", type: { critical: true } })
+    }
 
     if (enrollmentsDetailsData.length < 1) {
         return (

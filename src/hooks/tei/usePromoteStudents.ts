@@ -32,9 +32,7 @@ const usePromoteStudent = () => {
                 { ...enrollment, status: "COMPLETED" }
             ))
 
-            console.log(closedEnrollments,"Olas")
-
-        await mutate({ data: { enrollments: closedEnrollments } })
+        await mutate({ data: { enrollments: closedEnrollments }})
             .then(async (response: any) => {
                 // GET CLOSED ENROLLMENTS STUDENTS AFTER POST
                 const studentsToPromote: any = [];
@@ -52,6 +50,7 @@ const usePromoteStudent = () => {
                         setRefetch(!refetch)
                     })
             })
+
     }
 
     return { promoteStudents, mutateState }
