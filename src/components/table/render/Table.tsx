@@ -34,8 +34,6 @@ function Table() {
     const [pageSize, setpageSize] = useState(10)
     const [refetch] = useRecoilState(teiRefetch)
 
-    console.log(loading,"loading")
-
     useEffect(() => {
         void getData(page, pageSize)
     }, [school, headerFieldsState, grade, section, page, pageSize, refetch])

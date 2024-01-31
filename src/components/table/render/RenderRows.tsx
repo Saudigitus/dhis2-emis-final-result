@@ -43,7 +43,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
-    console.log(selected,"se")
+    // console.log(selected,"se")
 
     const onToggle = (rawRowData: object) => {
         setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })

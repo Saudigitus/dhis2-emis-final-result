@@ -26,11 +26,13 @@ const usePromoteStudent = () => {
     const performanceProgramStages = useGetUsedPProgramStages()
 
     const promoteStudents = async (students: any[], fieldsWitValue: any) => {
-        // GET AND CLOSE ACTIVE ENROLLMENTS
+        // GET AND CLOSE ACTIVE ENROLLMENTS OF SELECTED STUDENTS
         const closedEnrollments = students.map(student => student?.enrollments.filter((enrollment: any) => enrollment.status === "ACTIVE")[0])
             .map((enrollment: any) => (
                 { ...enrollment, status: "COMPLETED" }
             ))
+
+            console.log(closedEnrollments,"Olas")
 
         await mutate({ data: { enrollments: closedEnrollments } })
             .then(async (response: any) => {

@@ -43,7 +43,6 @@ export function formatResponseRows({ eventsInstances, teiInstances,marksInstance
         const marksDetails = marksInstances.find(mark => mark.trackedEntity === event.trackedEntity)
         allRows.push({...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues) } : {}), ...(attributes((teiDetails?.attributes) ?? [])), ...{ trackedEntity: teiDetails?.trackedEntity } })
     }
-    console.log(allRows,"...{ trackedEntity: teiDetails?.trackedEntity } }")
     return allRows;
 }
 

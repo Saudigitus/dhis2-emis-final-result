@@ -44,7 +44,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
             pageSize,
             trackedEntity,
             orgUnit,
-            fields: "trackedEntity,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt]"
+            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt,program,trackedEntity]"
         }
     }
 })
@@ -127,15 +127,12 @@ export function useTableData() {
             marskEvents.results.instances.push(...marksResults?.results?.instances)
         }
 
-        console.log(marskEvents,teiResults,"Olas")
 
         const localData = formatResponseRows({
             eventsInstances: events?.results?.instances,
             teiInstances: teiResults?.results?.instances,
             marksInstances: marskEvents?.results?.instances,
         })
-
-        console.log(teiResults, "marskEvents")
 
 
         const eventsWithTei = marskEvents.results.instances.map((event: any) => (
@@ -144,6 +141,8 @@ export function useTableData() {
                 tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
             }
         ));
+
+        console.log(eventsWithTei,"Ola")
 
         setSelected({ ...selected, rows: eventsWithTei })
 

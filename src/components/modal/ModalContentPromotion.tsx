@@ -41,6 +41,7 @@ function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
             const trackedEntities = selected.rows.map((row: any) => row.tei).filter(tei => {
                 return selected.selectedRows.some(event => tei?.trackedEntity === event?.trackedEntity);
             })
+
             void promoteStudents(trackedEntities, fieldsWitValue)
                 .then(() => {
                     setOpen(false)
