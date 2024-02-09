@@ -6,3 +6,33 @@
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     line-height: 1.16667em;
 }
+
+.helpText {
+    color: #E53935;
+    margin-top: 20px;
+}
+
+.label {
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.oddFormField {
+    background-color: #FFFF;
+}
+
+.evenFormField {
+    background-color: #ebf0f6;
+}
+
+.errorFormField {
+    display: flex;
+    height: 102px; 
+    padding: 8px 8px 8px 5px; 
+    background-color: #FBEAE5;
+}
+
+.notErrorFormField {
+    display: flex; 
+    height: auto; 
+    padding: 8px 8px 8px 12px;
+}

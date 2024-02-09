@@ -4,6 +4,7 @@ import RenderWithoutAppliedFilter from './RenderWithoutAppliedFilter';
 import WithPadding from '../../../../template/WithPadding';
 import SelectorContents from '../enrollment/content/SelectorContents';
 import RenderWithAppliedFilter from './RenderWithAppliedFilter';
+import styles from './SelectButton.module.css'
 
 const POPOVER_ANCHOR_ORIGIN = {
     vertical: 'bottom',
@@ -50,6 +51,9 @@ const useStyles = makeStyles({
         '&:hover': {
             color: "primary"
         }
+    },
+    selectButtonContainer: {
+        padding: "0.25em 0.5em 0.25em 0em"
     }
 });
 
@@ -84,7 +88,7 @@ function SelectButton(props: SelectButtonProps) {
     }
 
     return (
-        <div style={{ padding: "0.25em 0.5em 0.25em 0em" }}>
+        <div className={classes.selectButtonContainer}>
             <div
                 data-test="filter-button-popover-anchor"
                 ref={anchorRef}

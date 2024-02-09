@@ -52,6 +52,12 @@
     align-items: flex-end;
     flex-wrap: wrap;
     justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
+}
+
+.paginationIconButton {
+    padding-right: 15px;
 }
 
 .paginationRowsPerPageElementContainer {
@@ -78,8 +84,19 @@
     color: rgba(0, 0, 0, 0.54);
     font-weight: 500;
     font-size: 0.75rem;
-    margin-top: 15px;
-    /* padding-top: 20px; */
+    padding: 10px 0; 
+}
+
+.paginationSelection {
+    height: 10px;
+    max-width: 50px;
+    margin-top: -10px;
+    margin-right: 10px;
+}
+
+.menuContainerStyle { 
+    top: auto;
+     bottom: 100%;
 }
 
 .sortLabelContainer {

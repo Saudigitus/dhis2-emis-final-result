@@ -34,7 +34,7 @@ function IconButtonPagination(props: IconButtonPaginationProps): React.ReactElem
     return (
         <>
             <IconButton
-                style={{ paddingRight: 15 }}
+                className={defaultClasses.paginationIconButton}
                 // corrigir este erro 👇
                 onClick={props.onPageChange}
                 disabled={props.disabled}
@@ -50,7 +50,6 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
     return (
         <div
             className={defaultClasses.pagination}
-            style={{ display: 'flex', justifyContent: 'space-between' }}
         >
             <div />
 
@@ -61,7 +60,7 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
                     className={defaultClasses.textPagination}
                     value={rowsPerPage}
                     clearValueText={false}
-                    style={{ maxWidth: 50, marginTop: -10, height: 10, marginRight: 10 }}
+                    style={{ marginTop: -5 }}
                     options={rowsPerPages}
                     clearable={false}
                     searchable={false}
@@ -69,8 +68,6 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
                     menuContainerStyle={{ top: 'auto', bottom: '100%' }}
                 />
                 {textPagination(`Page ${page}`)}
-
-                <div style={{ marginRight: 10 }} />
 
                 <IconButtonPagination
                     Icon={<KeyboardArrowLeft />}

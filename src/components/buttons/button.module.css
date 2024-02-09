@@ -12,7 +12,7 @@
     cursor: pointer;
 }
 
-.active-button {
+.activeButton {
     border: solid 1px #A0ADBA;
     background-color: #F3D3B4;
     width: 137px;

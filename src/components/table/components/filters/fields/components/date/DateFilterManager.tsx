@@ -18,6 +18,9 @@ const getStyles = makeStyles(() => ({
     },
     logicErrorContainer: {
         paddingTop: 0
+    },
+    datePicker: {
+        width: '150px'
     }
 }));
 
@@ -44,7 +47,7 @@ const DateFilterManager = (props: DateFilterManagerProps) => {
                         // disableToolbar
                         variant="inline"
                         format="yyyy/MM/dd"
-                        style={{ width: 150 }}
+                        className={classes.datePicker}
                         label={"From"}
                         maxDate={value?.endDate}
                         value={(value?.startDate?.length > 0) ? value?.startDate : null}
@@ -57,7 +60,7 @@ const DateFilterManager = (props: DateFilterManagerProps) => {
                         // disableToolbar
                         variant="inline"
                         format="yyyy/MM/dd"
-                        style={{ width: 150 }}
+                        className={classes.datePicker}
                         minDate={value?.startDate}
                         label={"To"}
                         value={((value?.endDate)?.length > 0) ? value?.endDate : null}

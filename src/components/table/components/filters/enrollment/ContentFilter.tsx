@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import { useRecoilState } from 'recoil';
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
+import styles from './Filter.module.css'
 
 interface ContentFilterProps {
     headers: CustomAttributeProps[]
@@ -128,7 +129,7 @@ function ContentFilter(props: ContentFilterProps) {
     }, [resetValues])
 
     return (
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", marginBottom: 10, marginTop: 10 }}>
+        <div className={styles.contentFilterContainer}>
             {
                 localFilters.map((colums, index) => (
                     <SelectButton key={index}
@@ -155,17 +156,12 @@ function ContentFilter(props: ContentFilterProps) {
                     />
                 ))
             }
-            <div style={{ marginTop: 0 }}>
+            <div className={styles.contentMoreFilterContainer}>
                 {headers?.filter(x => !localFilters.includes(x))?.length > 0 &&
-                    <Button style={{
-                        color: "rgb(33, 41, 52)",
-                        fontSize: 14,
-                        textTransform: "none",
-                        fontWeight: 400
-                    }}
-
+                    <Button 
                         variant='outlined'
                         onClick={handleClick}
+                        className={styles.contentMoreFilterButton}
                     >
                         More filters
                     </Button>

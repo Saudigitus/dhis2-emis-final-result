@@ -2,11 +2,12 @@ import React from 'react'
 import ContentFilter from './ContentFilter';
 import { useHeader } from '../../../../../hooks/tableHeader/useHeader';
 import { VariablesTypes } from '../../../../../types/table/AttributeColumns';
+import syles from './Filter.module.css'
 
 function EnrollmentFilters(): React.ReactElement {
     const { columns } = useHeader()
     return (
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", marginBottom: 10, marginTop: 10, marginLeft: 10 }}>
+        <div className={syles.enrollmentFilterContaine}>
             <ContentFilter headers={columns?.filter(column => column.type !== VariablesTypes.FinalResult)} />
         </div>
     )

@@ -48,7 +48,6 @@ export default function SimpleDropdownButton(props: ButtonProps): React.ReactEle
           <MenuItem
             key={i}
             className={selectedTerm.id === item.id && styles.activeMenuItem}
-            style={{ minWidth: 127 }}
             onClick={() => { setSelectedTerm(item); setAnchorEl(null); }}
           >
             {item.label}

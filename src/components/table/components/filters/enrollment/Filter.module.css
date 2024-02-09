@@ -1,0 +1,23 @@
+.contentFilterContainer, .enrollmentFilterContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 10;
+    margin-top: 10;
+}
+
+.enrollmentFilterContainer {
+    margin-left: 10;
+}
+
+.contentMoreFilterContainer{
+    margin-top: 0;
+}
+
+.contentMoreFilterButton{
+    color: rgb(33, 41, 52);
+    font-size: 14;
+    text-transform: none;
+    font-Weight: 400
+}
+
