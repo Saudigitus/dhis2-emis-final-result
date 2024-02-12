@@ -4,7 +4,7 @@ import WithBorder from "../template/WithBorder";
 import WithPadding from "../template/WithPadding";
 import GenericFields from "../genericFields/GenericFields";
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
-import Subtitle from "../text/subtitle";
+import Subtitle from "../text/Subtitle";
 import styles from "./groupform.module.css"
 import classNames from "classnames";
 

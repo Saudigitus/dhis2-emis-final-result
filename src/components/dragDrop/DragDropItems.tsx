@@ -29,7 +29,6 @@ function DragDropItems(props: DragDropItemsProps) {
                     tabIndex={-1}
                     onChange={() => { handleToggle(id); }}
                     label={text}
-                    // className={classes.checkbox}
                     valid dense />
             </TableCell>
             <TableCell>

@@ -1,6 +1,6 @@
 import React from "react";
 import WithPadding from "../template/WithPadding";
-import Subtitle from "../text/subtitle";
+import Subtitle from "../text/Subtitle";
 import {
     ModalActions,
     Button,

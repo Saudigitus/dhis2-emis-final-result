@@ -8,7 +8,7 @@ import ModalComponent from "./modal/Modal";
 import ModalContentComponent from "./modal/ModalContent";
 import Title from "./text/Title";
 import { Item, MenuItemContainer } from "./menuItem/index"
-import Subtitle from "./text/subtitle";
+import Subtitle from "./text/Subtitle";
 import GroupForm from "./form/GroupForm";
 
 export {
