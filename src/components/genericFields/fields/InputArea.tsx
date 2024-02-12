@@ -1,3 +1,4 @@
+import React from "react";
 import {
   ReactFinalForm,
   TextAreaFieldFF,
@@ -5,7 +6,6 @@ import {
   hasValue,
   string
 } from "@dhis2/ui";
-import React from "react";
 import style from "./fields.module.css";
 import { type GenericFieldsProps } from "../../../types/fields/GenericFieldsTypes";
 

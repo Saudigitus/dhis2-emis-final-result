@@ -1,7 +1,7 @@
 
+import React from 'react'
 import { Checkbox, IconReorder24 } from '@dhis2/ui';
 import TableCell from '@material-ui/core/TableCell';
-import React from 'react'
 
 const style = {
     outline: 'none'

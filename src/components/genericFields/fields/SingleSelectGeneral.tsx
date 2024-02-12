@@ -1,5 +1,5 @@
-import { SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 import React from 'react'
+import { SingleSelectField, SingleSelectOption } from '@dhis2/ui'
 
 interface OptionsProps {
     value: string

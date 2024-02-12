@@ -1,6 +1,6 @@
+import React from "react";
 import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import React from "react";
 import { useField, type FieldRenderProps } from "react-final-form";
 import { type CustomAttributeProps } from "../../../types/table/AttributeColumns";
 import ErrorIcon from '@material-ui/icons/Error';

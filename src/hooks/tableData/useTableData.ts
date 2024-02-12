@@ -9,8 +9,6 @@ import { useParams } from "../commons/useQueryParams";
 import { HeaderFieldsState } from "../../schema/headersSchema";
 import useShowAlerts from "../commons/useShowAlert";
 import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
-// import { type TableDataProps, type EventQueryProps, type TeiQueryProps, type MarksQueryResults, type EventQueryResults, type TeiQueryResults } from "../../types/table/TableData";
-import { EventsState } from "../../schema/termMarksSchema";
 import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 

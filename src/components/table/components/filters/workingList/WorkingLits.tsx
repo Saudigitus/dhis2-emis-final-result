@@ -5,19 +5,7 @@ import EnrollmentActionsButtons from '../../enrollmentButtons/EnrollmentActionsB
 function WorkingLits() {
   return (
     <WithPadding>
-      <div className='d-flex justify-content-between'>
-        <div>
-          {/* <Chip>
-            Active enrollments
-          </Chip>
-          <Chip>
-            Completed enrollments
-          </Chip>
-          <Chip>
-            Cancelled enrollments
-          </Chip> */}
-        </div>
-
+      <div className='d-flex justify-content-end'>
         <EnrollmentActionsButtons />
       </div>
     </WithPadding>

@@ -1,5 +1,5 @@
-import { FormControlLabel, RadioGroup, Radio, withStyles } from "@material-ui/core";
 import React from "react";
+import { FormControlLabel, RadioGroup, Radio, withStyles } from "@material-ui/core";
 import { Label } from "@dhis2/ui"
 import { useField, type FieldRenderProps } from "react-final-form";
 import { type GenericFieldsProps } from "../../../types/fields/GenericFieldsTypes";

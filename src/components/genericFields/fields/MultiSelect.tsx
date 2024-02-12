@@ -1,5 +1,5 @@
-import { MultiSelect, MultiSelectOption } from '@dhis2/ui'
 import React from 'react'
+import { MultiSelect, MultiSelectOption } from '@dhis2/ui'
 
 interface OptionsProps {
     value: string

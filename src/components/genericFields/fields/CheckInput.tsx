@@ -1,5 +1,5 @@
-import { ReactFinalForm, CheckboxFieldFF, hasValue, Label } from "@dhis2/ui";
 import React from "react";
+import { ReactFinalForm, CheckboxFieldFF, hasValue, Label } from "@dhis2/ui";
 
 interface CheckFieldProps {
   disabled: boolean

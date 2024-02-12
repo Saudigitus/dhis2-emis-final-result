@@ -1,3 +1,4 @@
+import React from 'react'
 import {
     ReactFinalForm,
     InputFieldFF,
@@ -6,7 +7,6 @@ import {
     integer,
     createNumberRange
 } from '@dhis2/ui'
-import React from 'react'
 import style from "./fields.module.css";
 import { formatToString } from './formatters'
 import { type GenericFieldsProps } from '../../../types/fields/GenericFieldsTypes';

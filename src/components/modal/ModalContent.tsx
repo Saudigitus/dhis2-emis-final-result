@@ -50,7 +50,6 @@ function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
     if (allFields.filter((element: any) => (element?.assignedValue === undefined && element.required)).length === 0) {
-      // eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
       const events = []
       for (const event of selected.selectedRows) {
         events.push(

@@ -5,7 +5,7 @@ import WithPadding from "../template/WithPadding";
 import GenericFields from "../genericFields/GenericFields";
 import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
 import Subtitle from "../text/subtitle";
-import styles from './groupform.module.css'
+import styles from "./groupform.module.css"
 import classNames from "classnames";
 
 interface FormProps {

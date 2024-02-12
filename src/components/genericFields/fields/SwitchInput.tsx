@@ -1,5 +1,5 @@
-import { ReactFinalForm, SwitchFieldFF, hasValue } from '@dhis2/ui'
 import React from 'react'
+import { ReactFinalForm, SwitchFieldFF, hasValue } from '@dhis2/ui'
 
 interface SwitchFieldProps {
     disabled: boolean
