@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import styles from "./ields.module.css"
+import styles from "./Fields.module.css"
 import { TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import ErrorIcon from '@material-ui/icons/Error';
