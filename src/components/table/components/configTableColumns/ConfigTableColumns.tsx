@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n';
+import { useRecoilState } from 'recoil';
 import { IconSettings24, NoticeBox } from '@dhis2/ui';
+import styles from "./configTableColumns.module.css"
 import { IconButton, Tooltip } from '@material-ui/core';
 import DialogConfigColumns from './DialogConfigColumns';
-import styles from "./configTableColumns.module.css"
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
-import { useRecoilState } from 'recoil';
 
 interface ConfigTableColumnsProps {
     headers: any[]

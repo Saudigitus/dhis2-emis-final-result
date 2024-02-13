@@ -1,7 +1,7 @@
+import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import React from 'react';
 
 const getStyles = makeStyles(() => ({
     fromToContainer: {

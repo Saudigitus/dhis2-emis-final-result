@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react'
-import { RowTable, SortLabel } from '../components'
 import { Checkbox } from "@dhis2/ui"
 import classNames from 'classnames';
-import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
-import HeaderCell from '../components/head/HeaderCell';
-import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
 import { useRecoilState } from 'recoil';
+import { RowTable, HeaderCell } from '../components'
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
+import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
+import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
 
 interface renderHeaderProps {
     rowsHeader: CustomAttributeProps[]

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Paper } from '@material-ui/core'
-import styles from "./infoPage.module.css"
+import styles from "./InfoPage.module.css"
 
 export default function InfoPage() {
     return (

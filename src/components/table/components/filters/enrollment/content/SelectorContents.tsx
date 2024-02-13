@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from '@dhis2/ui';
-import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
 import FilterComponents from '../../fields/FilterComponents';
+import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
 import { type CustomAttributeProps } from '../../../../../../types/table/AttributeColumns';
 
 const getStyles = makeStyles((theme: Theme) =>

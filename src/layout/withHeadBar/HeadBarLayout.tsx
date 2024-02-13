@@ -1,11 +1,11 @@
-import React from 'react'
-import style from "../Layout.module.css"
-import { MainHeader } from '../../components'
-import { useParams } from '../../hooks/commons/useQueryParams';
+import React from 'react';
+import style from "../Layout.module.css";
+import { useQueryParams } from '../../hooks';
+import { MainHeader } from '../../components';
 import InfoPage from '../../components/info/InfoPage';
 
 export default function HeadBarLayout({ children }: { children: React.ReactNode }): React.ReactElement {
-    const { urlParamiters } = useParams();
+    const { urlParamiters } = useQueryParams();
 
     return (
         <div className={style.HeadBarLayoutContainer}>

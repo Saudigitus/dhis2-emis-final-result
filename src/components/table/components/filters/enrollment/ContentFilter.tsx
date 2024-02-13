@@ -1,13 +1,13 @@
-import { Button } from '@material-ui/core';
 import React, { useState, useEffect } from 'react';
-import MenuFilters from './MenuFilters';
-import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
-import SelectButton from "../selectButton/SelectButton";
 import { format } from 'date-fns';
 import { useRecoilState } from 'recoil';
+import MenuFilters from './MenuFilters';
+import styles from './Filter.module.css';
+import { Button } from '@material-ui/core';
+import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
+import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
-import styles from './Filter.module.css'
 
 interface ContentFilterProps {
     headers: CustomAttributeProps[]

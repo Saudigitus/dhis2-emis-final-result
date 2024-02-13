@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import style from "./SideBar.module.css"
-import SideBarItem from './SideBarItem'
+import { SideBarItem, SibeBarCollapseBtn } from './components'
 import { sideBarData } from "../../../utils/constants/sideBar/sideBarData"
-import SibeBarCollapseBtn from './SibeBarCollapseBtn';
 
 export default function SideBar(): React.ReactElement {
     const [collapsed, setCollapsed] = useState<boolean>(true);

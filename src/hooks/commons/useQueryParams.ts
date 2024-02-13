@@ -1,7 +1,7 @@
-import { useSearchParams } from 'react-router-dom'
 import React from 'react'
+import { useSearchParams } from 'react-router-dom'
 
-const useParams = () => {
+const useQueryParams = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const add = (key: string, value: string) => {
         searchParams.set(key, value)
@@ -26,4 +26,4 @@ const useParams = () => {
     }
     return { add, remove, useQuery, urlParamiters }
 }
-export { useParams }
+export { useQueryParams }

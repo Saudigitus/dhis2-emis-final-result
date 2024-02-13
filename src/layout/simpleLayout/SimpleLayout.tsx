@@ -1,5 +1,5 @@
-import React from 'react'
-import style from "../Layout.module.css"
+import React from 'react';
+import style from "../Layout.module.css";
 
 export default function SimpleLayout({ children }: { children: React.ReactNode }) {
     return (

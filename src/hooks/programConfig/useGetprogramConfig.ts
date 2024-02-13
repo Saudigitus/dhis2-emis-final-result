@@ -1,10 +1,9 @@
-import { useSetRecoilState } from "recoil";
-import { ProgramConfigState } from "../../schema/programSchema";
-import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { useDataQuery } from "@dhis2/app-runtime";
+import { ProgramConfigState } from "../../schema/programSchema";
+import { useShowAlerts, useGetInitialValues } from "../../hooks";
 import { type ProgramConfig } from "../../types/programConfig/ProgramConfig";
-import useShowAlerts from "../commons/useShowAlert";
-import { useGetInitialValues } from "../initialValues/useGetInitialValues";
 
 const PROGRAMQUERY = (id: string) => ({
     results: {

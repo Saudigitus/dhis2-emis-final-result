@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
-import WithPadding from "../template/WithPadding";
-import { Form } from "react-final-form";
-import { formFields } from "../../utils/constants/enrollmentForm/enrollmentForm";
-import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
-import GroupForm from "../form/GroupForm";
-import { useRecoilState } from "recoil";
-import { useParams } from "../../hooks/commons/useQueryParams";
 import { format } from "date-fns";
-import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
-import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
-import { enrollmentDetailsForm } from "../../utils/constants/enrollmentForm/enrollmentDetailsForm";
-import usePromoteStudent from "../../hooks/tei/usePromoteStudents";
-import useShowAlerts from "../../hooks/commons/useShowAlert";
+import { Form } from "react-final-form";
+import { useRecoilState } from "recoil";
+import { WithPadding, GroupForm }  from "../../../components";
+import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
+import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
+import { useQueryParams, useShowAlerts, usePromoteStudent, useGetEnrollmentForm } from "../../../hooks";
+import { enrollmentDetailsForm } from "../../../utils/constants/enrollmentForm/enrollmentDetailsForm";
+import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
+
 interface ContentProps {
     setOpen: (value: boolean) => void
 }
 
 function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
-    const { useQuery } = useParams();
+    const { useQuery } = useQueryParams();
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const orgUnitName = useQuery().get("schoolName");
     const { enrollmentsDetailsData } = useGetEnrollmentForm();

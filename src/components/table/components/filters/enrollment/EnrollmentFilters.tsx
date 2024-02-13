@@ -1,8 +1,8 @@
 import React from 'react'
-import ContentFilter from './ContentFilter';
-import { useHeader } from '../../../../../hooks/tableHeader/useHeader';
-import { VariablesTypes } from '../../../../../types/table/AttributeColumns';
 import syles from './Filter.module.css'
+import ContentFilter from './ContentFilter';
+import { useHeader } from '../../../../../hooks';
+import { VariablesTypes } from '../../../../../types/table/AttributeColumns';
 
 function EnrollmentFilters(): React.ReactElement {
     const { columns } = useHeader()

@@ -1,6 +1,6 @@
 import React from 'react'
-import { IconChevronDown16, IconChevronUp16 } from '@dhis2/ui';
 import ActiveFilterButton from './ActiveFilterButton';
+import { IconChevronDown16, IconChevronUp16 } from '@dhis2/ui';
 
 interface RenderWithAppliedFilterProps {
     selectorVisible: boolean

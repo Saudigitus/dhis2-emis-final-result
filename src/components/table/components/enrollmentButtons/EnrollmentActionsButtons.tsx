@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
-import { IconAddCircle24, Button, ButtonStrip } from "@dhis2/ui";
-import ModalComponent from '../../../modal/Modal';
-import ModalContentComponent from '../../../modal/ModalContent';
-import ImportContent from '../../../modal/ImportContent';
-import { useParams } from '../../../../hooks/commons/useQueryParams';
-import Tooltip from '@material-ui/core/Tooltip';
 import { useRecoilState } from 'recoil';
+import Tooltip from '@material-ui/core/Tooltip';
+import { useQueryParams } from '../../../../hooks';
+import { IconAddCircle24, Button, ButtonStrip } from "@dhis2/ui";
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
-import ModalContentPromotion from '../../../modal/ModalContentPromotion';
+import { ModalComponent, ModalContentComponent, ModalContentPromotion, ImportContent } from '../../../../components';
 
 function EnrollmentActionsButtons() {
   const [open, setOpen] = useState<boolean>(false);
   const [openPromotion, setOpenPromotion] = useState<boolean>(false);
   const [openImport, setOpenImport] = useState<boolean>(false);
-  const { useQuery } = useParams();
+  const { useQuery } = useQueryParams();
   const orgUnit = useQuery().get("school")
   const [selected] = useRecoilState(RowSelectionState);
 

@@ -1,16 +1,12 @@
-/* eslint-disable spaced-comment */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-
-import { useRecoilState, useRecoilValue } from "recoil";
 import { useState } from "react";
 import { useDataEngine } from "@dhis2/app-runtime";
-import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
-import { useParams } from "../commons/useQueryParams";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useQueryParams, useShowAlerts } from "../../hooks";
 import { HeaderFieldsState } from "../../schema/headersSchema";
-import useShowAlerts from "../commons/useShowAlert";
-import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
-import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
+import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
+import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 
 const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity, programStatus }: EventQueryProps) => ({
     results: {
@@ -50,7 +46,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
 export function useTableData() {
     const engine = useDataEngine();
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
-    const { urlParamiters } = useParams()
+    const { urlParamiters } = useQueryParams()
     const [loading, setLoading] = useState<boolean>(false)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
     const { hide, show } = useShowAlerts()

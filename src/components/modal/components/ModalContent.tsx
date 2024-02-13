@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
-import WithPadding from "../template/WithPadding";
-import { Form } from "react-final-form";
-import { formFields } from "../../utils/constants/enrollmentForm/enrollmentForm";
-import useGetEnrollmentForm from "../../hooks/form/useGetEnrollmentForm";
-import GroupForm from "../form/GroupForm";
-import { useRecoilState } from "recoil";
-import { useParams } from "../../hooks/commons/useQueryParams";
 import { format } from "date-fns";
-import { onSubmitClicked } from "../../schema/formOnSubmitClicked";
-import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
-import { usePostEvent } from "../../hooks/events/useCreateEvents";
-import useGetUsedPProgramStages from "../../hooks/programStages/useGetUsedPProgramStages";
-import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
+import { Form } from "react-final-form";
+import { useRecoilState } from "recoil";
+import { WithPadding, GroupForm } from "../../../components";
+import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
+import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
+import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey";
+import { formFields } from "../../../utils/constants/enrollmentForm/enrollmentForm";
+import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
+import { useQueryParams, useGetEnrollmentForm, useGetUsedPProgramStages, usePostEvent } from "../../../hooks";
+
+
 interface ContentProps {
   setOpen: (value: boolean) => void
 }
 
 function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
-  const { useQuery } = useParams();
+  const { useQuery } = useQueryParams();
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
   const orgUnitName = useQuery().get("schoolName");
   const performanceProgramStages = useGetUsedPProgramStages();

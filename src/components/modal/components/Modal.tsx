@@ -1,6 +1,6 @@
 import React from "react";
+import styles from "./Modal.module.css";
 import { Modal, ModalTitle, ModalContent } from "@dhis2/ui";
-import styles from "./modal.module.css";
 
 interface ModalProps {
   open: boolean

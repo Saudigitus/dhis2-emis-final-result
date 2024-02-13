@@ -1,8 +1,7 @@
-import { useDataQuery } from '@dhis2/app-runtime'
-import { OrganisationUnitTree, CenteredContent, CircularLoader, Help } from "@dhis2/ui"
 import React, { useState } from 'react'
-import { useParams } from '../../hooks/commons/useQueryParams';
-import useShowAlerts from '../../hooks/commons/useShowAlert';
+import { useDataQuery } from '@dhis2/app-runtime'
+import { useQueryParams, useShowAlerts } from '../../hooks';
+import { OrganisationUnitTree, CenteredContent, CircularLoader, Help } from "@dhis2/ui"
 
 const ORG_UNIT_QUERY = {
     results: {
@@ -16,7 +15,7 @@ const ORG_UNIT_QUERY = {
 export default function OrgUnitTree({ onToggle }: { onToggle: () => void }): React.ReactElement {
     const { hide, show } = useShowAlerts()
     const [selectedOu, setSelectedOu] = useState<{ id: string, displayName: string, selected: any }>()
-    const { add } = useParams();
+    const { add } = useQueryParams();
     const { loading, data, error } = useDataQuery<{ results: { organisationUnits: [{ id: string, displayName: string }] } }>(ORG_UNIT_QUERY, {
         onError(error) {
             show({

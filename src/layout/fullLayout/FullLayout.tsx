@@ -1,15 +1,13 @@
-import React from 'react'
-import style from "../Layout.module.css"
-import { MainHeader, SideBar } from '../../components'
-import { useParams } from '../../hooks/commons/useQueryParams';
+import React from 'react';
+import style from "../Layout.module.css";
 import InfoPage from '../../components/info/InfoPage';
-import { useGetInitialValues } from '../../hooks/initialValues/useGetInitialValues';
-import { getSelectedKey } from '../../utils/commons/dataStore/getSelectedKey';
-import { useGetProgramConfig } from '../../hooks/programConfig/useGetprogramConfig';
+import { MainHeader, SideBar } from '../../components';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
+import { getSelectedKey } from '../../utils/commons/dataStore/getSelectedKey';
+import { useQueryParams, useGetInitialValues, useGetProgramConfig } from '../../hooks';
 
 export default function FullLayout({ children }: { children: React.ReactNode }) {
-    const { useQuery } = useParams();
+    const { useQuery } = useQueryParams();
     const school = useQuery().get("school");
     const { isSetSectionType } = useGetInitialValues();
     const { getDataStoreData } = getSelectedKey()

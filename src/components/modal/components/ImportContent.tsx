@@ -1,12 +1,7 @@
 import React from "react";
-import WithPadding from "../template/WithPadding";
-import Subtitle from "../text/Subtitle";
-import {
-    ModalActions,
-    Button,
-    ButtonStrip,
-    Divider
-  } from "@dhis2/ui";
+import { WithPadding, Subtitle }  from "../../../components";
+import { ModalActions, Button, ButtonStrip, Divider } from "@dhis2/ui";
+
 
 interface ContentProps {
     setOpen: (value: boolean) => void

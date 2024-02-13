@@ -1,14 +1,14 @@
 import React from 'react'
 import i18n from '@dhis2/d2-i18n';
 import classNames from 'classnames';
-import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
+import { Checkbox } from "@dhis2/ui";
+import { useRecoilState } from 'recoil';
 import { RowCell, RowTable } from '../components';
+import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
+import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
+import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
 import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
-import { Checkbox } from "@dhis2/ui"
-import { useRecoilState } from 'recoil';
-import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
-import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
 
 interface RenderHeaderProps {
     rowsData: any[]

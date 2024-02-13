@@ -1,8 +1,8 @@
-import { Button, Tooltip } from '@dhis2/ui'
-import createSvgIcon from '@material-ui/icons/utils/createSvgIcon';
-import { makeStyles } from '@material-ui/styles';
-import classNames from 'classnames';
 import React, { useState } from 'react'
+import classNames from 'classnames';
+import { Button, Tooltip } from '@dhis2/ui'
+import { makeStyles } from '@material-ui/styles';
+import createSvgIcon from '@material-ui/icons/utils/createSvgIcon';
 
 const ClearIcon = createSvgIcon(
     <React.Fragment>

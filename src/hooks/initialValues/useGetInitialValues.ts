@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil"
-import { HeaderFieldsState } from "../../schema/headersSchema"
 import { useLocation } from "react-router-dom";
+import { HeaderFieldsState } from "../../schema/headersSchema"
 import useDataElementsParamMapping from "../dataElements/useDataElementsParamMapping";
 
 let localLocation: string = ""

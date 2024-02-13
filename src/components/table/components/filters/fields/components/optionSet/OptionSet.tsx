@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core';
 import React from 'react'
+import { makeStyles } from '@material-ui/core';
 import SelectBoxes from './selectBoxes/SelectBoxes';
 
 const getStyles = makeStyles(() => ({

@@ -1,3 +1,4 @@
-import Item from "./Item"
-import MenuItemContainer from "./MenuItemContainer"
+import Item from "./components/Item"
+import MenuItemContainer from "./components/MenuItemContainer"
+
 export { Item, MenuItemContainer }

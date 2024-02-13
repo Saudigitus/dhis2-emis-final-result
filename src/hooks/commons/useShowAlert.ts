@@ -1,6 +1,6 @@
 import { useAlert } from '@dhis2/app-runtime';
 
-const useShowAlerts = () => {
+export const useShowAlerts = () => {
     const { show, hide } = useAlert(({ message }: { message: string }) => message, ({ type }: {
         type: Record<string, any>
     }) => ({
@@ -13,5 +13,3 @@ const useShowAlerts = () => {
         hide
     }
 }
-
-export default useShowAlerts

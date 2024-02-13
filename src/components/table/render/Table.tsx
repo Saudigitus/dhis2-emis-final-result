@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { HeaderFilters, Pagination, TableComponent } from '../components'
-import RenderHeader from './RenderHeader'
 import RenderRows from './RenderRows'
-import { makeStyles } from '@material-ui/core/styles';
+import RenderHeader from './RenderHeader'
 import { Paper } from '@material-ui/core';
-import WithBorder from '../../template/WithBorder';
-import WithPadding from '../../template/WithPadding';
-import WorkingLits from '../components/filters/workingList/WorkingLits';
-import { useHeader } from '../../../hooks/tableHeader/useHeader';
-import { useTableData } from '../../../hooks/tableData/useTableData';
-import { useParams } from '../../../hooks/commons/useQueryParams';
+import { makeStyles } from '@material-ui/core/styles';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { HeaderFieldsState } from '../../../schema/headersSchema';
 import { teiRefetch } from '../../../hooks/tei/usePostTei';
+import { CenteredContent, CircularLoader } from "@dhis2/ui";
+import { WithBorder, WithPadding } from '../../../components';
+import { HeaderFieldsState } from '../../../schema/headersSchema';
+import WorkingLits from '../components/filters/workingList/WorkingLits';
+import { HeaderFilters, Pagination, TableComponent } from '../components'
+import { useQueryParams, useTableData, useHeader  } from '../../../hooks';
 
 const usetStyles = makeStyles({
     tableContainer: {
@@ -25,7 +22,7 @@ function Table() {
     const classes = usetStyles()
     const { columns } = useHeader()
     const { getData, loading, tableData } = useTableData()
-    const { useQuery } = useParams();
+    const { useQuery } = useQueryParams();
     const school = useQuery().get('school');
     const grade = useQuery().get('grade');
     const section = useQuery().get('class');

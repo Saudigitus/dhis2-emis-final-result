@@ -1,10 +1,8 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
-import { useDataMutation } from "@dhis2/app-runtime"
-import { promoteTeiPostBody } from "../../utils/tei/formatPostBody"
-import useShowAlerts from '../commons/useShowAlert';
 import { useRecoilState } from "recoil";
 import { teiRefetch } from "./usePostTei";
+import { useShowAlerts } from '../../hooks';
+import { useDataMutation } from "@dhis2/app-runtime"
+import { promoteTeiPostBody } from "../../utils/tei/formatPostBody"
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import useGetUsedPProgramStages from "../programStages/useGetUsedPProgramStages";
 

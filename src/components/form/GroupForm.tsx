@@ -1,12 +1,9 @@
-import { Label } from "@dhis2/ui";
 import React from "react";
-import WithBorder from "../template/WithBorder";
-import WithPadding from "../template/WithPadding";
-import GenericFields from "../genericFields/GenericFields";
-import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
-import Subtitle from "../text/Subtitle";
-import styles from "./groupform.module.css"
+import { Label } from "@dhis2/ui";
 import classNames from "classnames";
+import styles from "./GroupForm.module.css";
+import { WithBorder, WithPadding, GenericFields, Subtitle } from "../index";
+import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
 
 interface FormProps {
     name: string

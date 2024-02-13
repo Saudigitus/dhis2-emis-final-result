@@ -1,7 +1,7 @@
 import { useRecoilState } from 'recoil';
-import useShowAlerts from '../commons/useShowAlert';
-import { useDataMutation } from "@dhis2/app-runtime";
+import { useShowAlerts } from '../../hooks';
 import { teiRefetch } from '../tei/usePostTei';
+import { useDataMutation } from "@dhis2/app-runtime";
 
 const POST_EVENT: any = {
     resource: 'tracker',
