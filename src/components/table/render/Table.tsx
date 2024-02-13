@@ -4,7 +4,7 @@ import RenderHeader from './RenderHeader'
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { teiRefetch } from '../../../hooks/tei/usePostTei';
+import { teiRefetch } from '../../../schema/teiRefetchSchema';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { WithBorder, WithPadding } from '../../../components';
 import { HeaderFieldsState } from '../../../schema/headersSchema';

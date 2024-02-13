@@ -1,4 +1,4 @@
-import Title from "./components/Title";
-import Subtitle from "./components/Subtitle";
+import Title from "./Title";
+import Subtitle from "./Subtitle";
 
 export { Title, Subtitle }

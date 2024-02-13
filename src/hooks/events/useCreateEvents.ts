@@ -1,6 +1,6 @@
 import { useRecoilState } from 'recoil';
 import { useShowAlerts } from '../../hooks';
-import { teiRefetch } from '../tei/usePostTei';
+import { teiRefetch } from '../../schema/teiRefetchSchema';
 import { useDataMutation } from "@dhis2/app-runtime";
 
 const POST_EVENT: any = {

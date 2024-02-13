@@ -2,6 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import { Checkbox, spacersNum } from '@dhis2/ui';
 import { createStyles, type Theme } from '@material-ui/core/styles';
+import { MultiSelectBoxesProps } from '../../../../../../../../types/table/components/filter/fields/OptionSetTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -12,15 +13,6 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
-
-interface MultiSelectBoxesProps {
-    options: { optionSet: { options: [{ label: string, value: string }] } }
-    value: any
-    id: string
-    onChange: (value: any, id?: string, type?: string) => void
-    valueType?: string
-    orientation?: string
-}
 
 let checkedValues = "";
 function MultiSelectBoxes(props: MultiSelectBoxesProps) {

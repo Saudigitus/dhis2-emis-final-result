@@ -1,15 +1,17 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 import { Checkbox, spacersNum } from '@dhis2/ui';
+import { TrueOnlyProps } from '../../../../../../../types/table/components/filter/fields/TrueOnlyTypes';
 
-const styles = theme => ({
+const styles = (theme : any) => ({
     label: theme.typography.formFieldTitle,
     checkbox: {
         marginTop: spacersNum.dp8,
         marginBottom: spacersNum.dp16,
     },
 });
-function TrueOnly(props) {
+
+function TrueOnly(props : TrueOnlyProps) {
     const { header, classes, id, onChange, value } = props;
     return (
         <div>
@@ -17,7 +19,7 @@ function TrueOnly(props) {
                 checked={value}
                 label={"Yes"}
                 name={`multiSelectBoxes`}
-                onChange={(e) => { onChange(e.checked, id); }}
+                onChange={(e : any) => { onChange(e.checked, id); }}
                 value={value}
                 className={classes.checkbox}
                 dense

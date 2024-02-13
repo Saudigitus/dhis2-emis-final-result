@@ -6,14 +6,9 @@ import { useRecoilState } from 'recoil';
 import { RowCell, RowTable } from '../components';
 import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
+import { RenderRowsProps } from '../../../types/table/render/RenderRowsTypes';
 import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
-import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
-
-interface RenderHeaderProps {
-    rowsData: any[]
-    headerData: CustomAttributeProps[]
-}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactElement {
+function RenderRows({ headerData, rowsData }: RenderRowsProps): React.ReactElement {
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
@@ -77,7 +72,7 @@ function RenderRows({ headerData, rowsData }: RenderHeaderProps): React.ReactEle
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
-                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter(element => element?.trackedEntity === row.trackedEntity).length > 0}
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element : any ) => element?.trackedEntity === row.trackedEntity).length > 0}
                                     name="Ex"
                                     onChange={() => { onToggle(selected.rows[index]); }}
                                     value="checked"

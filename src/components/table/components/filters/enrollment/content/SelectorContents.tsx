@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@dhis2/ui';
 import FilterComponents from '../../fields/FilterComponents';
 import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
-import { type CustomAttributeProps } from '../../../../../../types/table/AttributeColumns';
+import { SelectorContentsProps } from '../../../../../../types/table/components/enrollmentButtons/SelectorContentsTypes';
 
 const getStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,15 +16,6 @@ const getStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface SelectorContentsProps {
-    onClose: () => void
-    disabledReset: boolean
-    colum: CustomAttributeProps
-    onChange: () => void
-    value: any
-    onQuerySubmit: () => void
-    disabled: boolean
-}
 
 function SelectorContents(props: SelectorContentsProps) {
     const { onClose, disabledReset, colum, onQuerySubmit, disabled: disabledUpdate } = props;
@@ -34,9 +25,11 @@ function SelectorContents(props: SelectorContentsProps) {
     return (
         <>
             <FilterComponents
-                type={colum.valueType}
-                column={colum}
                 {...props}
+                column={colum}
+                id={props.colum.id}
+                type={colum.valueType}
+                options={props.colum.options}
             />
             <div
                 className={classes.buttonsContainer}

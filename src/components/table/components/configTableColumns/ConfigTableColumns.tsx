@@ -2,15 +2,11 @@ import React, { useState } from 'react'
 import i18n from '@dhis2/d2-i18n';
 import { useRecoilState } from 'recoil';
 import { IconSettings24, NoticeBox } from '@dhis2/ui';
-import styles from "./configTableColumns.module.css"
+import styles from "./ConfigTableColumns.module.css"
 import { IconButton, Tooltip } from '@material-ui/core';
 import DialogConfigColumns from './DialogConfigColumns';
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
-
-interface ConfigTableColumnsProps {
-    headers: any[]
-    updateVariables: (list: any[]) => void
-}
+import { ConfigTableColumnsProps } from '../../../../types/table/components/confingTableColumns/ConfigTableColumnsTypes';
 
 function ConfigTableColumns(props: ConfigTableColumnsProps) {
     const { headers, updateVariables } = props;

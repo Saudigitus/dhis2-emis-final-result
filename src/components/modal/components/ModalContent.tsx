@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { Form } from "react-final-form";
 import { useRecoilState } from "recoil";
 import { WithPadding, GroupForm } from "../../../components";
+import { ContentProps } from "../../../types/modal/ModalContentTypes";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
 import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey";
@@ -10,10 +11,6 @@ import { formFields } from "../../../utils/constants/enrollmentForm/enrollmentFo
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
 import { useQueryParams, useGetEnrollmentForm, useGetUsedPProgramStages, usePostEvent } from "../../../hooks";
 
-
-interface ContentProps {
-  setOpen: (value: boolean) => void
-}
 
 function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const { useQuery } = useQueryParams();

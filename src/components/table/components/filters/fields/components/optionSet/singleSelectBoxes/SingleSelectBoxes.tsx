@@ -1,6 +1,7 @@
-import { Radio, spacersNum, colors } from '@dhis2/ui'
-import { makeStyles } from '@material-ui/core';
 import React from 'react'
+import { makeStyles } from '@material-ui/core';
+import { Radio, spacersNum, colors } from '@dhis2/ui'
+import { SingleSelectBoxesProps } from '../../../../../../../../types/table/components/filter/fields/OptionSetTypes';
 
 const useStyle = makeStyles(() => ({
     iconDeselected: {
@@ -11,13 +12,6 @@ const useStyle = makeStyles(() => ({
         marginBottom: spacersNum.dp16
     }
 }));
-
-interface SingleSelectBoxesProps {
-    options: { optionSet: { options: [{ label: string, value: string }] } }
-    value: any
-    id: string
-    onChange: (value: any, id?: string) => void
-}
 
 function SingleSelectBoxes(props: SingleSelectBoxesProps) {
     const { options, id, onChange, value = "" } = props;

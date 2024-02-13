@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import { useQueryParams, useShowAlerts } from '../../hooks';
+import { OrgUnitTreeProps } from '../../types/orgUnitTree/OrgUnitTreeTypes';
 import { OrganisationUnitTree, CenteredContent, CircularLoader, Help } from "@dhis2/ui"
 
 const ORG_UNIT_QUERY = {
@@ -12,7 +13,7 @@ const ORG_UNIT_QUERY = {
     }
 }
 
-export default function OrgUnitTree({ onToggle }: { onToggle: () => void }): React.ReactElement {
+export default function OrgUnitTree({ onToggle }: OrgUnitTreeProps ): React.ReactElement {
     const { hide, show } = useShowAlerts()
     const [selectedOu, setSelectedOu] = useState<{ id: string, displayName: string, selected: any }>()
     const { add } = useQueryParams();

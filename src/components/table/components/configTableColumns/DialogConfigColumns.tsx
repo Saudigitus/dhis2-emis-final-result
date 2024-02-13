@@ -7,13 +7,7 @@ import DragDropList from '../../../dragDrop/DragDropList';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import { type CustomAttributeProps } from '../../../../types/table/AttributeColumns';
-
-interface DialogSelectColumnsProps {
-    open: boolean
-    onClose: () => void
-    headers: any[]
-    updateVariables: (list: any[]) => void
-}
+import { DialogSelectColumnsProps } from '../../../../types/table/components/confingTableColumns/ConfigTableColumnsTypes';
 
 function DialogSelectColumns(props: DialogSelectColumnsProps) {
     const { open, onClose, headers = [], updateVariables } = props

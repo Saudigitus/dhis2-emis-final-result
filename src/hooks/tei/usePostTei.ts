@@ -1,6 +1,7 @@
+import { useRecoilState } from "recoil";
 import { useShowAlerts } from '../../hooks';
-import { atom, useRecoilState } from "recoil";
 import { useDataMutation } from "@dhis2/app-runtime"
+import { teiRefetch } from '../../schema/teiRefetchSchema';
 
 const POST_TEI: any = {
     resource: "tracker",
@@ -11,10 +12,6 @@ const POST_TEI: any = {
     }
 }
 
-export const teiRefetch = atom({
-    key: "refetch-tei",
-    default: false
-})
 
 export default function usePostTei() {
     const { hide, show } = useShowAlerts()

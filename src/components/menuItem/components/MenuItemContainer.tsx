@@ -4,8 +4,9 @@ import { useRecoilValue } from 'recoil';
 import { ProgramConfigState } from '../../../schema/programSchema';
 import { formatResponseHeader } from '../../../utils/events/formatResponseEvents';
 import { getSelectedKey } from '../../../utils/commons/dataStore/getSelectedKey';
+import { MenuItemContainerProps } from '../../../types/menu/MenuItemTypes';
 
-function MenuItemContainer({ dataElementId, onToggle }: { dataElementId: string, onToggle: () => void }): React.ReactElement {
+function MenuItemContainer({ dataElementId, onToggle }: MenuItemContainerProps ): React.ReactElement {
     const programConfigState = useRecoilValue(ProgramConfigState)
     const { getDataStoreData } = getSelectedKey()
 

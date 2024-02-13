@@ -5,15 +5,7 @@ import { useRecoilState } from 'recoil';
 import { RowTable, HeaderCell } from '../components'
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
 import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
-import { type CustomAttributeProps } from '../../../types/table/AttributeColumns';
-
-interface renderHeaderProps {
-    rowsHeader: CustomAttributeProps[]
-    orderBy: string
-    order: "asc" | "desc"
-    // TODO resolve this bug.👇
-    createSortHandler: (property: string) => any
-}
+import { RenderHeaderProps } from '../../../types/table/render/RenderHeaderTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -49,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function RenderHeader(props: renderHeaderProps): React.ReactElement {
+function RenderHeader(props: RenderHeaderProps): React.ReactElement {
     const { rowsHeader, order, orderBy, createSortHandler } = props
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);

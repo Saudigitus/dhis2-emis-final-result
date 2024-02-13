@@ -1,10 +1,9 @@
-import { type CustomAttributeProps } from "../table/AttributeColumns"
+import { type CustomAttributeProps } from "../table/AttributeColumns.js";
 
 interface GenericFieldsProps {
     disabled: boolean
-    required: string | boolean
-    type?: string
-    optionSet?: CustomAttributeProps["options"]
+    attribute: CustomAttributeProps
+    valueType: CustomAttributeProps["valueType"]
 }
 
-export type {GenericFieldsProps}
+export type { GenericFieldsProps}

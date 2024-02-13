@@ -5,15 +5,7 @@ import { Attribute } from '../../../../../types/generated/models';
 import DateFilterManager from './components/date/DateFilterManager';
 import SelectBoxes from './components/optionSet/selectBoxes/SelectBoxes';
 import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
-
-interface FilterComponentProps {
-    type: CustomAttributeProps['valueType']
-    column: CustomAttributeProps
-    onChange: () => void
-    value: any
-    id: string
-    options: { optionSet: { options: [{ value: string, label: string }] } }
-}
+import { FilterComponentProps } from '../../../../../types/table/components/filter/fields/FilterComponentsTypes';
 
 function FilterComponents(props: FilterComponentProps) {
     const { type, column, onChange, value } = props;

@@ -2,6 +2,7 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { DateFilterManagerProps } from '../../../../../../../types/table/components/filter/fields/DateTypes';
 
 const getStyles = makeStyles(() => ({
     fromToContainer: {
@@ -23,17 +24,6 @@ const getStyles = makeStyles(() => ({
         width: '150px'
     }
 }));
-
-interface ValueProps {
-    endDate: string
-    startDate: string
-}
-
-interface DateFilterManagerProps {
-    onChange: (e: any, id: string, type: string, position: string) => void
-    value: ValueProps
-    id: string
-}
 
 const DateFilterManager = (props: DateFilterManagerProps) => {
     const { onChange, value = { startDate: "", endDate: "" }, id } = props;

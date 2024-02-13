@@ -1,6 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import SelectBoxes from './selectBoxes/SelectBoxes';
+import { OptionSetProps } from '../../../../../../../types/table/components/filter/fields/OptionSetTypes';
 
 const getStyles = makeStyles(() => ({
     selectBoxesContainer: {
@@ -11,13 +12,6 @@ const getStyles = makeStyles(() => ({
         marginLeft: 12
     }
 }));
-
-interface OptionSetProps {
-    onCommitValue: (value: string) => void
-    options: any[]
-    value: string
-    singleSelect: boolean
-}
 
 function OptionSet(props: OptionSetProps) {
     const { options, value, singleSelect } = props;

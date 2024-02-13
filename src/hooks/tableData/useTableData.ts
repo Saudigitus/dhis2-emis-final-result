@@ -79,7 +79,7 @@ export function useTableData() {
         const allTeis = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
         const trackedEntityToFetch = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
 
-        const teiResults: TeiQueryResults = trackedEntityToFetch?.length > 0
+        const teiResults : TeiQueryResults = trackedEntityToFetch?.length > 0
             ? await engine.query(TEI_QUERY({
                 ouMode: "SELECTED",
                 order: "created:desc",

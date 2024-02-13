@@ -1,11 +1,7 @@
 import React from "react";
 import { WithPadding, Subtitle }  from "../../../components";
 import { ModalActions, Button, ButtonStrip, Divider } from "@dhis2/ui";
-
-
-interface ContentProps {
-    setOpen: (value: boolean) => void
-  }
+import { ContentProps } from "../../../types/modal/ModalContentTypes";
 
 function ImportContent({ setOpen }: ContentProps): React.ReactElement {
   const modalActions = [

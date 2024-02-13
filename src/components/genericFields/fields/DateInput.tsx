@@ -10,7 +10,7 @@ function DateInput(props: GenericFieldsProps) {
       {...props}
       type="date"
       component={InputFieldFF}
-      validate={(Boolean(props.required)) && hasValue}
+      validate={(Boolean(props.attribute.required)) && hasValue}
       disabled={props.disabled}
     />
   );

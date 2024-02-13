@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { teiRefetch } from "./usePostTei";
+import { teiRefetch } from '../../schema/teiRefetchSchema';
 import { useShowAlerts } from '../../hooks';
 import { useDataMutation } from "@dhis2/app-runtime"
 import { promoteTeiPostBody } from "../../utils/tei/formatPostBody"

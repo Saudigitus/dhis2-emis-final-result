@@ -3,15 +3,13 @@ import { format } from "date-fns";
 import { Form } from "react-final-form";
 import { useRecoilState } from "recoil";
 import { WithPadding, GroupForm }  from "../../../components";
+import { ContentProps } from "../../../types/modal/ModalContentTypes";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
 import { useQueryParams, useShowAlerts, usePromoteStudent, useGetEnrollmentForm } from "../../../hooks";
 import { enrollmentDetailsForm } from "../../../utils/constants/enrollmentForm/enrollmentDetailsForm";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
 
-interface ContentProps {
-    setOpen: (value: boolean) => void
-}
 
 function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
     const { useQuery } = useQueryParams();

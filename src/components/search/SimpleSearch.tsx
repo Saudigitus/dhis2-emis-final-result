@@ -2,8 +2,9 @@ import React from 'react'
 import { Input } from "@dhis2/ui"
 import classNames from 'classnames'
 import style from "./Search.module.css"
+import { SimpleSearchProps } from '../../types/simpleSearch/SimpleSearchTypes'
 
-export default function SimpleSearch({ children, placeholder, id }: { children: React.ReactNode, placeholder: string, id: string }): React.ReactElement {
+export default function SimpleSearch({ children, placeholder, id }: SimpleSearchProps): React.ReactElement {
     return (
         <div className={classNames(style.SimpleSearchContainer, style[id])}>
             <div className={style.SimpleSearcInputContainer}>

@@ -4,6 +4,7 @@ import WithPadding from '../../../../template/WithPadding';
 import RenderWithAppliedFilter from './RenderWithAppliedFilter';
 import SelectorContents from '../enrollment/content/SelectorContents';
 import RenderWithoutAppliedFilter from './RenderWithoutAppliedFilter';
+import { SelectButtonProps } from '../../../../../types/table/components/filter/SelectFilterButtonTypes';
 
 const POPOVER_ANCHOR_ORIGIN = {
     vertical: 'bottom',
@@ -14,19 +15,6 @@ const POPOVER_TRANSFORM_ORIGIN = {
     vertical: 'top',
     horizontal: 'left'
 };
-
-interface SelectButtonProps {
-    colum: any
-    value: any
-    onChange: any
-    filled: string
-    onQuerySubmit: any
-    disabled: any
-    disabledReset: any
-    onResetFilters: any
-    title: string
-    tooltipContent: string
-}
 
 const useStyles = makeStyles({
     icon: {

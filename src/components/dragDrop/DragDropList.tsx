@@ -8,12 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DragDropListItem from './DragDropItems.js';
+import { DragDropListProps } from '../../types/dragDrop/DragDropTypes.js';
 
-interface DragDropListProps {
-    listItems: any[]
-    handleUpdateListOrder: (list: any[]) => void
-    handleToggle: (id: string) => void
-}
+
 
 function DragDropList(props: DragDropListProps) {
     const { listItems, handleUpdateListOrder, handleToggle } = props;

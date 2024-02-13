@@ -1,14 +1,11 @@
 import React from 'react'
 import { ReactFinalForm, SwitchFieldFF, hasValue } from '@dhis2/ui'
+import { SwitchInputProps } from '../../../types/fields/SwitchTypes'
 
-interface SwitchFieldProps {
-    disabled: boolean
-    required: string | boolean
-}
 
 const { Field } = ReactFinalForm
 
-function SwitchInput(props: SwitchFieldProps) {
+function SwitchInput(props: SwitchInputProps) {
     return (
         <Field
             {...props}

@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  ReactFinalForm,
-  TextAreaFieldFF,
-  composeValidators,
-  hasValue,
-  string
-} from "@dhis2/ui";
-import style from "./fields.module.css";
+import style from "./Fields.module.css";
 import { type GenericFieldsProps } from "../../../types/fields/GenericFieldsTypes";
+import { ReactFinalForm, TextAreaFieldFF, composeValidators, hasValue, string } from "@dhis2/ui";
 
 const { Field } = ReactFinalForm;
 
@@ -18,7 +12,7 @@ function InputArea(props: GenericFieldsProps) {
     <Field
       {...props}
       component={TextAreaFieldFF}
-      validate={Boolean(props.required) && VALIDATOR}
+      validate={Boolean(props.attribute.required) && VALIDATOR}
       type="text"
       required
       label={null}

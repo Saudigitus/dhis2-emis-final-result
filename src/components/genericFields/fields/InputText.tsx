@@ -1,13 +1,7 @@
 import React from 'react'
-import {
-    ReactFinalForm,
-    InputFieldFF,
-    composeValidators,
-    hasValue,
-    string
-} from '@dhis2/ui'
-import style from "./fields.module.css";
+import style from "./Fields.module.css";
 import { type GenericFieldsProps } from '../../../types/fields/GenericFieldsTypes';
+import { ReactFinalForm, InputFieldFF, composeValidators, hasValue, string } from '@dhis2/ui'
 
 const { Field } = ReactFinalForm
 
@@ -18,7 +12,7 @@ function InputText(props: GenericFieldsProps) {
         <Field
             {...props}
             component={InputFieldFF}
-            validate={(Boolean(props.required)) && VALIDATOR}
+            validate={(Boolean(props.attribute.required)) && VALIDATOR}
             type="text"
             required
             label={null}

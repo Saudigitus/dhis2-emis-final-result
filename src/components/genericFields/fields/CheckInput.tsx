@@ -1,14 +1,10 @@
 import React from "react";
+import { CheckInputProps } from "../../../types/fields/CheckInputTypes";
 import { ReactFinalForm, CheckboxFieldFF, hasValue, Label } from "@dhis2/ui";
-
-interface CheckFieldProps {
-  disabled: boolean
-  required: string | boolean
-}
 
 const { Field } = ReactFinalForm;
 
-function CheckInput(props: CheckFieldProps) {
+function CheckInput(props: CheckInputProps) {
   return (
     <div className="d-flex">
       <Field

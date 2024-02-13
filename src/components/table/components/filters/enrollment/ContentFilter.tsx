@@ -8,10 +8,7 @@ import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
 import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
-
-interface ContentFilterProps {
-    headers: CustomAttributeProps[]
-}
+import { ContentFilterProps } from '../../../../../types/table/components/filter/EnrollmentFilterTypes';
 
 type FiltersValuesProps = Record<string, any | { endDate: string } | { startDate: string }>;
 

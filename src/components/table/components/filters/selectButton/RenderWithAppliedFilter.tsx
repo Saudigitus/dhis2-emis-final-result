@@ -1,18 +1,7 @@
 import React from 'react'
 import ActiveFilterButton from './ActiveFilterButton';
 import { IconChevronDown16, IconChevronUp16 } from '@dhis2/ui';
-
-interface RenderWithAppliedFilterProps {
-    selectorVisible: boolean
-    classes: any
-    title: string
-    disabled: boolean
-    tooltipContent: string
-    refActiveFilterInstance: (instance: HTMLDivElement | null) => void
-    openFilterSelector: () => void
-    onClose: () => void
-    filled: string
-}
+import { RenderWithAppliedFilterProps } from '../../../../../types/table/components/filter/SelectFilterButtonTypes';
 
 function RenderWithAppliedFilter(props: RenderWithAppliedFilterProps): React.ReactElement {
     const { selectorVisible, classes, title, refActiveFilterInstance, openFilterSelector, onClose, filled } = props;
