@@ -1,4 +1,4 @@
-import { type dataStoreRecord } from "../../../schema/dataStoreSchema"
+import { type dataStoreRecord } from "../../../types/dataStore/DataStoreConfig"
 import { type SelectedOptionsTypes, type HeadBarTypes } from "../../../types/headBar/HeadBarTypes"
 
 function headBarData(selectedOptions: SelectedOptionsTypes, getDataStoreData: dataStoreRecord): HeadBarTypes[] {

@@ -6,6 +6,7 @@ import { HeaderFieldsState } from "../../schema/headersSchema";
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
+import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys";
 import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 
 const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity, programStatus }: EventQueryProps) => ({
@@ -50,7 +51,7 @@ export function useTableData() {
     const [loading, setLoading] = useState<boolean>(false)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
     const { hide, show } = useShowAlerts()
-    const { getDataStoreData } = getSelectedKey()
+    const { program, registration } = getDataStoreKeys()
     const school = urlParamiters().school as unknown as string
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
@@ -62,9 +63,9 @@ export function useTableData() {
             page,
             pageSize,
             programStatus: "ACTIVE",
-            program: getDataStoreData?.program,
+            program: program as unknown as string,
             order: "createdAt:desc",
-            programStage: getDataStoreData?.registration?.programStage,
+            programStage: registration?.programStage as unknown as string,
             filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
@@ -84,7 +85,7 @@ export function useTableData() {
                 ouMode: "SELECTED",
                 order: "created:desc",
                 pageSize,
-                program: getDataStoreData?.program,
+                program: program as unknown as string,
                 orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {
@@ -106,9 +107,9 @@ export function useTableData() {
             const marksResults: MarksQueryResults = await engine.query(EVENT_QUERY({
                 ouMode: "SELECTED",
                 programStatus: "ACTIVE",
-                program: getDataStoreData?.program,
+                program: program as unknown as string,
                 order: "createdAt:desc",
-                programStage: getDataStoreData?.["final-result"].programStage,
+                programStage: registration?.programStage as unknown as string,
                 orgUnit: school,
                 trackedEntity: tei
             })).catch((error) => {

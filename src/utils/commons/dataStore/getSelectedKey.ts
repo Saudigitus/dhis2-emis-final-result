@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { useQueryParams } from "../../../hooks"
-import { DataStoreState, type dataStoreRecord } from "../../../schema/dataStoreSchema"
+import { DataStoreState } from "../../../schema/dataStoreSchema"
+import { type dataStoreRecord } from "../../../types/dataStore/DataStoreConfig";
 
 export const getSelectedKey = () => {
     const { useQuery } = useQueryParams()

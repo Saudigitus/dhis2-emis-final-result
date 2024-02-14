@@ -3,15 +3,15 @@ import style from "../Layout.module.css";
 import InfoPage from '../../components/info/InfoPage';
 import { MainHeader, SideBar } from '../../components';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
-import { getSelectedKey } from '../../utils/commons/dataStore/getSelectedKey';
+import { getDataStoreKeys } from '../../utils/commons/dataStore/getDataStoreKeys';
 import { useQueryParams, useGetInitialValues, useGetProgramConfig } from '../../hooks';
 
 export default function FullLayout({ children }: { children: React.ReactNode }) {
     const { useQuery } = useQueryParams();
     const school = useQuery().get("school");
     const { isSetSectionType } = useGetInitialValues();
-    const { getDataStoreData } = getSelectedKey()
-    const { loading } = useGetProgramConfig(getDataStoreData?.program);
+    const { program } = getDataStoreKeys()
+    const { loading } = useGetProgramConfig(program);
 
     if (!isSetSectionType) {
         return (
