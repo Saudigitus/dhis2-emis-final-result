@@ -10,7 +10,7 @@ export function resetHeaderFilter (remove: (key : string) => void, dataElementId
         remove("class");
     }
 
-    if(dataElementId == undefined) {
+    if(dataElementId == "school") {
         remove("school");
         remove("schoolName");
     }
