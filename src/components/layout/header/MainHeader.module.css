@@ -13,6 +13,13 @@
     margin-left: auto !important;
 }
 
+.HeaderItemGroup {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    box-shadow: rgb(213, 221, 229) 0px 0px 0px 1px !important;
+}
+
 .HeaderItemContainer {
     background: none !important;
     border-radius: 0 !important;
@@ -25,7 +32,6 @@
     padding: 7px 8px 7px 12px;
     font-size: 14px;
     border: none !important;
-    box-shadow: rgb(213, 221, 229) 0px 0px 0px 1px !important;
 }
 
 .HeaderItemContainer h5 {
@@ -70,4 +76,12 @@
     color: #FF2002 !important;
     font-family: Roboto;
     font-weight: 700;
+}
+
+.HeaderResetItemValue {
+    width: 20px;
+    display: flex;
+    cursor: pointer;
+    margin: 0 !important;
+    justify-content: center;
 }
