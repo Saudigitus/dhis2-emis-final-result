@@ -6,21 +6,17 @@ import { WithPadding, GroupForm } from "../../../components";
 import { ContentProps } from "../../../types/modal/ModalContentTypes";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
-import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey";
 import { formFields } from "../../../utils/constants/enrollmentForm/enrollmentForm";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
-import { useQueryParams, useGetEnrollmentForm, useGetUsedPProgramStages, usePostEvent } from "../../../hooks";
-
+import { useQueryParams, useGetEnrollmentForm,  usePostEvent } from "../../../hooks";
 
 function ModalContentComponent({ setOpen }: ContentProps): React.ReactElement {
   const { useQuery } = useQueryParams();
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
   const orgUnitName = useQuery().get("schoolName");
-  const performanceProgramStages = useGetUsedPProgramStages();
   const { enrollmentsData } = useGetEnrollmentForm();
   const [, setClicked] = useRecoilState<boolean>(onSubmitClicked);
   const [, setValues] = useState<object>({})
-  const { getDataStoreData } = getSelectedKey();
   const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsData])
   const [clickedButton, setClickedButton] = useState<string>("");
   const [selected] = useRecoilState(RowSelectionState);

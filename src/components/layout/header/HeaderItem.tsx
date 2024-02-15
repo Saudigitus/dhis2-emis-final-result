@@ -3,14 +3,28 @@ import classNames from 'classnames'
 import style from "./mainHeader.module.css"
 import { SimpleSearch } from '../../search'
 import { DropdownButton, FlyoutMenu } from "@dhis2/ui"
+import HeaderResetItemValue from './HeaderResetItemValue'
 import info from "../../../assets/images/headbar/info.svg"
 import { type HeadBarTypes } from '../../../types/headBar/HeadBarTypes'
 import { componentMapping } from '../../../utils/commons/componentMapping'
+import { useDataElementsParamMapping, useQueryParams } from '../../../hooks'
 
-export default function HeaderItem({ label, value, placeholder, component, dataElementId, id }: HeadBarTypes): React.ReactElement {
-    const Component = (component != null) ? componentMapping[component] : null;
-    const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+export default function HeaderItem({ label, value, placeholder, component, dataElementId, id, selected }: HeadBarTypes): React.ReactElement {
+    const { remove } = useQueryParams()
     const onToggle = () => { setOpenDropDown(!openDropDown) }
+    const [openDropDown, setOpenDropDown] = useState<boolean>(false);
+    const Component = (component != null) ? componentMapping[component] : null; 
+    const paramsMapping = useDataElementsParamMapping()
+    
+    const onReset = () => {
+        if(dataElementId)
+            remove(paramsMapping[dataElementId as unknown as keyof typeof paramsMapping])
+        else
+            if(id === "c540ac7c") {
+                remove("school");
+                remove("schoolName");
+            }
+    }
 
     return (
         <DropdownButton
@@ -26,6 +40,7 @@ export default function HeaderItem({ label, value, placeholder, component, dataE
             }
         >
             <h5>{label} <span>{value}</span></h5>
+            { selected && <HeaderResetItemValue onReset={onReset}/> }
             <img src={info} />
         </DropdownButton >
     )

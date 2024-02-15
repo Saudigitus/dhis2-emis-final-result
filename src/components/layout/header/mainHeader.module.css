@@ -13,6 +13,13 @@
     margin-left: auto !important;
 }
 
+.HeaderItemGroup {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    box-shadow: rgb(213, 221, 229) 0px 0px 0px 1px !important;
+}
+
 .HeaderItemContainer {
     background: none !important;
     border-radius: 0 !important;
@@ -57,6 +64,10 @@
     display: none;
 }
 
+.j2e9b216 div svg {
+    display: inherit;
+}
+
 .j2e9b216 h5 {
     font-size: 20px !important;
     margin-bottom: 0 !important;
@@ -70,4 +81,17 @@
     color: #FF2002 !important;
     font-family: Roboto;
     font-weight: 700;
+}
+
+.headerResetItemValue {
+    margin-right:8px;
+}
+
+.headerResetItemValue svg{ 
+    font-size: 1.1rem;
+    color: rgb(160, 173, 186);
+}
+
+.headerResetItemValue svg:hover{ 
+    color: rgb(116, 118, 119);
 }

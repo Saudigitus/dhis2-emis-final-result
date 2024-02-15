@@ -11,7 +11,7 @@ export default function Item({ menuItems, dataElementId, onToggle }: MenuItemPro
     const paramsMapping = useDataElementsParamMapping();
 
     const onChange = (selectedOption: { label: string, value: string }) => {
-        add(paramsMapping[dataElementId], selectedOption.value);
+        add(paramsMapping[dataElementId as unknown as keyof typeof paramsMapping], selectedOption.value);
         let dataElements: string[][] = [...headerFields.dataElements]
         const attributes: string[][] = [...headerFields.attributes]
 
