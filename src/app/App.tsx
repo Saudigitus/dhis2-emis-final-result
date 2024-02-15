@@ -1,5 +1,5 @@
 import React from 'react'
-import "./App.module.css"
+import "./app.module.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "react-select/dist/react-select.css";
 import { Router } from "../components/routes"
