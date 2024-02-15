@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './Header.module.css'
+import styles from './header.module.css'
 import { useHeader } from "../../../../hooks";
 import EnrollmentFilters from "../filters/enrollment/EnrollmentFilters";
 import ConfigTableColumns from "../configTableColumns/ConfigTableColumns";

@@ -1,5 +1,5 @@
 import React from 'react'
-import style from "./Fields.module.css";
+import style from "./fields.module.css";
 import { formatToString } from '../../../utils/commons/formatToString'
 import { type GenericFieldsProps } from '../../../types/fields/GenericFieldsTypes';
 import { ReactFinalForm, InputFieldFF, composeValidators, hasValue, integer, createNumberRange } from '@dhis2/ui'

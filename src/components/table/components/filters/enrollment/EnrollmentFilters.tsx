@@ -1,5 +1,5 @@
 import React from 'react'
-import syles from './Filter.module.css'
+import syles from './filter.module.css'
 import ContentFilter from './ContentFilter';
 import { useHeader } from '../../../../../hooks';
 import { VariablesTypes } from '../../../../../types/table/AttributeColumns';

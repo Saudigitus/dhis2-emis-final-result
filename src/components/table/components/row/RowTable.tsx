@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames';
-import defaultClasses from '../Table.module.css';
+import defaultClasses from '../table.module.css';
 import { RowTableProps } from '../../../../types/table/components/row/RowTableTypes';
 
 function RowTable(props: RowTableProps): React.ReactElement {

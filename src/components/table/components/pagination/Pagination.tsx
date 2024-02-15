@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from 'react-select';
-import defaultClasses from '../Table.module.css';
+import defaultClasses from '../table.module.css';
 import { TextPagination } from './components/TextPagination';
 import { IconButtonPagination } from './components/IconButtonPagination';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';

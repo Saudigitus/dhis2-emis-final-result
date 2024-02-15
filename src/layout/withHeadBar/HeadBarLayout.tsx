@@ -1,5 +1,5 @@
 import React from 'react';
-import style from "../Layout.module.css";
+import style from "../layout.module.css";
 import { useQueryParams } from '../../hooks';
 import { MainHeader } from '../../components';
 import InfoPage from '../../components/info/InfoPage';

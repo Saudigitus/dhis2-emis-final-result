@@ -1,5 +1,5 @@
 import React from 'react';
-import style from "../Layout.module.css";
+import style from "../layout.module.css";
 import InfoPage from '../../components/info/InfoPage';
 import { MainHeader, SideBar } from '../../components';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import style from "./SideBar.module.css"
+import style from "./sideBar.module.css"
 import { SideBarItem, SibeBarCollapseBtn } from './components'
 import { sideBarData } from "../../../utils/constants/sideBar/sideBarData"
 import { getDataStoreKeys } from '../../../utils/commons/dataStore/getDataStoreKeys'

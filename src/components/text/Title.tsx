@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Text.module.css";
+import styles from "./text.module.css";
 import { TitleProps } from "../../types/text/TitleTypes";
 
 function Title(props: TitleProps): React.ReactElement {

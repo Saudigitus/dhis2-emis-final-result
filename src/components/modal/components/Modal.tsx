@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Modal.module.css";
+import styles from "./modal.module.css";
 import { Modal, ModalTitle, ModalContent } from "@dhis2/ui";
 import { ModalProps } from "../../../types/modal/ModalTypes";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Label } from "@dhis2/ui";
 import classNames from "classnames";
-import styles from "./GroupForm.module.css";
+import styles from "./groupForm.module.css";
 import { GroupFormProps } from "../../types/groupForm/GroupFormTypes";
 import { WithBorder, WithPadding, GenericFields, Subtitle } from "../index";
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import defaultClasses from '../../Table.module.css';
+import defaultClasses from '../../table.module.css';
 
 export function TextPagination(text: string): React.ReactElement {
     return (

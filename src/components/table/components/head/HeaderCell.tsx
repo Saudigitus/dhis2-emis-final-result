@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames';
-import defaultClasses from '../Table.module.css';
+import defaultClasses from '../table.module.css';
 import { HeaderCellProps } from '../../../../types/table/components/head/HeaderTypes';
 
 function HeaderCell(props: HeaderCellProps): React.ReactElement {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconButton } from '@material-ui/core';
-import defaultClasses from '../../Table.module.css';
+import defaultClasses from '../../table.module.css';
 import { IconButtonPaginationProps } from '../../../../../types/table/components/pagination/PaginationTypes';
 
 export function IconButtonPagination(props: IconButtonPaginationProps): React.ReactElement {

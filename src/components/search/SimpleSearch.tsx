@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input } from "@dhis2/ui"
 import classNames from 'classnames'
-import style from "./Search.module.css"
+import style from "./search.module.css"
 import { SimpleSearchProps } from '../../types/simpleSearch/SimpleSearchTypes'
 
 export default function SimpleSearch({ children, placeholder, id }: SimpleSearchProps): React.ReactElement {

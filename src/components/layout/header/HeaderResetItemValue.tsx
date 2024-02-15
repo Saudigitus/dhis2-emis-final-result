@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from "./MainHeader.module.css"
+import styles from "./mainHeader.module.css"
 import close from "../../../assets/images/headbar/close.svg"
 
 export default function HeaderResetItemValue({ onReset }: any): React.ReactElement {
