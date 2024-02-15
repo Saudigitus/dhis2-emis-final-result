@@ -1,6 +1,6 @@
 import React from 'react'
 import classNames from 'classnames';
-import defaultClasses from '../Table.module.css';
+import defaultClasses from '../table.module.css';
 import { TableComponentProps } from '../../../../types/table/components/table/TableComponentTypes';
 
 function TableComponent(props: TableComponentProps): React.ReactElement {
