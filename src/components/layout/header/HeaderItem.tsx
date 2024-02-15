@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
-import style from "./MainHeader.module.css"
+import style from "./mainHeader.module.css"
 import { SimpleSearch } from '../../search'
 import { DropdownButton, FlyoutMenu } from "@dhis2/ui"
 import info from "../../../assets/images/headbar/info.svg"
