@@ -27,6 +27,8 @@ export default function Item({ menuItems, dataElementId, onToggle }: MenuItemPro
         onToggle()
     }
 
+    console.log(menuItems)
+
     return (
         <>
             {

@@ -7,18 +7,24 @@ import info from "../../../assets/images/headbar/info.svg"
 import { type HeadBarTypes } from '../../../types/headBar/HeadBarTypes'
 import { componentMapping } from '../../../utils/commons/componentMapping'
 import HeaderResetItemValue from './HeaderResetItemValue'
-import { useQueryParams } from '../../../hooks'
-import { getSelectedKey } from '../../../utils/commons/dataStore/getSelectedKey'
-import { resetHeaderFilter } from '../../../utils/commons/resetHeaderFilters'
+import { useDataElementsParamMapping, useQueryParams } from '../../../hooks'
 
 export default function HeaderItem({ label, value, placeholder, component, dataElementId, id, selected }: HeadBarTypes): React.ReactElement {
     const { remove } = useQueryParams()
-    const { getDataStoreData } = getSelectedKey()
     const onToggle = () => { setOpenDropDown(!openDropDown) }
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
     const Component = (component != null) ? componentMapping[component] : null; 
-    const onReset = () => resetHeaderFilter(remove, dataElementId, getDataStoreData)
-
+    const paramsMapping = useDataElementsParamMapping()
+    
+    const onReset = () => {
+        if(dataElementId)
+            remove(paramsMapping[dataElementId as unknown as keyof typeof paramsMapping])
+        else
+            if(id === "c540ac7c") {
+                remove("school");
+                remove("schoolName");
+            }
+    }
 
     return (
         <div className={classNames(style.HeaderItemGroup)}>

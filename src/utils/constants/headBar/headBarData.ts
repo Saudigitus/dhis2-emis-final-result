@@ -8,7 +8,6 @@ function headBarData(selectedOptions: SelectedOptionsTypes, getDataStoreData: da
             label: "School",
             value: selectedOptions?.schoolName ?? "Select a school",
             placeholder: "Search for organisation unit",
-            dataElementId:"school",
             component: "orgUnitTree",
             selected: selectedOptions?.schoolName ? true : false,
         },
