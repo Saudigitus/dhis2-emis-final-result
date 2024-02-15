@@ -1,6 +1,6 @@
 import React from 'react'
 import HeaderItem from './HeaderItem'
-import style from "./MainHeader.module.css"
+import style from "./mainHeader.module.css"
 import { useQueryParams } from '../../../hooks'
 import { headBarData } from '../../../utils/constants/headBar/headBarData'
 import { getSelectedKey } from '../../../utils/commons/dataStore/getSelectedKey'
