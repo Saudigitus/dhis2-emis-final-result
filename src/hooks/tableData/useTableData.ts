@@ -137,8 +137,6 @@ export function useTableData() {
             }
         ));
 
-        console.log(eventsWithTei,"Ola")
-
         setSelected({ ...selected, rows: eventsWithTei })
 
         setTableData(localData);

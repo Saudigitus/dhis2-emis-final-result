@@ -1,15 +1,15 @@
 import React from 'react'
 import styles from "./mainHeader.module.css"
-import close from "../../../assets/images/headbar/close.svg"
+import CancelIcon from '@material-ui/icons/Cancel';
 
 export default function HeaderResetItemValue({ onReset }: any): React.ReactElement {
 
     return (
         <div 
             onClick={onReset}
-            className={styles.HeaderResetItemValue}
+            className={styles.headerResetItemValue}
         >
-            <img src={close} />
+            <CancelIcon />
         </div>
     )
 }
