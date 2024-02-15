@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Text.module.css";
+import styles from "./text.module.css";
 import { SubtitleProps } from "../../types/text/SubtitleTypes";
 
 function Subtitle(props: SubtitleProps): React.ReactElement {
