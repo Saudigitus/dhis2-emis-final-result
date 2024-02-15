@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { useRecoilState } from 'recoil';
 import MenuFilters from './MenuFilters';
-import styles from './Filter.module.css';
+import styles from './filter.module.css';
 import { Button } from '@material-ui/core';
 import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
