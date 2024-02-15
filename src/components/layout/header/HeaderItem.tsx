@@ -40,8 +40,8 @@ export default function HeaderItem({ label, value, placeholder, component, dataE
             }
         >
             <h5>{label} <span>{value}</span></h5>
-            <img src={info} />
             { selected && <HeaderResetItemValue onReset={onReset}/> }
+            <img src={info} />
         </DropdownButton >
     )
 }

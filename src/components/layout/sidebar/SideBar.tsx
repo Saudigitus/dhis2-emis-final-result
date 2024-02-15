@@ -6,7 +6,7 @@ import { getDataStoreKeys } from '../../../utils/commons/dataStore/getDataStoreK
 
 export default function SideBar(): React.ReactElement {
     const [collapsed, setCollapsed] = useState<boolean>(true);
-    const { currentAcademicYear } = getDataStoreKeys()
+    const { currentAcademicYear } = getDataStoreKeys()   
 
     return (
         <aside className={collapsed ? style.SideBarContainerCollapsed : style.SideBarContainer}>
