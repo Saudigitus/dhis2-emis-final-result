@@ -4,17 +4,17 @@
     align-items: center;
     margin-bottom: 10px !important;
     margin-top: 10px !important;
-    margin-left: 10px;
+    margin-left: 10px !important;
 }
 
 .contentMoreFilterContainer{
-    margin-top: 0;
+    margin-top: 0 1 !important;
 }
 
 .contentMoreFilterButton{
-    color: rgb(33, 41, 52);
-    font-size: 14;
-    text-transform: none;
-    font-Weight: 400
+    color: rgb(33, 41, 52) !important;
+    font-size: 14 !important;
+    text-transform: none !important;
+    font-Weight: 400 !important
 }
 
