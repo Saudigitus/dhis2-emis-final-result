@@ -14,5 +14,7 @@ interface SelectedOptionsTypes {
     grade: string | null
     school: string | null
     schoolName: string | null
+    position: string | null,
+    employmentType: string | null,
 }
 export type { HeadBarTypes, SelectedOptionsTypes }

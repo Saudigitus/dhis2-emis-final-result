@@ -3,11 +3,15 @@ import classNames from 'classnames';
 import Badge from '../../../badge/Badge';
 import style from "../sideBar.module.css"
 import { useConfig } from '@dhis2/app-runtime';
+import { useLocation } from 'react-router-dom';
 import { type SideBarSubItemProps } from '../../../../types/sideBar/SideBarTypes';
 
-export default function SideBarSubItem({ icon, label, showBadge, disabled, route, appName, pathName }: SideBarSubItemProps) {
-    const { baseUrl } = useConfig()    
+export default function SideBarSubItem(props: SideBarSubItemProps) {
+    const { icon, label, showBadge, disabled, route, appName, pathName } = props;
+    const location = useLocation() 
+    const { baseUrl } = useConfig()  
 
+    // test with http://localhost:3000/#/${route}
     return (
         <a href={`${baseUrl}/api/apps/${appName}/index.html#/${route}`} className={style.subItemLink}>
             <li className={location.pathname === pathName ? style.SideBarSubItemContainerActive : classNames(style.SideBarSubItemContainer, (Boolean(disabled)) && style.SideBarDisabledSubItem)}>

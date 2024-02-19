@@ -6,7 +6,9 @@ const useDataElementsParamMapping = () => {
     return {
         [registration?.section]: "class",
         [registration?.academicYear]: "academicYear",
-        [registration?.grade]: "grade"
+        [registration?.grade]: "grade",
+        [registration?.position]: "position",
+        [registration?.employmentType]: "employmentType"
     }
 }
 export default useDataElementsParamMapping;

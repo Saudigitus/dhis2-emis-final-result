@@ -8,7 +8,6 @@ export const headBarDataElements = (selectedOptions : SelectedOptionsTypes, getD
     getDataStoreData.filters.dataElements.map((filter : filterDataElements) => {
 
         if(programStageDataElements){
-            console.log(programStageDataElements)
             let headBarFilterName : string  = '';
 
             const dataElement = programStageDataElements?.find((psDataElement: any) => 
