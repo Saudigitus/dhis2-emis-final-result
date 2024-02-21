@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button, IconChevronDown16, IconChevronUp16, Tooltip } from '@dhis2/ui';
-import { RenderWithoutAppliedFilterProps } from '../../../../../types/table/components/filter/SelectFilterButtonTypes';
+import { RenderWithoutAppliedFilterProps } from '../../../../../types/table/ContentFiltersProps';
 interface TooltipProps {
     onMouseOver: () => void
     onMouseOut: () => void

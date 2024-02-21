@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import { Radio, spacersNum, colors } from '@dhis2/ui'
-import { SingleSelectBoxesProps } from '../../../../../../../../types/table/components/filter/fields/OptionSetTypes';
+import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersProps';
 
 const useStyle = makeStyles(() => ({
     iconDeselected: {
@@ -13,7 +13,7 @@ const useStyle = makeStyles(() => ({
     }
 }));
 
-function SingleSelectBoxes(props: SingleSelectBoxesProps) {
+function SingleSelectBoxes(props: SelectBoxesProps) {
     const { options, id, onChange, value = "" } = props;
     const classes = useStyle()
 
