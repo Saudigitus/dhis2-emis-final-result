@@ -13,6 +13,7 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
         <div
             className={defaultClasses.pagination}
         >
+            <div />
             <div className={defaultClasses.rootPagination}>
                 {TextPagination("Rows per page")}
 
