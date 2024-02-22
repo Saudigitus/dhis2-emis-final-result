@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core';
 import { Checkbox, spacersNum } from '@dhis2/ui';
-import { TrueOnlyProps } from '../../../../../../../types/table/components/filter/fields/TrueOnlyTypes';
+import { TrueOnlyProps } from '../../../../../../../types/table/ContentFiltersProps';
 
 const styles = (theme : any) => ({
     label: theme.typography.formFieldTitle,

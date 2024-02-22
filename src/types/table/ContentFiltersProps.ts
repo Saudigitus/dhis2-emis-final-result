@@ -64,8 +64,13 @@ interface TextFilterProps {
     onChange: (value: string, id: string) => void
     id: string
 }
-
-
+interface TrueOnlyProps {
+    header: any
+    classes: any
+    id: string, 
+    onChange: any
+    value: any
+}
 interface ActiveFilterButtonProps {
     onChange: () => void
     iconClass: any
@@ -116,4 +121,4 @@ interface TooltipProps {
     ref: any
 }
 
-export type { ContentFilterProps, MenuFiltersProps, SelectorContentsProps, FilterComponentProps, DateFilterManagerProps, OptionSetProps, SelectBoxesProps, TextFilterProps, ActiveFilterButtonProps, SelectButtonProps, RenderWithAppliedFilterProps, RenderWithoutAppliedFilterProps, TooltipProps }
+export type { ContentFilterProps, MenuFiltersProps, SelectorContentsProps, FilterComponentProps, DateFilterManagerProps, OptionSetProps, SelectBoxesProps, TextFilterProps, ActiveFilterButtonProps, SelectButtonProps, RenderWithAppliedFilterProps, RenderWithoutAppliedFilterProps, TooltipProps, TrueOnlyProps }
