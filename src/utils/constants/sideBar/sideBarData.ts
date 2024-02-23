@@ -12,7 +12,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
 
     return [
         {
-            title: "student",
+            title: "Students",
             subItems: [
                 {
                     icon: listAdd,
@@ -56,13 +56,13 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Student-Transfer",
-                    route: `student-transfer?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `student-transfer?${subItemRoute(locationParms.slice(1), 'student', filterDataElements, true)}`, 
                     pathName: "/student-transfer"
                 }
             ]
         },
         {
-            title: "staff",
+            title: "Staff",
             subItems: [
                 {
                     icon: userGroup,
@@ -88,7 +88,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Staff-Transfer",
-                    route: `staff-transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements)}`, 
+                    route: `staff-transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements, true)}`, 
                     pathName: "/staff-transfer"
                 }
             ]
