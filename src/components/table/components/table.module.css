@@ -52,8 +52,6 @@
     align-items: flex-end;
     flex-wrap: wrap;
     justify-content: space-between;
-    display: flex;
-    justify-content: space-between;
 }
 
 .paginationIconButton {
@@ -84,7 +82,10 @@
     color: rgba(0, 0, 0, 0.54);
     font-weight: 500;
     font-size: 0.75rem;
-    padding: 10px 0; 
+    padding: 10px 0;
+    margin-right: 10px !important;
+    display: flex;
+    align-items: center;
 }
 
 .paginationSelection {
