@@ -46,6 +46,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
 
 export function useTableData() {
     const engine = useDataEngine();
+    const { getDataStoreData } = getSelectedKey();
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
     const { urlParamiters } = useQueryParams()
     const [loading, setLoading] = useState<boolean>(false)
@@ -66,7 +67,7 @@ export function useTableData() {
             program: program as unknown as string,
             order: "createdAt:desc",
             programStage: registration?.programStage as unknown as string,
-            filter: headerFieldsState?.dataElements,
+            filter:  headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
         })).catch((error) => {
@@ -75,7 +76,7 @@ export function useTableData() {
                 type: { critical: true }
             });
             setTimeout(hide, 5000);
-        })
+        }) as unknown as EventQueryResults
 
         const allTeis = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
         const trackedEntityToFetch = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
@@ -94,8 +95,8 @@ export function useTableData() {
                     type: { critical: true }
                 });
                 setTimeout(hide, 5000);
-            })
-            : { results: { instances: [] } }
+            }) as unknown as TeiQueryResults
+            : { results: { instances: [] } } as unknown as TeiQueryResults
 
         const marskEvents: MarksQueryResults = {
             results: {
@@ -118,8 +119,8 @@ export function useTableData() {
                     type: { critical: true }
                 });
                 setTimeout(hide, 5000);
-            })
-            marskEvents.results.instances.push(...marksResults?.results?.instances)
+            }) as unknown as MarksQueryResults
+            marskEvents.results.instances.push(...marksResults?.results?.instances) 
         }
 
 
