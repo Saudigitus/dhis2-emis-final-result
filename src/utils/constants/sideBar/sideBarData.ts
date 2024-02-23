@@ -56,7 +56,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Student-Transfer",
-                    route: `student-transfer?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `student-transfer?${subItemRoute(locationParms.slice(1), 'student', filterDataElements, true)}`, 
                     pathName: "/student-transfer"
                 }
             ]
@@ -88,7 +88,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Staff-Transfer",
-                    route: `staff-transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements)}`, 
+                    route: `staff-transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements, true)}`, 
                     pathName: "/staff-transfer"
                 }
             ]
