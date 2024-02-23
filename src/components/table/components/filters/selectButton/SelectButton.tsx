@@ -4,7 +4,7 @@ import WithPadding from '../../../../template/WithPadding';
 import RenderWithAppliedFilter from './RenderWithAppliedFilter';
 import SelectorContents from '../enrollment/content/SelectorContents';
 import RenderWithoutAppliedFilter from './RenderWithoutAppliedFilter';
-import { SelectButtonProps } from '../../../../../types/table/components/filter/SelectFilterButtonTypes';
+import { SelectButtonProps } from '../../../../../types/table/ContentFiltersProps';
 
 const POPOVER_ANCHOR_ORIGIN = {
     vertical: 'bottom',

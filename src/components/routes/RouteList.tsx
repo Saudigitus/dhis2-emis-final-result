@@ -14,6 +14,6 @@ export default function RouteList() {
             path: "/final-result",
             layout: FullLayout,
             component: () => <TableComponent />
-        }
+        },
     ]
 }

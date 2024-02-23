@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import SelectBoxes from './selectBoxes/SelectBoxes';
-import { OptionSetProps } from '../../../../../../../types/table/components/filter/fields/OptionSetTypes';
+import { OptionSetProps } from '../../../../../../../types/table/ContentFiltersProps';
 
 const getStyles = makeStyles(() => ({
     selectBoxesContainer: {
@@ -24,7 +24,7 @@ function OptionSet(props: OptionSetProps) {
             <div className={classes.selectBoxesInnerContainer}>
                 { /* $FlowFixMe */}
                 <SelectBoxes
-                    optionSet={options}
+                    options={options}
                     value={value}
                     orientation={"vertical"}
                     singleSelect={!singleSelect}

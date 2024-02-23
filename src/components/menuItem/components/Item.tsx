@@ -1,14 +1,22 @@
 import React from 'react'
-import { MenuItem } from "@dhis2/ui"
-import { useRecoilState } from 'recoil';
+import { MenuItem, Help } from "@dhis2/ui"
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { HeaderFieldsState } from '../../../schema/headersSchema';
 import { MenuItemProps  } from '../../../types/menu/MenuItemTypes'
+import { OuQueryString } from '../../../schema/headerSearchInputSchema';
 import { useQueryParams, useDataElementsParamMapping  } from '../../../hooks';
 
-export default function Item({ menuItems, dataElementId, onToggle }: MenuItemProps): React.ReactElement {
+export default function Item(props: MenuItemProps): React.ReactElement {
+    const {  menuItems, dataElementId, onToggle } = props;
+
+    const stringQuery = useRecoilValue(OuQueryString);
+    const filteredMenuItems = stringQuery
+    ? menuItems.filter(item => item.label.toLowerCase().includes(stringQuery.toLowerCase()))
+    : menuItems;
+
     const { add } = useQueryParams();
     const [headerFields, setHeaderFields] = useRecoilState(HeaderFieldsState)
-    const paramsMapping = useDataElementsParamMapping();
+    const paramsMapping = useDataElementsParamMapping()
 
     const onChange = (selectedOption: { label: string, value: string }) => {
         add(paramsMapping[dataElementId as unknown as keyof typeof paramsMapping], selectedOption.value);
@@ -26,11 +34,17 @@ export default function Item({ menuItems, dataElementId, onToggle }: MenuItemPro
         setHeaderFields({ attributes, dataElements });
         onToggle()
     }
+    
+    if ((stringQuery && !filteredMenuItems.length) || !menuItems.length) {
+        return <Help>
+            No items found
+        </Help>
+    }
 
     return (
         <>
             {
-                menuItems?.map(menuItem => (
+                filteredMenuItems?.map(menuItem => (
                     < MenuItem onClick={() => { onChange(menuItem) }} key={menuItem.value} label={menuItem.label} />
                 ))
             }

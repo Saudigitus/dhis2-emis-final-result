@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { RowCell, RowTable } from '../components';
 import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
-import { RenderRowsProps } from '../../../types/table/render/RenderRowsTypes';
+import { RenderRowsProps } from '../../../types/table/TableContentProps';
 import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
 

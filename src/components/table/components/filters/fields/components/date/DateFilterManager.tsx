@@ -2,7 +2,7 @@ import React from 'react';
 import DateFnsUtils from '@date-io/date-fns';
 import { makeStyles } from '@material-ui/core/styles';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { DateFilterManagerProps } from '../../../../../../../types/table/components/filter/fields/DateTypes';
+import { DateFilterManagerProps } from '../../../../../../../types/table/ContentFiltersProps';
 
 const getStyles = makeStyles(() => ({
     fromToContainer: {

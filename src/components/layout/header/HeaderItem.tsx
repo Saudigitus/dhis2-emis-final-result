@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
+import { useRecoilState } from 'recoil'
 import style from "./mainHeader.module.css"
 import { SimpleSearch } from '../../search'
 import { DropdownButton, FlyoutMenu } from "@dhis2/ui"
 import HeaderResetItemValue from './HeaderResetItemValue'
 import info from "../../../assets/images/headbar/info.svg"
 import { type HeadBarTypes } from '../../../types/headBar/HeadBarTypes'
+import { OuQueryString } from '../../../schema/headerSearchInputSchema'
 import { componentMapping } from '../../../utils/commons/componentMapping'
 import { useDataElementsParamMapping, useQueryParams } from '../../../hooks'
 
 export default function HeaderItem({ label, value, placeholder, component, dataElementId, id, selected }: HeadBarTypes): React.ReactElement {
     const { remove } = useQueryParams()
-    const onToggle = () => { setOpenDropDown(!openDropDown) }
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
     const Component = (component != null) ? componentMapping[component] : null; 
     const paramsMapping = useDataElementsParamMapping()
+    const [, setStringQuery] = useRecoilState(OuQueryString);
+
+    const onToggle = () => {
+        setStringQuery(undefined)
+        setOpenDropDown(!openDropDown)
+    }
     
     const onReset = () => {
         if(dataElementId)
