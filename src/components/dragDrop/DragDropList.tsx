@@ -2,26 +2,26 @@ import React from 'react'
 import i18n from '@dhis2/d2-i18n';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import DragDropListItem from './DragDropItems.js';
 import { DragDropListProps } from '../../types/dragDrop/DragDropTypes.js';
 
-
-
 function DragDropList(props: DragDropListProps) {
-    const { listItems, handleUpdateListOrder, handleToggle } = props;
+    const { listItems, handleToggle } = props;
 
     return (
         <DndProvider backend={HTML5Backend}>
             <Table>
                 <TableHead>
-                    <TableRow>
-                        <TableCell colSpan={12}>{i18n.t('Column')}</TableCell>
-                    </TableRow>
+                    <DragDropListItem
+                        key={"all"}
+                        id={"all"}
+                        text={i18n.t('Column')}
+                        handleToggle={handleToggle}
+                        visible={listItems?.filter(x => x.visible == false)?.length == 0}
+                    />
                 </TableHead>
                 <TableBody>
                     {listItems?.map((item, i) =>

@@ -6,10 +6,10 @@ import styles from "./configTableColumns.module.css"
 import { IconButton, Tooltip } from '@material-ui/core';
 import DialogConfigColumns from './DialogConfigColumns';
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
-import { ConfigTableColumnsProps } from '../../../../types/table/components/confingTableColumns/ConfigTableColumnsTypes';
+import { ConfigTableColumnsProps } from '../../../../types/table/ConfigColumnsProps';
 
 function ConfigTableColumns(props: ConfigTableColumnsProps) {
-    const { headers, updateVariables } = props;
+    const { headers, updateVariables, filteredHeaders } = props;
     const [selected] = useRecoilState(RowSelectionState);
     const [open, setopen] = useState(false)
 
@@ -43,6 +43,7 @@ function ConfigTableColumns(props: ConfigTableColumnsProps) {
                 open={open}
                 onClose={closeDialog}
                 updateVariables={updateVariables}
+                filteredHeaders={filteredHeaders}
                 headers={headers}
             />
         </div>

@@ -4,8 +4,8 @@ import TrueOnly from './components/trueOnly/TrueOnly';
 import { Attribute } from '../../../../../types/generated/models';
 import DateFilterManager from './components/date/DateFilterManager';
 import SelectBoxes from './components/optionSet/selectBoxes/SelectBoxes';
-import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
-import { FilterComponentProps } from '../../../../../types/table/components/filter/fields/FilterComponentsTypes';
+import { FilterComponentProps } from '../../../../../types/table/ContentFiltersProps';
+import { CustomAttributeProps } from '../../../../../types/variables/AttributeColumns';
 
 function FilterComponents(props: FilterComponentProps) {
     const { type, column, onChange, value } = props;

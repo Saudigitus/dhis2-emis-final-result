@@ -6,9 +6,9 @@ import styles from './filter.module.css';
 import { Button } from '@material-ui/core';
 import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
-import { type CustomAttributeProps } from '../../../../../types/table/AttributeColumns';
+import { type CustomAttributeProps } from '../../../../../types/variables/AttributeColumns';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
-import { ContentFilterProps } from '../../../../../types/table/components/filter/EnrollmentFilterTypes';
+import { ContentFilterProps } from '../../../../../types/table/ContentFiltersProps';
 
 type FiltersValuesProps = Record<string, any | { endDate: string } | { startDate: string }>;
 

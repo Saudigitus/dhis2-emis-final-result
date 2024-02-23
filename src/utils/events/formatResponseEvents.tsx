@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { dataStoreRecord } from "../../schema/dataStoreSchema";
+import { dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import { Attribute } from "../../types/generated/models";
 import { ProgramConfig } from "../../types/programConfig/ProgramConfig";
 import { type ProgramStageConfig } from "../../types/programStageConfig/ProgramStageConfig";
-import { VariablesTypes, type CustomAttributeProps } from "../../types/table/AttributeColumns";
+import { VariablesTypes, type CustomAttributeProps } from "../../types/variables/AttributeColumns";
 
 export function formatResponseEvents(object: ProgramStageConfig) {
     const dataElements: CustomAttributeProps[] = [];

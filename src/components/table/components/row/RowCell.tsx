@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames';
 import defaultClasses from '../table.module.css';
-import { RowCellProps } from '../../../../types/table/components/row/RowCellTypes';
+import { RowCellProps } from '../../../../types/table/TableContentProps';
 
 function RowCell(props: RowCellProps): React.ReactElement {
     const { children, className, passOnProps, table, colspan } = props;

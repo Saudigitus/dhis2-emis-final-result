@@ -1,12 +1,13 @@
-import { Attribute } from "../../../types/generated/models";
-import { type ProgramConfig } from "../../../types/programConfig/ProgramConfig";
-import { VariablesTypes, type CustomAttributeProps } from "../../../types/table/AttributeColumns";
 import { useMemo } from "react";
+import { Attribute } from "../../../types/generated/models";
+import { ProgramConfig } from "../../../types/programConfig/ProgramConfig";
+import { CustomAttributeProps, VariablesTypes } from "../../../types/variables/AttributeColumns";
 
-export function formatResponse(data: ProgramConfig, finalResultProgramStage: string): CustomAttributeProps[] {
+export function formatResponse(data: ProgramConfig, finalResultProgramStage: string, tableColumns: CustomAttributeProps[] = []): CustomAttributeProps[] {
     const headerResponse = useMemo(() => {
         const finalResults = ((data?.programStages?.find(programStge => programStge.id === finalResultProgramStage)) ?? {} as ProgramConfig["programStages"][0])
-        return data?.programTrackedEntityAttributes?.map((item) => {
+
+        return tableColumns?.length > 0 ? tableColumns : data?.programTrackedEntityAttributes?.map((item) => {
             return {
                 id: item.trackedEntityAttribute.id,
                 displayName: item.trackedEntityAttribute.displayName,
@@ -50,7 +51,7 @@ export function formatResponse(data: ProgramConfig, finalResultProgramStage: str
                     }) as []
                     : []
             )
-    }, [data]);
+    }, [data,tableColumns]);
 
     return headerResponse;
 }

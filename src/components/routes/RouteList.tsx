@@ -15,27 +15,5 @@ export default function RouteList() {
             layout: FullLayout,
             component: () => <TableComponent />
         },
-        {
-            path: "/enrollment",
-            layout: FullLayout,
-            component: () => <TableComponent />
-        },
-        {
-            path: "/attendance",
-            layout: FullLayout,
-            component: () => <TableComponent />
-        },
-        {
-            path: "/performance",
-            layout: FullLayout,
-            component: () => <TableComponent />
-        },
-        {
-            path: "/staff-attendance",
-            layout: FullLayout,
-            component: () => <TableComponent />
-        }
-
-
     ]
 }
