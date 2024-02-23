@@ -35,7 +35,8 @@ function DialogSelectColumns(props: DialogSelectColumnsProps) {
                 for (let i = 0; i < localColumns.length; i++){
                     copy[i] = { ...headers[i], visible: true }
                 }
-        } 
+                setcolumnsList(copy)
+            } 
         else {
             const index = localColumns.findIndex(column => column.id === id);
             localColumns[index] = { ...localColumns[index], visible: !(localColumns[index].visible) };
