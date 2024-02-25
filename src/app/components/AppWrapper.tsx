@@ -2,9 +2,11 @@ import React from 'react'
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { useDataStore } from '../../hooks'
 import { AppProps } from '../../types/app/AppTypes';
+import { useGetPrintTemplates } from '../../hooks/printTemplates/useGetPrintTemplates';
 
 export default function AppWrapper(props: AppProps) {
     const { error, loading } = useDataStore()
+    const { } = useGetPrintTemplates()
 
     if (loading) {
         return (
