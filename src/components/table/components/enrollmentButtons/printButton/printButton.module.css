@@ -27,3 +27,7 @@
     margin-left: 0 !important;
     color: var(--grey-grey-600, #6E7A8A) !important;
 }
+
+.itemLink {
+    text-decoration: none !important;
+}

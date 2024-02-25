@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import Item from './Item'
 import classNames from 'classnames'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import style from "./printButton.module.css"
 import { SimpleSearch } from '../../../../search'
 import { DropdownButton, FlyoutMenu } from "@dhis2/ui"
 import { OuQueryString } from '../../../../../schema/headerSearchInputSchema'
 import { PrintButtonProps } from '../../../../../types/table/EnrollmentActionProps'
+import { PrintTemplateState } from '../../../../../schema/printTemplateSchema'
 
 export default function PrintButton(props: PrintButtonProps): React.ReactElement {
     const { label, placeholder, id } = props
+    const templates = useRecoilValue(PrintTemplateState)
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
     const [, setStringQuery] = useRecoilState(OuQueryString);
     const onToggle = () => {
@@ -25,7 +27,7 @@ export default function PrintButton(props: PrintButtonProps): React.ReactElement
             component={
                 < FlyoutMenu >
                     <SimpleSearch id={id} placeholder={placeholder}>
-                        <Item options={[]}/> 
+                        <Item options={templates || []}/> 
                     </SimpleSearch>
                 </FlyoutMenu >
             }

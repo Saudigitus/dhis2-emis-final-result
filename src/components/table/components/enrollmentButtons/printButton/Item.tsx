@@ -1,15 +1,21 @@
 import React from 'react'
-import { MenuItem, Help } from "@dhis2/ui"
 import { useRecoilValue } from 'recoil';
+import { MenuItem, Help } from "@dhis2/ui"
+import style from "./printButton.module.css"
+import { useConfig } from '@dhis2/app-runtime';
 import { OuQueryString } from '../../../../../schema/headerSearchInputSchema';
-import { PrintButtonItemOptionType, PrintButtonItemProps } from '../../../../../types/table/EnrollmentActionProps';
+import { PrintButtonItemProps } from '../../../../../types/table/EnrollmentActionProps';
+import { PrintTemplateConfig } from '../../../../../types/printTemplate/PrintTemplateConfig';
+import { RowSelectionState } from '../../../../../schema/tableSelectedRowsSchema';
 
 export default function Item(props: PrintButtonItemProps): React.ReactElement {
     const {  options } = props;
+    const { baseUrl } = useConfig()  
     const stringQuery = useRecoilValue(OuQueryString);
-    
+    const selectedTeis = useRecoilValue(RowSelectionState)
+
     const filteredOptions = stringQuery
-    ? options.filter((item: any) => item.label.toLowerCase().includes(stringQuery.toLowerCase()))
+    ? options.filter((item: any) => item.name.toLowerCase().includes(stringQuery.toLowerCase()))
     : options;
 
     const onChange = () => { }
@@ -23,8 +29,13 @@ export default function Item(props: PrintButtonItemProps): React.ReactElement {
     return (
         <>
             {
-                filteredOptions?.map((option : PrintButtonItemOptionType) => (
-                    < MenuItem onClick={() => { onChange() }} key={option.value} label={option.label} />
+                filteredOptions?.map((option : PrintTemplateConfig) => (
+                    <a
+                        className={style.itemLink}
+                        href={`${baseUrl}/#/printer?tei=${selectedTeis.selectedRows.map((tei : any) => tei.event).join(';')}&program=${option.program}&templateId=${option.id}`}
+                    >
+                        < MenuItem onClick={() => { onChange() }} key={option.id} label={option.name} />
+                    </a>
                 ))
             }
         </>
