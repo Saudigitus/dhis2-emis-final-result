@@ -13,6 +13,8 @@ function ConfigTableColumns(props: ConfigTableColumnsProps) {
     const [selected] = useRecoilState(RowSelectionState);
     const [open, setopen] = useState(false)
 
+    console.log(selected, 89)
+
     const closeDialog = () => {
         setopen(false)
     }

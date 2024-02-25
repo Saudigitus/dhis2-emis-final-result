@@ -5,6 +5,7 @@ import { useQueryParams } from '../../../../hooks';
 import { IconAddCircle24, Button, ButtonStrip } from "@dhis2/ui";
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
 import { ModalComponent, ModalContentComponent, ModalContentPromotion, ImportContent } from '../../../../components';
+import PrintButton from './printButton/PrintButton';
 
 function EnrollmentActionsButtons() {
   const [open, setOpen] = useState<boolean>(false);
@@ -26,6 +27,12 @@ function EnrollmentActionsButtons() {
         <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
           <span>
             <Button onClick={() => { setOpenPromotion(true); }} disabled={selected.selectedRows.length === 0} icon={<IconAddCircle24 />}>Perform promotion</Button>
+          </span>
+        </Tooltip>
+
+        <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
+          <span>
+            <PrintButton label="Print" placeholder="Search for a template" id='u37890'/>
           </span>
         </Tooltip>
       </ButtonStrip>

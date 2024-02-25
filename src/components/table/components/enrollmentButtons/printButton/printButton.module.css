@@ -1,0 +1,29 @@
+@import "../../../../../assets/style/colors.css";
+
+.buttonContainer {
+    /* background: none !important; */
+    border-radius: 0 !important;
+    font-family: Roboto !important;
+    display: flex !important;
+    align-items: center !important;
+    min-height: 5px !important;
+    font-style: normal !important;
+    -webkit-box-align: center;
+    padding: 2px;
+    font-size: 14px;
+    border: none !important;
+    box-shadow: rgb(213, 221, 229) 0px 0px 0px 1px !important;
+    border-radius: 4px !important;
+}
+
+.buttonContainer span {
+    color: var(--grey-grey-600, #6E7A8A) !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+}
+
+
+.buttonContainer svg {
+    margin-left: 0 !important;
+    color: var(--grey-grey-600, #6E7A8A) !important;
+}
