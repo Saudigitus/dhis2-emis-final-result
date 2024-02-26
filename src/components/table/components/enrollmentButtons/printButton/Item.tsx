@@ -31,7 +31,7 @@ export default function Item(props: PrintButtonItemProps): React.ReactElement {
                     <a
                         className={style.itemLink}
                         target='_blank'
-                        href={`${baseUrl}/#/printer?tei=${selectedTeis.selectedRows.map((tei : any) => tei.event).join(';')}&program=${option.program}&templateId=${option.id}`}
+                        href={`${baseUrl}/api/apps/Tracker-Data-Printer/index.html/#/printer?tei=${selectedTeis.selectedRows.map((tei : any) => tei.event).join(';')}&program=${option.program}&templateId=${option.id}`}
                     >
                         < MenuItem key={option.id} label={option.name} />
                     </a>
