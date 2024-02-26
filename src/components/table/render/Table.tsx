@@ -43,7 +43,6 @@ function Table() {
         setpageSize(parseInt(event.value, 10))
         setpage(1)
     }
-
     return (
         <Paper>
             {loading &&
