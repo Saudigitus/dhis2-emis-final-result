@@ -8,9 +8,7 @@ import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
 import { type CustomAttributeProps } from '../../../../../types/variables/AttributeColumns';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
-import { ContentFilterProps } from '../../../../../types/table/ContentFiltersProps';
-
-type FiltersValuesProps = Record<string, any | { endDate: string } | { startDate: string }>;
+import { ContentFilterProps, FiltersValuesProps } from '../../../../../types/table/ContentFiltersProps';
 
 function ContentFilter(props: ContentFilterProps) {
     const { headers = [] } = props;
@@ -82,24 +80,24 @@ function ContentFilter(props: ContentFilterProps) {
         for (const [key, value] of Object.entries(copyHeader)) {
             const variableType = headers.find(x => x.id === key)?.type
             if (typeof value === 'object') {
-                if (variableType === "dataElement") {
-                    dataElementsQuerybuilder.push([`${key}:ge:${value?.startDate}:le:${value?.endDate}`])
-                } else attributesQuerybuilder.push([`${key}:ge:${value?.startDate}:le:${value?.endDate}`])
+                if (variableType === "attribute") {
+                    attributesQuerybuilder.push([`${key}:ge:${value?.startDate}:le:${value?.endDate}`]) 
+                } else dataElementsQuerybuilder.push([`${key}:ge:${value?.startDate}:le:${value?.endDate}`])
             } else {
                 if (typeof value === 'boolean') {
-                    if (variableType === "dataElement") {
-                        dataElementsQuerybuilder.push([`${key}:eq:${value}`])
-                    } else attributesQuerybuilder.push([`${key}:eq:${value}`])
+                    if (variableType === "attribute") {
+                        attributesQuerybuilder.push([`${key}:eq:${value}`])
+                    } else dataElementsQuerybuilder.push([`${key}:eq:${value}`])
                 } else
                     if (value?.includes(',')) {
                         const newValue = value.replaceAll(",", ";") as string
-                        if (variableType === "dataElement") {
-                            dataElementsQuerybuilder.push([`${key}:in:${newValue}`])
-                        } else attributesQuerybuilder.push([`${key}:in:${newValue}`])
+                        if (variableType === "attribute") {
+                            attributesQuerybuilder.push([`${key}:in:${newValue}`])
+                        } else dataElementsQuerybuilder.push([`${key}:in:${newValue}`])
                     } else {
-                        if (variableType === "dataElement") {
-                            dataElementsQuerybuilder.push([`${key}:like:${value}`])
-                        } else attributesQuerybuilder.push([`${key}:like:${value}`])
+                        if (variableType === "attribute") {
+                            attributesQuerybuilder.push([`${key}:like:${value}`])
+                        } else dataElementsQuerybuilder.push([`${key}:like:${value}`])
                     }
             }
         }
@@ -155,12 +153,11 @@ function ContentFilter(props: ContentFilterProps) {
             }
             <div className={styles.contentMoreFilterContainer}>
                 {headers?.filter(x => !localFilters.includes(x))?.length > 0 &&
-                    <Button 
+                    <Button className={styles.moreFilters}
                         variant='outlined'
                         onClick={handleClick}
-                        className={styles.contentMoreFilterButton}
                     >
-                        More filters
+                        More Filters
                     </Button>
                 }
                 <MenuFilters
