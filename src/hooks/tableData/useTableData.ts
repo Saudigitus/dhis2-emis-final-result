@@ -46,7 +46,6 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
 
 export function useTableData() {
     const engine = useDataEngine();
-    const { getDataStoreData } = getSelectedKey();
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
     const { urlParamiters } = useQueryParams()
     const [loading, setLoading] = useState<boolean>(false)

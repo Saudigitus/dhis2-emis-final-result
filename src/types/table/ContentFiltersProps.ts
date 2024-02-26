@@ -1,5 +1,6 @@
 import { type CustomAttributeProps } from "../variables/AttributeColumns"
 
+type FiltersValuesProps = Record<string, any | { endDate: string } | { startDate: string }>;
 interface ContentFilterProps {
     headers: CustomAttributeProps[]
 }
@@ -121,4 +122,4 @@ interface TooltipProps {
     ref: any
 }
 
-export type { ContentFilterProps, MenuFiltersProps, SelectorContentsProps, FilterComponentProps, DateFilterManagerProps, OptionSetProps, SelectBoxesProps, TextFilterProps, ActiveFilterButtonProps, SelectButtonProps, RenderWithAppliedFilterProps, RenderWithoutAppliedFilterProps, TooltipProps, TrueOnlyProps }
+export type { FiltersValuesProps, ContentFilterProps, MenuFiltersProps, SelectorContentsProps, FilterComponentProps, DateFilterManagerProps, OptionSetProps, SelectBoxesProps, TextFilterProps, ActiveFilterButtonProps, SelectButtonProps, RenderWithAppliedFilterProps, RenderWithoutAppliedFilterProps, TooltipProps, TrueOnlyProps }
