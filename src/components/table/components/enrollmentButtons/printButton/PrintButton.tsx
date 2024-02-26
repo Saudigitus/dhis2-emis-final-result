@@ -10,7 +10,7 @@ import { PrintButtonProps } from '../../../../../types/table/EnrollmentActionPro
 import { PrintTemplateState } from '../../../../../schema/printTemplateSchema'
 
 export default function PrintButton(props: PrintButtonProps): React.ReactElement {
-    const { label, placeholder, id } = props
+    const { label, placeholder, id, disabled } = props
     const templates = useRecoilValue(PrintTemplateState)
     const [openDropDown, setOpenDropDown] = useState<boolean>(false);
     const [, setStringQuery] = useRecoilState(OuQueryString);
@@ -23,6 +23,7 @@ export default function PrintButton(props: PrintButtonProps): React.ReactElement
         <DropdownButton
             open={openDropDown}
             onClick={onToggle}
+            disabled={disabled}
             className={classNames(style.buttonContainer)}
             component={
                 < FlyoutMenu >

@@ -4,6 +4,7 @@ interface PrintButtonProps {
     id:string
     label: string
     placeholder: string
+    disabled: boolean
 }
 
 

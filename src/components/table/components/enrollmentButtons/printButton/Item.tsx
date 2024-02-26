@@ -17,8 +17,6 @@ export default function Item(props: PrintButtonItemProps): React.ReactElement {
     const filteredOptions = stringQuery
     ? options.filter((item: any) => item.name.toLowerCase().includes(stringQuery.toLowerCase()))
     : options;
-
-    const onChange = () => { }
     
     if ((stringQuery && !filteredOptions.length) || !options.length) {
         return <Help>
@@ -32,9 +30,10 @@ export default function Item(props: PrintButtonItemProps): React.ReactElement {
                 filteredOptions?.map((option : PrintTemplateConfig) => (
                     <a
                         className={style.itemLink}
+                        target='_blank'
                         href={`${baseUrl}/#/printer?tei=${selectedTeis.selectedRows.map((tei : any) => tei.event).join(';')}&program=${option.program}&templateId=${option.id}`}
                     >
-                        < MenuItem onClick={() => { onChange() }} key={option.id} label={option.name} />
+                        < MenuItem key={option.id} label={option.name} />
                     </a>
                 ))
             }

@@ -32,7 +32,7 @@ function EnrollmentActionsButtons() {
 
         <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
           <span>
-            <PrintButton label="Print" placeholder="Search for a template" id='u37890'/>
+            <PrintButton label="Print" placeholder="Search for a template" id='u37890' disabled={selected.selectedRows.length === 0}/>
           </span>
         </Tooltip>
       </ButtonStrip>
