@@ -1,6 +1,7 @@
 import React from 'react'
-import styles from './formatResponseRows.module.css'
 import classNames from 'classnames'
+import styles from './formatResponseRows.module.css'
+import { ProgramConfig } from '../../../types/programConfig/ProgramConfig'
 
 interface dataValuesProps {
     dataElement: string
@@ -25,6 +26,7 @@ interface formatResponseRowsProps {
         trackedEntity: string
         dataValues: dataValuesProps[]
     }]
+    trackedEntityAttributes: ProgramConfig['programTrackedEntityAttributes']
 }
 
 interface formatResponseRowsMarksProps {
@@ -36,17 +38,17 @@ interface formatResponseRowsMarksProps {
 
 type RowsProps = Record<string, string | number | boolean | any>;
 
-export function formatResponseRows({ eventsInstances, teiInstances,marksInstances }: formatResponseRowsProps): RowsProps[] {
+export function formatResponseRows({ eventsInstances, teiInstances,marksInstances, trackedEntityAttributes }: formatResponseRowsProps): RowsProps[] {
     const allRows: RowsProps[] = []
     for (const event of eventsInstances) {
         const teiDetails = teiInstances.find(tei => tei.trackedEntity === event.trackedEntity)
         const marksDetails = marksInstances.find(mark => mark.trackedEntity === event.trackedEntity)
-        allRows.push({...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues) } : {}), ...(attributes((teiDetails?.attributes) ?? [])), ...{ trackedEntity: teiDetails?.trackedEntity } })
+        allRows.push({...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues) } : {}), ...(attributes((teiDetails?.attributes) ?? [],  trackedEntityAttributes)), ...{ trackedEntity: teiDetails?.trackedEntity } })
     }
     return allRows;
 }
 
-export function formatResponseRowsMarks({ marksInstance }: formatResponseRowsMarksProps): RowsProps[] {
+export function formatResponseRowsMarks({ marksInstance }: formatResponseRowsMarksProps): RowsProps {
     return dataValues(marksInstance?.dataValues ?? [])
 }
 
@@ -59,10 +61,16 @@ function dataValues(data: dataValuesProps[]): RowsProps {
     return localData
 }
 
-function attributes(data: attributesProps[]): RowsProps {
+function attributes(data: attributesProps[], trackedEntityAttributes: ProgramConfig['programTrackedEntityAttributes']): RowsProps {
     const localData: RowsProps = {}
     for (const attribute of data) {
-        localData[attribute.attribute] = attribute.value
+        const trackedEntityAttribute : any = trackedEntityAttributes?.find((x: any) => x.trackedEntityAttribute.id == attribute.attribute)?.trackedEntityAttribute
+
+        if(trackedEntityAttribute?.optionSet)
+            localData[attribute.attribute] = trackedEntityAttribute?.optionSet?.options?.find((x: any) => x.value === attribute.value).label
+        
+        else
+            localData[attribute.attribute] = attribute.value
     }
     return localData
 }

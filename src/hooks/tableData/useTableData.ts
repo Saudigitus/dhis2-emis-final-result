@@ -8,6 +8,7 @@ import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
 import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys";
 import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
+import { ProgramConfigState } from "../../schema/programSchema";
 
 const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity, programStatus }: EventQueryProps) => ({
     results: {
@@ -47,6 +48,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
 export function useTableData() {
     const engine = useDataEngine();
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
+    const programConfig = useRecoilValue(ProgramConfigState)
     const { urlParamiters } = useQueryParams()
     const [loading, setLoading] = useState<boolean>(false)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
@@ -127,6 +129,7 @@ export function useTableData() {
             eventsInstances: events?.results?.instances,
             teiInstances: teiResults?.results?.instances,
             marksInstances: marskEvents?.results?.instances,
+            trackedEntityAttributes: programConfig?.programTrackedEntityAttributes,
         })
 
 
