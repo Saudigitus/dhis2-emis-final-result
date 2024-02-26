@@ -24,7 +24,7 @@ export default function PrintButton(props: PrintButtonProps): React.ReactElement
             open={openDropDown}
             onClick={onToggle}
             disabled={disabled}
-            className={classNames(style.buttonContainer)}
+            className={classNames(style.buttonContainer, disabled ? style.buttonContainerDisabled : style.buttonContainerEnabled)}
             component={
                 < FlyoutMenu >
                     <SimpleSearch id={id} placeholder={placeholder}>
