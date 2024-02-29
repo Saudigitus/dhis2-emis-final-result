@@ -9,6 +9,7 @@ interface PrintButtonProps {
 
 
 interface PrintButtonItemProps {
+    onToggle: () => void
     options: PrintTemplateConfig[]
 }
 

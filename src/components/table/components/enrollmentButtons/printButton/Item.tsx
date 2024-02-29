@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { MenuItem, Help } from "@dhis2/ui"
 import style from "./printButton.module.css"
 import { useConfig } from '@dhis2/app-runtime';
@@ -9,14 +9,20 @@ import { PrintTemplateConfig } from '../../../../../types/printTemplate/PrintTem
 import { RowSelectionState } from '../../../../../schema/tableSelectedRowsSchema';
 
 export default function Item(props: PrintButtonItemProps): React.ReactElement {
-    const {  options } = props;
+    const { options, onToggle } = props;
     const { baseUrl } = useConfig()  
     const stringQuery = useRecoilValue(OuQueryString);
-    const selectedTeis = useRecoilValue(RowSelectionState)
+    const [selectedTeis, setSelectedTeis] = useRecoilState(RowSelectionState)
 
     const filteredOptions = stringQuery
     ? options.filter((item: any) => item.name.toLowerCase().includes(stringQuery.toLowerCase()))
     : options;
+
+
+    const onClick = () => {
+        setSelectedTeis({ ...selectedTeis, selectedRows: [], isAllRowsSelected: false })
+        onToggle()
+    }
     
     if ((stringQuery && !filteredOptions.length) || !options.length) {
         return <Help>
@@ -29,11 +35,12 @@ export default function Item(props: PrintButtonItemProps): React.ReactElement {
             {
                 filteredOptions?.map((option : PrintTemplateConfig) => (
                     <a
-                        className={style.itemLink}
                         target='_blank'
+                        onClick={onClick}
+                        className={style.itemLink}
                         href={`${baseUrl}/api/apps/Tracker-Data-Printer/index.html#/printer?tei=${selectedTeis.selectedRows.map((tei : any) => tei.tei.trackedEntity).join(';')}&program=${option.program}&templateId=${option.id}`}
                     >
-                        < MenuItem key={option.id} label={option.name} />
+                        < MenuItem  key={option.id} label={option.name} />
                     </a>
                 ))
             }

@@ -1,8 +1,6 @@
 @import "../../../../../assets/style/colors.css";
 
 .buttonContainer {
-    border-radius: 0 !important;
-    font-family: Roboto !important;
     display: flex !important;
     align-items: center !important;
     min-height: 5px !important;
@@ -10,7 +8,6 @@
     -webkit-box-align: center;
     padding: 2px;
     font-size: 14px;
-    border-radius: 4px !important;
 }
 
 .buttonContainer span {
@@ -18,16 +15,26 @@
     font-size: 14px !important;
 }
 
-.buttonContainerEnabled span{
+.buttonContainerEnabled span {
     color: rgb(33, 41, 52) !important;
 }
 
-.buttonContainer svg {
-    margin-left: 0 !important;
-    color: var(--grey-grey-600, #6E7A8A) !important;
+.buttonContainer svg:nth-child(1) {
+    width: 20px;
+    margin-right: 5px !important;
+}
+
+.buttonContainer > svg {
+    height: 35px;
+    width: 20px;
+    padding-left: 8px !important;
+    border-left: 1px solid rgb(160, 173, 186) !important;
+}
+
+.buttonContainerDisabled > svg {
+    border-left: 1px solid rgb(213, 221, 229) !important;
 }
 
 .itemLink {
     text-decoration: none !important;
-    background-color: red !important;
 }
