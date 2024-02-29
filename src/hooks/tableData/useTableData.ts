@@ -49,6 +49,7 @@ export function useTableData() {
     const engine = useDataEngine();
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
     const programConfig = useRecoilValue(ProgramConfigState)
+    const { getDataStoreData } = getSelectedKey();
     const { urlParamiters } = useQueryParams()
     const [loading, setLoading] = useState<boolean>(false)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
@@ -129,7 +130,8 @@ export function useTableData() {
             eventsInstances: events?.results?.instances,
             teiInstances: teiResults?.results?.instances,
             marksInstances: marskEvents?.results?.instances,
-            trackedEntityAttributes: programConfig?.programTrackedEntityAttributes,
+            programConfig:programConfig,
+            programStageId: getDataStoreData["final-result"].programStage
         })
 
 
