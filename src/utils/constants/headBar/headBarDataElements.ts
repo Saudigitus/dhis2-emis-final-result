@@ -1,8 +1,8 @@
-import { HeadBarTypes, SelectedOptionsTypes } from "../../../types/headBar/HeadBarTypes";
-import { filterDataElements, dataStoreRecord } from "../../../types/dataStore/DataStoreConfig";
-import { programStageDataElements } from "../../../types/programStageConfig/ProgramStageConfig";
+import { HeadBarTypes } from "../../../types/headBar/HeadBarTypes";
+import { HeadBarDataProps } from "../../../types/utils/ConstantsTypes";
+import { filterDataElements } from "../../../types/dataStore/DataStoreConfig";
 
-export const headBarDataElements = (selectedOptions : SelectedOptionsTypes, getDataStoreData: dataStoreRecord, programStageDataElements: programStageDataElements[]) : HeadBarTypes[] => {
+export const headBarDataElements = ({selectedOptions, getDataStoreData, programStageDataElements }: HeadBarDataProps) : HeadBarTypes[] => {
     const headBarFilters : HeadBarTypes[] = []
 
     getDataStoreData.filters.dataElements.map((filter : filterDataElements) => {

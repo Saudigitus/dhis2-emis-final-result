@@ -2,7 +2,7 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import { Checkbox, spacersNum } from '@dhis2/ui';
 import { createStyles, type Theme } from '@material-ui/core/styles';
-import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersProps';
+import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersTypes';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

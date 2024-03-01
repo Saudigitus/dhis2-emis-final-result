@@ -1,6 +1,6 @@
-import { type dataStoreRecord } from "../../types/dataStore/DataStoreConfig"
+import { ResetHeaderFilterProps } from "../../types/utils/CommonsTypes";
 
-export function resetHeaderFilter (remove: (key : string) => void, dataElementId: string | any, getDataStoreData: dataStoreRecord) {
+export function resetHeaderFilter ({ remove, dataElementId, getDataStoreData} : ResetHeaderFilterProps) {
     
     if(dataElementId == getDataStoreData.registration.grade) {
         remove("grade");

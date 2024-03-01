@@ -1,5 +1,6 @@
-import { filterDataElements } from "../../../types/dataStore/DataStoreConfig";
-export const subItemRoute = (location:string, sectionType: string, filterDataElements : filterDataElements[], removeParams?:boolean) => {
+import { SideBarDataRouteProps } from "../../../types/utils/ConstantsTypes";
+
+export const subItemRoute = ({location, sectionType, filterDataElements, removeParams} : SideBarDataRouteProps) => {
     let newLocation : string
     if (location.includes(`sectionType=${sectionType}`) && !removeParams)
         newLocation = location;

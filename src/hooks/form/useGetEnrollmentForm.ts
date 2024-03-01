@@ -15,8 +15,8 @@ export default function useGetEnrollmentForm() {
             const { programStages } = getProgram
             const enrollmentDetailProgramStage = programStages.filter(elemnt => elemnt.id === getDataStoreData?.registration?.programStage)[0]
             const finalResultProgramStage = programStages.filter(elemnt => elemnt.id === getDataStoreData?.['final-result']?.programStage)[0]
-            setEnrollmentsDetailsData([formatResponseEvents(enrollmentDetailProgramStage)])
-            setEnrollmentsData([formatResponseEvents(finalResultProgramStage)])
+            setEnrollmentsDetailsData([formatResponseEvents({event:enrollmentDetailProgramStage})])
+            setEnrollmentsData([formatResponseEvents({event:finalResultProgramStage})])
         }
     }
     useEffect(() => {

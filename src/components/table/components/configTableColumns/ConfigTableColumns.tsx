@@ -6,7 +6,7 @@ import styles from "./configTableColumns.module.css"
 import { IconButton, Tooltip } from '@material-ui/core';
 import DialogConfigColumns from './DialogConfigColumns';
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
-import { ConfigTableColumnsProps } from '../../../../types/table/ConfigColumnsProps';
+import { ConfigTableColumnsProps } from '../../../../types/table/ConfigColumnsTypes';
 
 function ConfigTableColumns(props: ConfigTableColumnsProps) {
     const { headers, updateVariables, filteredHeaders } = props;

@@ -3,12 +3,8 @@ import styles from "./modal.module.css";
 import { Modal, ModalTitle, ModalContent } from "@dhis2/ui";
 import { ModalProps } from "../../../types/modal/ModalTypes";
 
-function ModalComponent({
-  open,
-  setOpen,
-  title,
-  children
-}: ModalProps): React.ReactElement {
+function ModalComponent(props: ModalProps): React.ReactElement {
+  const { open,setOpen,title,children } = props
   return (
     <Modal
       className={styles.modalContainer}

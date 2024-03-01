@@ -1,4 +1,4 @@
-import { type CustomAttributeProps } from "../../types/table/AttributeColumns";
+import { type CustomAttributeProps } from "../../types/variables/AttributeColumns";
 
 interface GroupFormProps {
     name: string

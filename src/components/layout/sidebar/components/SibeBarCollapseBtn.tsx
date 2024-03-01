@@ -2,7 +2,8 @@ import React from 'react'
 import style from "../sideBar.module.css"
 import { SideBarCollapseProps } from '../../../../types/sideBar/SideBarTypes';
 
-export default function SibeBarCollapseBtn({ setCollapsed, collapsed }: SideBarCollapseProps) {
+export default function SibeBarCollapseBtn(props: SideBarCollapseProps) {
+    const { setCollapsed, collapsed } = props
     return (
         <div onClick={() => { setCollapsed(!collapsed); }} className={style.ExpandCollapseSideBar}>
             <div className={style.IconContainer}>

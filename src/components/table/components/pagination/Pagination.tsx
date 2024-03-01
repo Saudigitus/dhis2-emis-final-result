@@ -3,7 +3,7 @@ import Select from 'react-select';
 import defaultClasses from '../table.module.css';
 import { TextPagination } from './components/TextPagination';
 import { IconButtonPagination } from './components/IconButtonPagination';
-import { PaginationProps } from '../../../../types/table/PaginationProps';
+import { PaginationProps } from '../../../../types/table/PaginationTypes';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@material-ui/icons';
 import { disableNextPage } from '../../../../utils/table/pagination/pagination';
 import { rowsPerPages } from '../../../../utils/constants/pagination/pagination';
@@ -15,7 +15,7 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
         >
             <div />
             <div className={defaultClasses.rootPagination}>
-                {TextPagination("Rows per page")}
+                <TextPagination text="Rows per page"/>
 
                 <Select
                     className={defaultClasses.textPagination}
@@ -28,17 +28,17 @@ function Pagination({ page, rowsPerPage, onPageChange, onRowsPerPageChange, load
                     onChange={onRowsPerPageChange}
                     menuContainerStyle={{ top: 'auto', bottom: '100%' }}
                 />
-                {TextPagination(`Page ${page}`)}
+                <TextPagination text={`Page ${page}`}/>
 
                 <IconButtonPagination
-                    Icon={<KeyboardArrowLeft />}
+                    icon={<KeyboardArrowLeft />}
                     ariaLabel='Previous Page'
                     disabled={page <= 1 || loading}
                     onPageChange={() => { onPageChange(page - 1); }}
                 />
 
                 <IconButtonPagination
-                    Icon={<KeyboardArrowRight />}
+                    icon={<KeyboardArrowRight />}
                     ariaLabel='Next Page'
                     disabled={disableNextPage({ rowsPerPage, totalPerPage }) || loading}
                     onPageChange={() => { onPageChange(page + 1); }}

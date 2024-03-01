@@ -1,14 +1,5 @@
-import { type OptionSet } from "../../../types/generated"
+import { DefaultProps } from "../../../types/utils/table/FormatRowsDataTypes";
 
-interface defaultProps {
-    attribute: string
-    value?: string
-    headers: Array<{
-        id: string
-        optionSets?: OptionSet[]
-    }>
-}
-
-export function getDisplayName({ attribute, value = undefined, headers }: defaultProps): string | undefined {
+export function getDisplayName({ attribute, value = undefined, headers }: DefaultProps): string | undefined {
     return value
 }

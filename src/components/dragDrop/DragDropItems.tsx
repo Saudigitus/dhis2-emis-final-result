@@ -10,6 +10,7 @@ const style = {
 
 function DragDropItems(props: DragDropItemsProps) {
     const { handleToggle, id, text } = props;
+    
     return (
         <tr key={props.id} tabIndex={-1} style={{
             ...style

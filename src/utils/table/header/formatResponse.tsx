@@ -2,10 +2,11 @@ import { useMemo } from "react";
 import { Attribute } from "../../../types/generated/models";
 import { ProgramConfig } from "../../../types/programConfig/ProgramConfig";
 import { CustomAttributeProps, VariablesTypes } from "../../../types/variables/AttributeColumns";
+import { FormatResponseProps } from "../../../types/utils/table/TableTypes";
 
-export function formatResponse(data: ProgramConfig, finalResultProgramStage: string, tableColumns: CustomAttributeProps[] = []): CustomAttributeProps[] {
+export function formatResponse({ data, programStageId, tableColumns = []}: FormatResponseProps): CustomAttributeProps[] {
     const headerResponse = useMemo(() => {
-        const finalResults = ((data?.programStages?.find(programStge => programStge.id === finalResultProgramStage)) ?? {} as ProgramConfig["programStages"][0])
+        const finalResults = ((data?.programStages?.find(programStge => programStge.id === programStageId)) ?? {} as ProgramConfig["programStages"][0])
 
         return tableColumns?.length > 0 ? tableColumns : data?.programTrackedEntityAttributes?.map((item) => {
             return {

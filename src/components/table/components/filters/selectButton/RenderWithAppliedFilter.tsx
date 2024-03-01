@@ -1,7 +1,7 @@
 import React from 'react'
 import ActiveFilterButton from './ActiveFilterButton';
 import { IconChevronDown16, IconChevronUp16 } from '@dhis2/ui';
-import { RenderWithAppliedFilterProps } from '../../../../../types/table/ContentFiltersProps';
+import { RenderWithAppliedFilterProps } from '../../../../../types/table/ContentFiltersTypes';
 
 function RenderWithAppliedFilter(props: RenderWithAppliedFilterProps): React.ReactElement {
     const { selectorVisible, classes, title, refActiveFilterInstance, openFilterSelector, onClose, filled } = props;

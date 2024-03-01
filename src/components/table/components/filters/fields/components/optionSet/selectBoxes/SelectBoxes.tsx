@@ -1,7 +1,7 @@
 import React from 'react'
 import MultiSelectBoxes from '../multiSelectBoxes/MultiSelectBoxes';
 import SingleSelectBoxes from '../singleSelectBoxes/SingleSelectBoxes';
-import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersProps';
+import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersTypes';
 
 function SelectBoxes(props: SelectBoxesProps) {
     const { singleSelect, onChange, ...passOnProps } = props;

@@ -7,13 +7,15 @@ interface PaginationProps {
     totalPerPage: number
 }
 
-
-
 interface IconButtonPaginationProps {
     onPageChange: (page: number) => void
     ariaLabel: string
     disabled: boolean
-    Icon: React.ReactNode
+    icon: React.ReactNode
 }
 
-export type { PaginationProps, IconButtonPaginationProps }
+interface TextPaginationProps {
+    text: string
+}
+
+export type { PaginationProps, IconButtonPaginationProps, TextPaginationProps }

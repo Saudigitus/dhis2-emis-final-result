@@ -6,9 +6,9 @@ import logOut from "../../../assets/images/sidebar/log-out.svg"
 import userGroup from "../../../assets/images/sidebar/user-group.svg"
 import { type SideBarItemProps } from "../../../types/sideBar/SideBarTypes"
 import { subItemRoute } from "./subItemRoute"
-import { filterDataElements } from "../../../types/dataStore/DataStoreConfig"
+import { SideBarDataProps } from "../../../types/utils/ConstantsTypes"
 
-function sideBarData(locationParms : string, filterDataElements: filterDataElements[]): SideBarItemProps[] {
+function sideBarData({locationParms, filterDataElements}: SideBarDataProps): SideBarItemProps[] {
 
     return [
         {
@@ -20,7 +20,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Enrollment",
-                    route: `enrollment?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `enrollment?${subItemRoute({location:locationParms.slice(1), sectionType: 'student', filterDataElements:filterDataElements})}`, 
                     pathName: "/enrollment"
                 },
                 {
@@ -29,7 +29,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Attendance",
-                    route: `attendance?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `attendance?${subItemRoute({location:locationParms.slice(1), sectionType: 'student', filterDataElements:filterDataElements})}`, 
                     pathName: "/attendance"
                 },
                 {
@@ -38,7 +38,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Performance",
-                    route: `performance?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `performance?${subItemRoute({location:locationParms.slice(1), sectionType: 'student', filterDataElements:filterDataElements})}`, 
                     pathName: "/performance"
                 },
                 {
@@ -47,7 +47,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Final-Result",
-                    route: `final-result?${subItemRoute(locationParms.slice(1), 'student', filterDataElements)}`, 
+                    route: `final-result?${subItemRoute({location:locationParms.slice(1), sectionType: 'student', filterDataElements:filterDataElements})}`, 
                     pathName: "/final-result"
                 },
                 {
@@ -56,7 +56,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Student-Transfer",
-                    route: `student-transfer?${subItemRoute(locationParms.slice(1), 'student', filterDataElements, true)}`, 
+                    route: `student-transfer?${subItemRoute({location:locationParms.slice(1), sectionType: 'student', filterDataElements:filterDataElements, removeParams:true})}`, 
                     pathName: "/student-transfer"
                 }
             ]
@@ -70,7 +70,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Enrollment-Staff",
-                    route:`enrollment-teacher?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements)}`, 
+                    route:`enrollment-teacher?${subItemRoute({location:locationParms.slice(1), sectionType: 'staff', filterDataElements:filterDataElements})}`, 
                     pathName: "/enrollment-teacher"
                 },
                 {
@@ -79,7 +79,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Attendance-Staff",
-                    route: `staff-attendance?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements)}`, 
+                    route: `staff-attendance?${subItemRoute({location:locationParms.slice(1), sectionType: 'staff', filterDataElements:filterDataElements})}`, 
                     pathName: "/staff-attendance"
                 },
                 {
@@ -88,7 +88,7 @@ function sideBarData(locationParms : string, filterDataElements: filterDataEleme
                     showBadge: false,
                     disabled: false,
                     appName: "SEMIS-Staff-Transfer",
-                    route: `staff-transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements, true)}`, 
+                    route: `staff-transfer?${subItemRoute({location:locationParms.slice(1), sectionType: 'staff', filterDataElements:filterDataElements, removeParams:true})}`, 
                     pathName: "/staff-transfer"
                 }
             ]

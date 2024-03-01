@@ -12,7 +12,7 @@ interface programStageDataElements {
                 [x: string]: any
                 value: string
                 label: string
-            }
+            }[]
         }
     }
 }
