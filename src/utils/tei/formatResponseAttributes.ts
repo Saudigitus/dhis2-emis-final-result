@@ -1,8 +1,8 @@
 import { Attribute } from "../../types/generated/models";
-import { type ProgramConfig } from "../../types/programConfig/ProgramConfig"
-import { VariablesTypes, type CustomAttributeProps } from "../../types/table/AttributeColumns"
+import { FormatAttributesProps } from "../../types/utils/TeiTypes";
+import { VariablesTypes, type CustomAttributeProps } from "../../types/variables/AttributeColumns"
 
-export function formatResponseTEI(attributes: ProgramConfig) {
+export function formatResponseTEI({attributes}: FormatAttributesProps) {
     const headers: CustomAttributeProps[] = [];
     if (attributes != null) {
         for (const trackedEntityAttribute of attributes.programTrackedEntityAttributes) {

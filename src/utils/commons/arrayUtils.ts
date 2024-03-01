@@ -1,6 +1,6 @@
-import { type SelectionSchemaConfig } from "../../schema/tableSelectedRowsSchema";
+import { CheckIsRowSelectedProps } from "../../types/utils/CommonsTypes";
 
-export const checkIsRowSelected = (rawRowData: any, selected: SelectionSchemaConfig) => {
+export const checkIsRowSelected = ({rawRowData, selected }: CheckIsRowSelectedProps ) => {
     const newArray = [...selected.selectedRows];
     const existingIndex = newArray.findIndex((item : any ) => item.trackedEntity === rawRowData.trackedEntity);
 

@@ -11,7 +11,8 @@ import { enrollmentDetailsForm } from "../../../utils/constants/enrollmentForm/e
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
 
 
-function ModalContentPromotion({ setOpen }: ContentProps): React.ReactElement {
+function ModalContentPromotion(props: ContentProps): React.ReactElement {
+    const { setOpen } = props
     const { useQuery } = useQueryParams();
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const orgUnitName = useQuery().get("schoolName");

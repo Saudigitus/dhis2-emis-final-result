@@ -9,7 +9,6 @@ import { OuQueryString } from '../../schema/headerSearchInputSchema'
 
 export default function SimpleSearch(props: SimpleSearchProps): React.ReactElement {
     const { children, placeholder, id } = props;
-
     const [stringQuery, setStringQuery] = useRecoilState(OuQueryString);
 
     const onChange = (e: { value: string, name: string }) => {

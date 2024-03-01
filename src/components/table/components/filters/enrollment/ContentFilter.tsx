@@ -8,7 +8,7 @@ import SelectButton from "../selectButton/SelectButton";
 import { HeaderFieldsState } from '../../../../../schema/headersSchema';
 import { type CustomAttributeProps } from '../../../../../types/variables/AttributeColumns';
 import { convertArrayToObject } from '../../../../../utils/table/filter/formatArrayToObject';
-import { ContentFilterProps, FiltersValuesProps } from '../../../../../types/table/ContentFiltersProps';
+import { ContentFilterProps, FiltersValuesProps } from '../../../../../types/table/ContentFiltersTypes';
 
 function ContentFilter(props: ContentFilterProps) {
     const { headers = [] } = props;
@@ -40,7 +40,7 @@ function ContentFilter(props: ContentFilterProps) {
     }
 
     const onChangeFilters = (value: any, key: string, type: string, pos: string) => {
-        let cloneHeader = { ...filtersValues, ...convertArrayToObject(headerFieldsStateValues.dataElements) }
+        let cloneHeader = { ...filtersValues, ...convertArrayToObject({array:headerFieldsStateValues.dataElements}) }
 
         if (type === 'DATE') {
             let date = cloneHeader[key] ?? {}

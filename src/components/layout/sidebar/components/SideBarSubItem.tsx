@@ -11,7 +11,6 @@ export default function SideBarSubItem(props: SideBarSubItemProps) {
     const location = useLocation() 
     const { baseUrl } = useConfig()  
 
-    // test with http://localhost:3000/#/${route}
     return (
         <a href={`${baseUrl}/api/apps/${appName}/index.html#/${route}`} className={style.subItemLink}>
             <li className={location.pathname === pathName ? style.SideBarSubItemContainerActive : classNames(style.SideBarSubItemContainer, (Boolean(disabled)) && style.SideBarDisabledSubItem)}>

@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import { RowCell, RowTable } from '../components';
 import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
-import { RenderRowsProps } from '../../../types/table/TableContentProps';
+import { RenderRowsProps } from '../../../types/table/TableContentTypes';
 import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
 
@@ -34,12 +34,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-function RenderRows({ headerData, rowsData }: RenderRowsProps): React.ReactElement {
+function RenderRows(props: RenderRowsProps): React.ReactElement {
+    const { headerData, rowsData } = props
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
     const onToggle = (rawRowData: object) => {
-        setSelected({ ...selected, selectedRows: checkIsRowSelected(rawRowData, selected), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
+        setSelected({ ...selected, selectedRows: checkIsRowSelected({rawRowData:rawRowData, selected:selected}), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
     }
 
     if (rowsData?.length === 0) {

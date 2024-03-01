@@ -1,6 +1,5 @@
 import { useRecoilValue } from "recoil";
 import { ProgramConfigState } from "../../../schema/programSchema";
-import { ProgramConfig } from "../../../types/programConfig/ProgramConfig";
 
 export const getProgramStageDataElement = () => {
     const programConfigData = useRecoilValue(ProgramConfigState);

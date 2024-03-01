@@ -1,9 +1,8 @@
 import { headBarDataElements } from "./headBarDataElements"
-import { type dataStoreRecord } from "../../../types/dataStore/DataStoreConfig"
-import { type SelectedOptionsTypes, type HeadBarTypes } from "../../../types/headBar/HeadBarTypes"
-import { programStageDataElements } from "../../../types/programStageConfig/ProgramStageConfig"
+import { type HeadBarTypes } from "../../../types/headBar/HeadBarTypes"
+import { HeadBarDataProps } from "../../../types/utils/ConstantsTypes"
 
-function headBarData(selectedOptions: SelectedOptionsTypes, getDataStoreData: dataStoreRecord, programStageDataElements: programStageDataElements[]): HeadBarTypes[] {
+function headBarData({selectedOptions, getDataStoreData, programStageDataElements }: HeadBarDataProps): HeadBarTypes[] {
     return [
         {
             id: "c540ac7c",
@@ -13,7 +12,7 @@ function headBarData(selectedOptions: SelectedOptionsTypes, getDataStoreData: da
             component: "orgUnitTree",
             selected: selectedOptions?.schoolName ? true : false,
         },
-        ...headBarDataElements(selectedOptions, getDataStoreData, programStageDataElements),
+        ...headBarDataElements({selectedOptions: selectedOptions, getDataStoreData:getDataStoreData, programStageDataElements:programStageDataElements}),
         {
             id: "j2e9b216",
             label: "Academic Year",

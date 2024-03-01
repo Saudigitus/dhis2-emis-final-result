@@ -1,19 +1,10 @@
 import React from 'react'
 import { OrganisationUnitTree } from '@dhis2/ui';
+import { OrgUnitTreeComponentProps } from '../../types/orgUnitTree/OrgUnitTreeTypes';
 import { usePreviousOrganizationUnit } from '../../hooks/organisationUnit/usePreviousOrganizationUnit';
 
-type Props = {
-    roots: Array<any>,
-    classes?: {
-        orgunitTree: string,
-    },
-    onSelectClick: Function,
-    treeKey: string,
-    previousOrgUnitId?: Object
-};
 
-const OrgUnitTreeComponent = (props: Props) => {
-
+const OrgUnitTreeComponent = (props: OrgUnitTreeComponentProps) => {
     const { roots, treeKey, previousOrgUnitId, onSelectClick } = props;
     const previousSelectedOrgUnit = usePreviousOrganizationUnit(previousOrgUnitId);
     const getExpandedItems = () => {

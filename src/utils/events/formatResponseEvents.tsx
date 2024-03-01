@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import { Attribute } from "../../types/generated/models";
+import { dataStoreRecord } from "../../types/dataStore/DataStoreConfig";
 import { ProgramConfig } from "../../types/programConfig/ProgramConfig";
-import { type ProgramStageConfig } from "../../types/programStageConfig/ProgramStageConfig";
+import { FormatResponseEventsProps } from "../../types/utils/FormatResponseEventsTypes";
 import { VariablesTypes, type CustomAttributeProps } from "../../types/variables/AttributeColumns";
 
-export function formatResponseEvents(object: ProgramStageConfig) {
+export function formatResponseEvents({ event }: FormatResponseEventsProps) {
     const dataElements: CustomAttributeProps[] = [];
-    if (object != null) {
-        for (const programStageDataElement of object?.programStageDataElements) {
+    if (event != null) {
+        for (const programStageDataElement of event?.programStageDataElements) {
             dataElements.push({
                 required: programStageDataElement.compulsory,
                 name: programStageDataElement.dataElement.id,
@@ -21,7 +21,7 @@ export function formatResponseEvents(object: ProgramStageConfig) {
                 description: programStageDataElement.dataElement.displayName,
                 searchable: programStageDataElement.dataElement.displayInReports,
                 error: false,
-                programStage: object?.id,
+                programStage: event?.id,
                 content: "",
                 id: programStageDataElement.dataElement?.id,
                 displayName: programStageDataElement.dataElement?.displayName,
@@ -34,10 +34,10 @@ export function formatResponseEvents(object: ProgramStageConfig) {
     return dataElements;
 }
 
-export function formatResponseHeader(object: ProgramConfig, getDataStoreData: dataStoreRecord) {
+export function formatResponseHeader(event: ProgramConfig, getDataStoreData: dataStoreRecord) {
     const dataElements: CustomAttributeProps[] = [];
-    const originalData = ((object?.programStages?.find(programStge => programStge.id === getDataStoreData?.registration?.programStage)) ?? {} as ProgramConfig["programStages"][0])
-    if (object != null) {
+    const originalData = ((event?.programStages?.find(programStge => programStge.id === getDataStoreData?.registration?.programStage)) ?? {} as ProgramConfig["programStages"][0])
+    if (event != null) {
         for (const programStageDataElement of originalData.programStageDataElements) {
             dataElements.push({
                 required: programStageDataElement.compulsory,
@@ -51,7 +51,7 @@ export function formatResponseHeader(object: ProgramConfig, getDataStoreData: da
                 description: programStageDataElement.dataElement.displayName,
                 searchable: programStageDataElement.dataElement.displayInReports,
                 error: false,
-                programStage: object?.id,
+                programStage: event?.id,
                 content: "",
                 id: programStageDataElement.dataElement?.id,
                 displayName: programStageDataElement.dataElement?.displayName,

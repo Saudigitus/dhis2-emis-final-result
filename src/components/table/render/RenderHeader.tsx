@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useRecoilState } from 'recoil';
 import { RowTable, HeaderCell } from '../components'
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
-import { RenderHeaderProps } from '../../../types/table/TableContentProps';
+import { RenderHeaderProps } from '../../../types/table/TableContentTypes';
 import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { Button, Tooltip } from '@dhis2/ui'
 import { makeStyles } from '@material-ui/styles';
 import createSvgIcon from '@material-ui/icons/utils/createSvgIcon';
-import { ActiveFilterButtonProps } from '../../../../../types/table/ContentFiltersProps';
+import { ActiveFilterButtonProps } from '../../../../../types/table/ContentFiltersTypes';
 
 const ClearIcon = createSvgIcon(
     <React.Fragment>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from '@dhis2/ui';
 import FilterComponents from '../../fields/FilterComponents';
 import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
-import { SelectorContentsProps } from '../../../../../../types/table/ContentFiltersProps';
+import { SelectorContentsProps } from '../../../../../../types/table/ContentFiltersTypes';
 
 const getStyles = makeStyles((theme: Theme) =>
     createStyles({

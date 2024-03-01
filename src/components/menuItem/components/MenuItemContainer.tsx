@@ -6,7 +6,8 @@ import { formatResponseHeader } from '../../../utils/events/formatResponseEvents
 import { getSelectedKey } from '../../../utils/commons/dataStore/getSelectedKey';
 import { MenuItemContainerProps } from '../../../types/menu/MenuItemTypes';
 
-function MenuItemContainer({ dataElementId, onToggle }: MenuItemContainerProps ): React.ReactElement {
+function MenuItemContainer(props: MenuItemContainerProps ): React.ReactElement {
+    const { dataElementId, onToggle } = props
     const programConfigState = useRecoilValue(ProgramConfigState)
     const { getDataStoreData } = getSelectedKey()
 

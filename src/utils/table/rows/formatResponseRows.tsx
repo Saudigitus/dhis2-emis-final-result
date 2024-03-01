@@ -1,48 +1,9 @@
-import React from 'react'
-import classNames from 'classnames'
-import styles from './formatResponseRows.module.css'
 import { ProgramConfig } from '../../../types/programConfig/ProgramConfig'
+import { FormatResponseRowsDataProps, FormatResponseRowsMarksProps, RowsDataProps, attributesProps, dataValuesProps } from '../../../types/utils/table/FormatRowsDataTypes'
 
-interface dataValuesProps {
-    dataElement: string
-    value: string
-}
 
-interface attributesProps {
-    attribute: string
-    value: string
-}
-
-interface formatResponseRowsProps {
-    eventsInstances: [{
-        trackedEntity: string
-        dataValues: dataValuesProps[]
-    }]
-    teiInstances: [{
-        trackedEntity: string
-        attributes: attributesProps[]
-    }]
-    marksInstances: [{
-        trackedEntity: string
-        dataValues: dataValuesProps[]
-    }]
-    programConfig: ProgramConfig
-    programStageId:string | undefined
-}
-
-interface formatResponseRowsMarksProps {
-    marksInstance: {
-        trackedEntity: string
-        dataValues: dataValuesProps[]
-    }
-    programConfig: ProgramConfig
-    programStageId:string | undefined
-}
-
-type RowsProps = Record<string, string | number | boolean | any>;
-
-export function formatResponseRows({ eventsInstances, teiInstances,marksInstances, programConfig, programStageId }: formatResponseRowsProps): RowsProps[] {
-    const allRows: RowsProps[] = []
+export function formatResponseRows({ eventsInstances, teiInstances, marksInstances, programConfig, programStageId }: FormatResponseRowsDataProps): RowsDataProps[] {
+    const allRows: RowsDataProps[] = []
     for (const event of eventsInstances) {
         const teiDetails = teiInstances.find(tei => tei.trackedEntity === event.trackedEntity)
         const marksDetails = marksInstances.find(mark => mark.trackedEntity === event.trackedEntity)
@@ -51,13 +12,13 @@ export function formatResponseRows({ eventsInstances, teiInstances,marksInstance
     return allRows;
 }
 
-export function formatResponseRowsMarks({ marksInstance, programConfig, programStageId }: formatResponseRowsMarksProps): RowsProps {
+export function formatResponseRowsMarks({ marksInstance, programConfig, programStageId }: FormatResponseRowsMarksProps): RowsDataProps {
     return dataValues(marksInstance?.dataValues ?? [], programConfig, programStageId)
 }
 
 
-function dataValues(data: dataValuesProps[], programConfig: ProgramConfig, programStageId:string | undefined): RowsProps {
-    const localData: RowsProps = {}
+function dataValues(data: dataValuesProps[], programConfig: ProgramConfig, programStageId:string | undefined): RowsDataProps {
+    const localData: RowsDataProps = {}
     const currentProgramStage = ((programConfig?.programStages?.find(programStage => programStage.id === programStageId)) ?? {} as ProgramConfig["programStages"][0])
 
     if (data) {
@@ -73,8 +34,8 @@ function dataValues(data: dataValuesProps[], programConfig: ProgramConfig, progr
     return localData
 }
 
-function attributes(data: attributesProps[], programConfig: ProgramConfig): RowsProps {
-    const localData: RowsProps = {}
+function attributes(data: attributesProps[], programConfig: ProgramConfig): RowsDataProps {
+    const localData: RowsDataProps = {}
     
     for (const attribute of data) {
         const trackedEntityAttribute : any = programConfig?.programTrackedEntityAttributes?.find((option: any) => option.trackedEntityAttribute.id == attribute.attribute)?.trackedEntityAttribute

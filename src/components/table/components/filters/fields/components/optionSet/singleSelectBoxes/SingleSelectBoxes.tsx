@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core';
 import { Radio, spacersNum, colors } from '@dhis2/ui'
-import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersProps';
+import { SelectBoxesProps } from '../../../../../../../../types/table/ContentFiltersTypes';
 
 const useStyle = makeStyles(() => ({
     iconDeselected: {
