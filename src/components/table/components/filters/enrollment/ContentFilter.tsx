@@ -153,7 +153,8 @@ function ContentFilter(props: ContentFilterProps) {
             }
             <div className={styles.contentMoreFilterContainer}>
                 {headers?.filter(x => !localFilters.includes(x))?.length > 0 &&
-                    <Button className={styles.moreFilters}
+                    <Button 
+                        className={styles.moreFilterButton}
                         variant='outlined'
                         onClick={handleClick}
                     >

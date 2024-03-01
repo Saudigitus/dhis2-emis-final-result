@@ -40,7 +40,7 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
     const onToggle = (rawRowData: object) => {
-        setSelected({ ...selected, selectedRows: checkIsRowSelected({rawRowData:rawRowData, selected:selected}), isAllRowsSelected: selected.rows.length === checkIsRowSelected(rawRowData, selected).length })
+        setSelected({ ...selected, selectedRows: checkIsRowSelected({rawRowData:rawRowData, selected:selected}), isAllRowsSelected: selected.rows.length === checkIsRowSelected({rawRowData: rawRowData, selected:selected}).length })
     }
 
     if (rowsData?.length === 0) {

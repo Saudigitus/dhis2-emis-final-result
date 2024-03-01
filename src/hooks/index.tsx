@@ -9,12 +9,11 @@ import { useGetProgramConfig } from "./programConfig/useGetprogramConfig";
 import useGetUsedPProgramStages from "./programStages/useGetUsedPProgramStages";
 import { useTableData } from "./tableData/useTableData";
 import { useHeader } from "./tableHeader/useHeader";
-import usePostTei from "./tei/usePostTei";
 import usePromoteStudent from "./tei/usePromoteStudents";
 import { usePreviousOrganizationUnit } from "./organisationUnit/usePreviousOrganizationUnit"
 
 export { 
     useDataStore, useQueryParams, useShowAlerts, useDataElementsParamMapping, usePostEvent,
     useGetEnrollmentForm, useGetInitialValues, useGetProgramConfig, useGetUsedPProgramStages,
-    useTableData, useHeader, usePostTei, usePromoteStudent, usePreviousOrganizationUnit
+    useTableData, useHeader, usePromoteStudent, usePreviousOrganizationUnit
 }
