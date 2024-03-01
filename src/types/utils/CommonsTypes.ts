@@ -18,15 +18,8 @@ interface GetTypesOfButtonProps {
      type: string
 }
  
-
-interface ResetHeaderFilterProps {
-     remove: (key : string) => void, 
-     dataElementId: string | any, 
-     getDataStoreData: dataStoreRecord
-} 
-
 interface FormatToStringProps {
      value: any
 }
 
-export type { CheckIsRowSelectedProps, ReplaceSelectedRowProps, FormatDistinctValuesProps, GetTypesOfButtonProps, ResetHeaderFilterProps, FormatToStringProps }
+export type { CheckIsRowSelectedProps, ReplaceSelectedRowProps, FormatDistinctValuesProps, GetTypesOfButtonProps, FormatToStringProps }
