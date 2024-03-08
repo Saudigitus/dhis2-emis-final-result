@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { reducer } from "../commons/formatDistinctValue";
 
-export const promoteTeiPostBody = (students: any[], dataValues: any, performanceProgramStages: string[]): any => {
-    const buildEventBody = (program: string, orgUnit: string) => {
+export const promoteTeiPostBody = (students: any[], dataValues: any, performanceProgramStages: string[], socioEconomicProgramStage: string): any => {
+    const buildEventBody = (program: string, orgUnit: string, enrollment: any) => {
         const events = []
         for (const [key, value] of Object.entries(reducer(dataValues[0]))) {
             events.push({
@@ -16,6 +16,31 @@ export const promoteTeiPostBody = (students: any[], dataValues: any, performance
                 dataValues: value
             })
         }
+
+        var socioEconomicDataValues: any[] = []
+
+        enrollment?.events?.forEach((event: any) => {
+            if (event?.programStage === socioEconomicProgramStage) {
+                event?.dataValues.forEach((dataValue: any) => {
+                    socioEconomicDataValues.push({
+                        dataElement: dataValue?.dataElement,
+                        value: dataValue?.value
+                    })
+                })
+            }
+        })
+
+        events.push({
+            occurredAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            notes: [],
+            status: "ACTIVE",
+            program,
+            programStage: socioEconomicProgramStage,
+            orgUnit,
+            scheduledAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            dataValues: socioEconomicDataValues
+        })
+
 
         performanceProgramStages.forEach(performanceProgramStage => {
             events.push({
@@ -45,7 +70,7 @@ export const promoteTeiPostBody = (students: any[], dataValues: any, performance
                     occurredAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
                     orgUnit: enrollments[0]?.orgUnit,
                     enrolledAt: format(new Date(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
-                    events: buildEventBody(enrollments[0]?.program, enrollments[0]?.orgUnit)
+                    events: buildEventBody(enrollments[0]?.program, enrollments[0]?.orgUnit, enrollments[0])
                 }
             ]
         }

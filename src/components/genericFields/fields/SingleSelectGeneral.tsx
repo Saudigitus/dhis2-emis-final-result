@@ -1,6 +1,6 @@
-import React from 'react'
 import { SingleSelectField, SingleSelectOption } from '@dhis2/ui'
-import { SingleSelectProps } from '../../../types/fields/SingleSelectTypes'
+import React from 'react'
+import { SingleSelectProps } from '../../../types/fields/GenericFieldsTypes'
 
 function SingleSelect(props: SingleSelectProps) {
     return (

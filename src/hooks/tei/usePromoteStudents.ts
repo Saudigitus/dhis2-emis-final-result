@@ -5,6 +5,7 @@ import { useDataMutation } from "@dhis2/app-runtime"
 import { promoteTeiPostBody } from "../../utils/tei/formatPostBody"
 import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import useGetUsedPProgramStages from "../programStages/useGetUsedPProgramStages";
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 
 const UPDATE_ENROLLMENT_MUTATION: any = {
     resource: "tracker",
@@ -22,6 +23,7 @@ const usePromoteStudent = () => {
     const [selected, setSelected] = useRecoilState(RowSelectionState);
     const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch);
     const performanceProgramStages = useGetUsedPProgramStages()
+    const { getDataStoreData } = getSelectedKey();
 
     const promoteStudents = async (students: any[], fieldsWitValue: any) => {
         // GET AND CLOSE ACTIVE ENROLLMENTS OF SELECTED STUDENTS
@@ -30,7 +32,7 @@ const usePromoteStudent = () => {
                 { ...enrollment, status: "COMPLETED" }
             ))
 
-        await mutate({ data: { enrollments: closedEnrollments }})
+        await mutate({ data: { enrollments: closedEnrollments } })
             .then(async (response: any) => {
                 // GET CLOSED ENROLLMENTS STUDENTS AFTER POST
                 const studentsToPromote: any = [];
@@ -41,7 +43,7 @@ const usePromoteStudent = () => {
                         }
                     }
                 })
-                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages) })
+                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage) })
                     .then(() => {
                         setSelected({ ...selected, selectedRows: [], isAllRowsSelected: false })
                         show({ message: "Promotion completed successfully", type: { success: true } })
