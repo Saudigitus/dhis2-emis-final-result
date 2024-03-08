@@ -40,7 +40,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }:
             pageSize,
             trackedEntity,
             orgUnit,
-            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt,program,trackedEntity]"
+            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt,program,trackedEntity,events]"
         }
     }
 })
@@ -99,6 +99,8 @@ export function useTableData() {
                 setTimeout(hide, 5000);
             }) as unknown as TeiQueryResults
             : { results: { instances: [] } } as unknown as TeiQueryResults
+
+            console.log(teiResults,"teiResults")
 
         const marskEvents: MarksQueryResults = {
             results: {
