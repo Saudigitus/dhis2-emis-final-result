@@ -12,9 +12,9 @@
 }
 
 .moreFilterButton{
-    color: rgb(33, 41, 52);
+    color: rgb(33, 41, 52) !important;
     font-size: 14px !important;
-    text-transform: none;
-    font-weight: 400;
+    text-transform: none !important;
+    font-weight: 400 !important;
 }
 

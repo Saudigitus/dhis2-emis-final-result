@@ -1,9 +1,46 @@
-import { type CustomAttributeProps } from "../table/AttributeColumns.js";
+import { CustomAttributeProps, OptionsProps } from "../variables/AttributeColumns"
 
-interface GenericFieldsProps {
-    disabled: boolean
+interface GenericFieldsComponentProps {
     attribute: CustomAttributeProps
+    disabled: boolean
     valueType: CustomAttributeProps["valueType"]
 }
 
-export type { GenericFieldsProps}
+interface FormFieldsProps {
+    disabled: boolean
+    required: string | boolean
+    type?: string
+    optionSet?: CustomAttributeProps["options"]
+    name?: string
+}
+
+interface MutlipleSelectProps {
+    disabled: boolean
+    options: OptionsProps[]
+}
+
+interface AutoCompleteProps {
+    disabled?: boolean
+    options?: CustomAttributeProps["options"]
+    name: string
+    required?: string | boolean
+}
+
+interface SwitchFieldProps {
+    disabled: boolean
+    required: string | boolean
+}
+
+interface CheckFieldProps {
+    disabled: boolean
+    required: string | boolean
+}
+
+
+interface SingleSelectProps {
+    disabled: boolean
+    options: OptionsProps[]
+}
+
+
+export type { GenericFieldsComponentProps, FormFieldsProps, MutlipleSelectProps, AutoCompleteProps, SwitchFieldProps, CheckFieldProps, SingleSelectProps }

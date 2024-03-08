@@ -1,8 +1,15 @@
+import {
+    ReactFinalForm,
+    InputFieldFF,
+    composeValidators,
+    hasValue,
+    integer,
+    createNumberRange
+} from '@dhis2/ui'
 import React from 'react'
 import style from "./fields.module.css";
 import { formatToString } from '../../../utils/commons/formatToString'
-import { type GenericFieldsProps } from '../../../types/fields/GenericFieldsTypes';
-import { ReactFinalForm, InputFieldFF, composeValidators, hasValue, integer, createNumberRange } from '@dhis2/ui'
+import { FormFieldsProps } from '../../../types/fields/GenericFieldsTypes';
 
 const { Field } = ReactFinalForm
 
@@ -16,13 +23,13 @@ const VALIDATOR = composeValidators(
     createNumberRange(lowerbound, upperbound)
 )
 
-function InputNumber(props: GenericFieldsProps) {
+function InputNumber(props: FormFieldsProps) {
     return (
         <Field
             {...props}
             component={InputFieldFF}
-            validate={(Boolean(props.attribute.required)) && VALIDATOR}
-            type={props.attribute.type}
+            validate={(Boolean(props.required)) && VALIDATOR}
+            type={props.type}
             format={formatToString}
             disabled={props.disabled}
             className={style.textfield}
