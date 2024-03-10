@@ -7,14 +7,14 @@ import { getDataStoreKeys } from '../../../utils/commons/dataStore/getDataStoreK
 
 export default function SideBar(): React.ReactElement {
     const location = useLocation()  
-    const { filters } = getDataStoreKeys()
+    const { filterItems } = getDataStoreKeys()
     const [collapsed, setCollapsed] = useState<boolean>(true);
 
     return (
         <aside className={collapsed ? style.SideBarContainerCollapsed : style.SideBarContainer}>
             <div className={style.SideBarMenu}>
                 {
-                    sideBarData({locationParms:location.search, filterDataElements:filters.dataElements}).map((element, index) => (
+                    sideBarData(location.search, filterItems).map((element, index) => (
                         <SideBarItem key={index} title={element.title} subItems={element.subItems} />
                     ))
                 }

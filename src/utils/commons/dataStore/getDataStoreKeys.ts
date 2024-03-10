@@ -15,6 +15,7 @@ export const getDataStoreKeys =() => {
         transfer,
         trackedEntityType,
         lastUpdate,
-        currentAcademicYear: defaults?.currentAcademicYear
+        currentAcademicYear: defaults?.currentAcademicYear,
+        filterItems: filters?.dataElements
     }
 };

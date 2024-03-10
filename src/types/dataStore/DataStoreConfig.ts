@@ -29,6 +29,13 @@ interface defaults {
     currentAcademicYear: string
 }
 
+interface filterItem {
+    code: string
+    dataElement: string
+    order: number
+}
+
+
 interface filterDataElements {
     code: string
     order: number
@@ -55,4 +62,4 @@ interface dataStoreRecord {
 
 }
 
-export type { dataStoreRecord, transfer, registration, performance, attendance, simpleProgramStage, filters, filterDataElements}
+export type {filterItem, dataStoreRecord, transfer, registration, performance, attendance, simpleProgramStage, filters, filterDataElements}
