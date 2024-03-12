@@ -13,6 +13,20 @@ function sideBarData(locationParms : string, filterDataElements: filterItem[]): 
 
     return [
         {
+            title: "Navigation",
+            subItems: [
+                {
+                    icon: home,
+                    label: "Home",
+                    showBadge: false,
+                    disabled: false,
+                    appName: "SEMIS",
+                    route: `home`,
+                    pathName: "/home"
+                }
+            ]
+        },
+        {
             title: "Students",
             subItems: [
                 {
@@ -91,20 +105,6 @@ function sideBarData(locationParms : string, filterDataElements: filterItem[]): 
                     appName: "SEMIS-Transfer",
                     route: `transfer?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements, true)}`, 
                     pathName: "/transfer/staff"
-                }
-            ]
-        },
-        {
-            title: "Home",
-            subItems: [
-                {
-                    icon: home,
-                    label: "Home",
-                    showBadge: false,
-                    disabled: false,
-                    appName: "SEMIS",
-                    route: `home`,
-                    pathName: "/home"
                 }
             ]
         }

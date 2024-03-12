@@ -7,7 +7,7 @@ import classNames from 'classnames'
 export default function SideBarItem(props: SideBarItemProps): React.ReactElement {
     const { title, subItems } = props
     return (
-        <section className={classNames(style.SideBarItemContainer, title === "Home" ? style.SideBarHomeItem : "")}>
+        <section className={style.SideBarItemContainer}>
             <SideBarItemTitle title={title} />
             <ul className={style.SideBarItemListContainer}>
                 {subItems.map((subItem, index) => (
