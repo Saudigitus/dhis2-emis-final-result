@@ -6,7 +6,6 @@ export interface EventQueryProps {
     ouMode: string
     program: string
     order: string
-    programStatus: string
     programStage: string
     trackedEntity?: string
     orgUnit: string
