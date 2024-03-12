@@ -10,7 +10,7 @@ import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys
 import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 import { ProgramConfigState } from "../../schema/programSchema";
 
-const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity, programStatus }: EventQueryProps) => ({
+const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity}: EventQueryProps) => ({
     results: {
         resource: "tracker/events",
         params: {
@@ -19,7 +19,6 @@ const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, fil
             pageSize,
             ouMode,
             program,
-            programStatus,
             programStage,
             orgUnit,
             filter,
@@ -58,6 +57,7 @@ export function useTableData() {
     const school = urlParamiters().school as unknown as string
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
+    console.log(headerFieldsState,"headerFieldsState")
 
     async function getData(page: number, pageSize: number) {
         setLoading(true)
@@ -65,7 +65,6 @@ export function useTableData() {
             ouMode: "SELECTED",
             page,
             pageSize,
-            programStatus: "ACTIVE",
             program: program as unknown as string,
             order: "createdAt:desc",
             programStage: registration?.programStage as unknown as string,
@@ -111,7 +110,6 @@ export function useTableData() {
         for (const tei of allTeis) {
             const marksResults: MarksQueryResults = await engine.query(EVENT_QUERY({
                 ouMode: "SELECTED",
-                programStatus: "ACTIVE",
                 program: program as unknown as string,
                 order: "createdAt:desc",
             programStage: getDataStoreData?.["final-result"].programStage,
