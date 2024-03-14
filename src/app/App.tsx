@@ -7,8 +7,8 @@ import "../assets/style/globalStyle.css"
 import { RecoilRoot } from 'recoil';
 import { DataStoreProvider } from "@dhis2/app-service-datastore";
 import { CircularLoader, CenteredContent } from "@dhis2/ui";
-import AppWrapper from './components/AppWrapper';
-import AppConfigurations from './components/AppConfigurations';
+import AppWrapper from './AppWrapper';
+import AppConfigurations from './AppConfigurations';
 
 function App() {
     return (

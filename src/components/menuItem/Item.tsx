@@ -1,10 +1,10 @@
 import React from 'react'
 import { MenuItem, Help } from "@dhis2/ui"
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { HeaderFieldsState } from '../../../schema/headersSchema';
-import { MenuItemProps  } from '../../../types/menu/MenuItemTypes'
-import { OuQueryString } from '../../../schema/headerSearchInputSchema';
-import { useQueryParams, useDataElementsParamMapping  } from '../../../hooks';
+import { HeaderFieldsState } from '../../schema/headersSchema';
+import { MenuItemProps  } from '../../types/menu/MenuItemTypes'
+import { OuQueryString } from '../../schema/headerSearchInputSchema';
+import { useQueryParams, useDataElementsParamMapping  } from '../../hooks';
 
 export default function Item(props: MenuItemProps): React.ReactElement {
     const {  menuItems, dataElementId, onToggle } = props;
