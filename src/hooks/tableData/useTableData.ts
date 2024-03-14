@@ -29,13 +29,14 @@ const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, fil
     }
 })
 
-const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order }: TeiQueryProps) => ({
+const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order,programStatus }: TeiQueryProps) => ({
     results: {
         resource: "tracker/trackedEntities",
         params: {
             program,
             order,
             ouMode,
+            programStatus,
             pageSize,
             trackedEntity,
             orgUnit,
@@ -88,6 +89,7 @@ export function useTableData() {
                 // order: "created:desc",
                 // pageSize,
                 program: program as unknown as string,
+                programStatus:"ACTIVE",
                 // orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {

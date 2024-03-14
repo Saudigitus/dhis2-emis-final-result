@@ -18,6 +18,7 @@ export interface TeiQueryProps {
     pageSize?: number
     ouMode?: string
     trackedEntity: string
+    programStatus?:string
     orgUnit?: string
     order?: string
 }

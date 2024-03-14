@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { Form } from "react-final-form";
 import { useRecoilState } from "recoil";
-import { WithPadding, GroupForm }  from "../../../components";
+import { WithPadding, GroupForm } from "../../../components";
 import { ContentProps } from "../../../types/modal/ModalContentTypes";
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
@@ -39,19 +39,35 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 return selected.selectedRows.some(event => tei?.trackedEntity === event?.trackedEntity);
             })
 
-            void promoteStudents(trackedEntities, fieldsWitValue)
+            let idsUnicos = new Set();
+
+            // Filtrar a lista, mantendo apenas os objetos com ids únicos
+            let listaSemDuplicados = selected.rows.map((row: any) => row.tei).filter(tei => {
+                return selected.selectedRows.some(event => tei?.trackedEntity === event?.trackedEntity);
+            }).filter(obj => {
+                if (!idsUnicos.has(obj.trackedEntity)) {
+                    idsUnicos.add(obj.trackedEntity);
+                    return true;
+                }
+                return false;
+            });
+
+            void promoteStudents(listaSemDuplicados, fieldsWitValue)
                 .then(() => {
                     setOpen(false)
                 })
         }
     }
 
+
+
+
     const modalActions = [
         { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
         { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: mutateState.loading, loading: mutateState.loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
     ];
 
-    if(mutateState.error){
+    if (mutateState.error) {
         show({ message: "An unknown error occurred while promoting the student", type: { critical: true } })
     }
 
