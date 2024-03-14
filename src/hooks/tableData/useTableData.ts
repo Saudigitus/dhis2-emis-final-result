@@ -134,16 +134,15 @@ export function useTableData() {
 
         var eventsWithTei: any[] = []
         events.results.instances.map((event: any) => {
-            marskEvents.results.instances.map((markEvent: any) => {
-                if (markEvent?.enrollment === event?.enrollment) {
-                    eventsWithTei.push({
-                        ...markEvent,
-                        tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
-                    })
-                }
-            })
+            const currentEnrollmentMarkEvent = marskEvents.results.instances.filter((markEvent: any) => markEvent.enrollment === event.enrollment)[0]
+            eventsWithTei.push({
+                ...currentEnrollmentMarkEvent,
+                tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
+            });
         });
-        
+
+        console.log(eventsWithTei,"eventsWithTei")
+
         setSelected({ ...selected, rows: eventsWithTei })
         setTableData(localData);
         setLoading(false)
