@@ -71,9 +71,9 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
-                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element : any ) => element?.trackedEntity === row.trackedEntity).length > 0}
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element : any ) => element?.event === row?.event).length > 0}
                                     name="Ex"
-                                    onChange={() => { onToggle(selected.rows[index]); }}
+                                    onChange={() => { onToggle(selected.rows.filter(rowTable => rowTable?.event===row?.event)?.[0]); }}
                                     value="checked"
                                 />
                             </div>

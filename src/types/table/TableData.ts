@@ -15,11 +15,11 @@ export interface EventQueryProps {
 
 export interface TeiQueryProps {
     program: string
-    pageSize: number
-    ouMode: string
+    pageSize?: number
+    ouMode?: string
     trackedEntity: string
-    orgUnit: string
-    order: string
+    orgUnit?: string
+    order?: string
 }
 
 export interface dataValuesProps {

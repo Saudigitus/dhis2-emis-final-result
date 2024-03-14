@@ -10,7 +10,7 @@ import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys
 import { EventQueryProps, EventQueryResults, MarksQueryResults, TableDataProps, TeiQueryProps, TeiQueryResults } from "../../types/table/TableData";
 import { ProgramConfigState } from "../../schema/programSchema";
 
-const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity}: EventQueryProps) => ({
+const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, filter, orgUnit, filterAttributes, trackedEntity }: EventQueryProps) => ({
     results: {
         resource: "tracker/events",
         params: {
@@ -57,8 +57,6 @@ export function useTableData() {
     const school = urlParamiters().school as unknown as string
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
-    console.log(headerFieldsState,"headerFieldsState")
-
     async function getData(page: number, pageSize: number) {
         setLoading(true)
         const events: EventQueryResults = await engine.query(EVENT_QUERY({
@@ -68,7 +66,7 @@ export function useTableData() {
             program: program as unknown as string,
             order: "createdAt:desc",
             programStage: registration?.programStage as unknown as string,
-            filter:  headerFieldsState?.dataElements,
+            filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
         })).catch((error) => {
@@ -79,16 +77,18 @@ export function useTableData() {
             setTimeout(hide, 5000);
         }) as unknown as EventQueryResults
 
+        console.log(events?.results?.instances, "events?.results?.instances")
+
         const allTeis = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
         const trackedEntityToFetch = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
 
-        const teiResults : TeiQueryResults = trackedEntityToFetch?.length > 0
+        const teiResults: TeiQueryResults = trackedEntityToFetch?.length > 0
             ? await engine.query(TEI_QUERY({
-                ouMode: "SELECTED",
-                order: "created:desc",
-                pageSize,
+                // ouMode: "SELECTED",
+                // order: "created:desc",
+                // pageSize,
                 program: program as unknown as string,
-                orgUnit: school,
+                // orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {
                 show({
@@ -99,11 +99,9 @@ export function useTableData() {
             }) as unknown as TeiQueryResults
             : { results: { instances: [] } } as unknown as TeiQueryResults
 
-            console.log(teiResults,"teiResults")
-
         const marskEvents: MarksQueryResults = {
             results: {
-                instances: []
+                instances: [] as unknown as []
             }
         }
 
@@ -112,7 +110,7 @@ export function useTableData() {
                 ouMode: "SELECTED",
                 program: program as unknown as string,
                 order: "createdAt:desc",
-            programStage: getDataStoreData?.["final-result"].programStage,
+                programStage: getDataStoreData?.["final-result"].programStage,
                 orgUnit: school,
                 trackedEntity: tei
             })).catch((error) => {
@@ -122,7 +120,7 @@ export function useTableData() {
                 });
                 setTimeout(hide, 5000);
             }) as unknown as MarksQueryResults
-            marskEvents.results.instances.push(...marksResults?.results?.instances) 
+            marskEvents.results.instances.push(...marksResults?.results?.instances)
         }
 
 
@@ -130,20 +128,23 @@ export function useTableData() {
             eventsInstances: events?.results?.instances,
             teiInstances: teiResults?.results?.instances,
             marksInstances: marskEvents?.results?.instances,
-            programConfig:programConfig,
+            programConfig: programConfig,
             programStageId: getDataStoreData["final-result"].programStage
         })
 
-
-        const eventsWithTei = marskEvents.results.instances.map((event: any) => (
-            {
-                ...event,
-                tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
-            }
-        ));
-
+        var eventsWithTei: any[] = []
+        events.results.instances.map((event: any) => {
+            marskEvents.results.instances.map((markEvent: any) => {
+                if (markEvent?.enrollment === event?.enrollment) {
+                    eventsWithTei.push({
+                        ...markEvent,
+                        tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
+                    })
+                }
+            })
+        });
+        
         setSelected({ ...selected, rows: eventsWithTei })
-
         setTableData(localData);
         setLoading(false)
     }
