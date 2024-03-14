@@ -24,12 +24,15 @@ export function useGetInitialValues() {
                 }
             }
         }
-        if (diff > 0) {
+        let copyValues = dataElementsQuerybuilder.filter(x=>{
+            if (x.split(":in:")[1].replace(/\s/g, '').length > 0 ) {
+                return x
+            }
+        })
             setHeaderFields({
                 attributes: [],
-                dataElements: dataElementsQuerybuilder
+                dataElements: copyValues
             })
-        }
     }
 
     localLocation = location.search.toString()

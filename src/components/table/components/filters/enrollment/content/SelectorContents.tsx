@@ -18,7 +18,7 @@ const getStyles = makeStyles((theme: Theme) =>
 
 
 function SelectorContents(props: SelectorContentsProps) {
-    const { onClose, disabledReset, colum, onQuerySubmit, disabled: disabledUpdate } = props;
+    const { onClose, disabledReset, colum, onQuerySubmit, disabled: disabledUpdate, value } = props;
 
     const classes = getStyles()
 
@@ -40,7 +40,7 @@ function SelectorContents(props: SelectorContentsProps) {
                     <Button
                         primary
                         onClick={onQuerySubmit}
-                        disabled={disabledUpdate}
+                        disabled={disabledUpdate || !value?.replace(/\s/g, '').length}
                     >
                         {('Update')}
                     </Button>
