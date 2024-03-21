@@ -25,7 +25,7 @@ const usePromoteStudent = () => {
     const performanceProgramStages = useGetUsedPProgramStages()
     const { getDataStoreData } = getSelectedKey();
 
-    const promoteStudents = async (students: any[], fieldsWitValue: any) => {
+    const promoteStudents = async (students: any[], fieldsWitValue: any,enrollmentDate:string) => {
         // GET AND CLOSE ACTIVE ENROLLMENTS OF SELECTED STUDENTS
         const closedEnrollments = students.map(student => student?.enrollments.filter((enrollment: any) => enrollment.status === "ACTIVE")[0])
             .map((enrollment: any) => (
@@ -43,7 +43,7 @@ const usePromoteStudent = () => {
                         }
                     }
                 })
-                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage) })
+                await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage,enrollmentDate) })
                     .then(() => {
                         setSelected({ ...selected, selectedRows: [], isAllRowsSelected: false })
                         show({ message: "Promotion completed successfully", type: { success: true } })
