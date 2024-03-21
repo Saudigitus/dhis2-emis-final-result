@@ -78,8 +78,6 @@ export function useTableData() {
             setTimeout(hide, 5000);
         }) as unknown as EventQueryResults
 
-        console.log(events?.results?.instances, "events?.results?.instances")
-
         const allTeis = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
         const trackedEntityToFetch = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
 
@@ -142,8 +140,6 @@ export function useTableData() {
                 tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
             });
         });
-
-        console.log(eventsWithTei,"eventsWithTei")
 
         setSelected({ ...selected, rows: eventsWithTei })
         setTableData(localData);

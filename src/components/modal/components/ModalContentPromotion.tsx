@@ -20,6 +20,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     const [, setClicked] = useRecoilState<boolean>(onSubmitClicked);
     const [, setValues] = useState<object>({})
     const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsDetailsData])
+    const [enrollmentDate, setEnrollmentDate] = useState<any>(format(new Date(), "yyyy-MM-dd"));
     const [clickedButton, setClickedButton] = useState<string>("");
     const [selected] = useRecoilState(RowSelectionState);
     const { promoteStudents, mutateState } = usePromoteStudent();
@@ -52,7 +53,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 return false;
             });
 
-            void promoteStudents(listaSemDuplicados, fieldsWitValue)
+            void promoteStudents(listaSemDuplicados, fieldsWitValue, enrollmentDate)
                 .then(() => {
                     setOpen(false)
                 })
@@ -86,6 +87,8 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
                     // Sending onChanging form value to variables object
                     sections[i].find((element: any) => element.id === key).assignedValue = value
+                } else if (key === "eventdatestaticform") {
+                    setEnrollmentDate(value)
                 }
             }
         }
