@@ -9,7 +9,9 @@ export function formatResponseRows({ eventsInstances, teiInstances, marksInstanc
     for (const event of eventsInstances) {
         const teiDetails = teiInstances.find(tei => tei.trackedEntity === event.trackedEntity)
         const marksDetails = marksInstances.find(mark => (mark.trackedEntity === event.trackedEntity) && (mark?.enrollment === event?.enrollment))
-        allRows.push({ ...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues, programConfig, programStageId) } : {}), ...(attributes((teiDetails?.attributes) ?? [], programConfig)), ...{ trackedEntity: marksDetails?.trackedEntity, event: marksDetails?.event } })
+        allRows.push({ ...(marksDetails !== undefined ? { ...dataValues(marksDetails.dataValues, programConfig, programStageId) } : {}),
+        ...(event !== undefined ? { ...dataValues(event.dataValues, programConfig, programStageId) } : {}),
+        ...(attributes((teiDetails?.attributes) ?? [], programConfig)), ...{ trackedEntity: marksDetails?.trackedEntity, event: marksDetails?.event } })
     }
     return allRows;
 }
