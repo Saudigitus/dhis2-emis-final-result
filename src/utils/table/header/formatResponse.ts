@@ -7,7 +7,7 @@ import { FormatResponseProps } from "../../../types/utils/table/TableTypes";
 export function formatResponse({ data, programStageId, tableColumns = [],registrationProgramStage}: FormatResponseProps): CustomAttributeProps[] {
     const headerResponse = useMemo(() => {
         const finalResults = ((data?.programStages?.find(programStge => programStge.id === programStageId)) ?? {} as ProgramConfig["programStages"][0])
-        const registration = ((data?.programStages?.find(programStge => programStge.id === dataStoreData?.registration?.programStage)) ?? {} as ProgramConfig["programStages"][0])
+        const registration = ((data?.programStages?.find(programStge => programStge.id ===registrationProgramStage)) ?? {} as ProgramConfig["programStages"][0])
 
 
         return tableColumns?.length > 0 ? tableColumns : data?.programTrackedEntityAttributes?.map((item) => {
