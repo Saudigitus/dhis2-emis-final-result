@@ -28,6 +28,7 @@ export function formatResponse({ data, programStageId, tableColumns = [],registr
                 error: false,
                 content: '',
                 key: item.trackedEntityAttribute.id,
+                displayInFilters: true,
                 type: VariablesTypes.Attribute
             }
         }).concat(
@@ -50,6 +51,7 @@ export function formatResponse({ data, programStageId, tableColumns = [],registr
                         error: false,
                         content: '',
                         key: programStageDataElement.dataElement.id,
+                        displayInFilters: false,
                         type: VariablesTypes.DataElement
                     }
                 }) as []
@@ -75,6 +77,7 @@ export function formatResponse({ data, programStageId, tableColumns = [],registr
                             error: false,
                             content: '',
                             key: programStageDataElement.dataElement.id,
+                            displayInFilters: false,
                             type: VariablesTypes.FinalResult
                         }
                     }) as []

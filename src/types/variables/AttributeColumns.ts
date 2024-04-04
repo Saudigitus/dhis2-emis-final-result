@@ -30,6 +30,7 @@ export interface CustomAttributeProps {
     content?: string
     key?: any
     description?: string
+    displayInFilters?: boolean
     type: VariablesTypes
 }
 
