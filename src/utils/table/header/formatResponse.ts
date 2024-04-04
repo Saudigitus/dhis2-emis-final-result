@@ -4,9 +4,11 @@ import { ProgramConfig } from "../../../types/programConfig/ProgramConfig";
 import { CustomAttributeProps, VariablesTypes } from "../../../types/variables/AttributeColumns";
 import { FormatResponseProps } from "../../../types/utils/table/TableTypes";
 
-export function formatResponse({ data, programStageId, tableColumns = []}: FormatResponseProps): CustomAttributeProps[] {
+export function formatResponse({ data, programStageId, tableColumns = [],registrationProgramStage}: FormatResponseProps): CustomAttributeProps[] {
     const headerResponse = useMemo(() => {
         const finalResults = ((data?.programStages?.find(programStge => programStge.id === programStageId)) ?? {} as ProgramConfig["programStages"][0])
+        const registration = ((data?.programStages?.find(programStge => programStge.id === dataStoreData?.registration?.programStage)) ?? {} as ProgramConfig["programStages"][0])
+
 
         return tableColumns?.length > 0 ? tableColumns : data?.programTrackedEntityAttributes?.map((item) => {
             return {
@@ -28,7 +30,31 @@ export function formatResponse({ data, programStageId, tableColumns = []}: Forma
                 key: item.trackedEntityAttribute.id,
                 type: VariablesTypes.Attribute
             }
-        })
+        }).concat(
+            Object.keys(registration)?.length > 0
+                ? registration?.programStageDataElements?.map((programStageDataElement) => {
+                    return {
+                        id: programStageDataElement.dataElement.id,
+                        displayName: programStageDataElement.dataElement.displayName,
+                        header: programStageDataElement.dataElement.displayName,
+                        required: programStageDataElement.compulsory,
+                        name: programStageDataElement.dataElement.displayName,
+                        labelName: programStageDataElement.dataElement.displayName,
+                        valueType: programStageDataElement.dataElement.optionSet?.options?.length > 0 ? Attribute.valueType.LIST as unknown as CustomAttributeProps["valueType"] : programStageDataElement.dataElement.valueType as unknown as CustomAttributeProps["valueType"],
+                        options: { optionSet: programStageDataElement.dataElement.optionSet },
+                        initialOptions: { optionSet: programStageDataElement.dataElement.optionSet },
+                        visible: programStageDataElement.displayInReports,
+                        disabled: false,
+                        pattern: '',
+                        searchable: false,
+                        error: false,
+                        content: '',
+                        key: programStageDataElement.dataElement.id,
+                        type: VariablesTypes.DataElement
+                    }
+                }) as []
+                : []
+        )
             .concat(
                 Object.keys(finalResults).length > 0
                     ? finalResults?.programStageDataElements?.map((programStageDataElement) => {

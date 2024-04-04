@@ -12,7 +12,7 @@ export function useHeader() {
     const programConfigState = useRecoilValue(ProgramConfigState);
 
     return {
-        columns: formatResponse({data:programConfigState, programStageId: getDataStoreData?.["final-result"]?.programStage, tableColumns}),
+        columns: formatResponse({data:programConfigState, programStageId: getDataStoreData?.["final-result"]?.programStage, tableColumns,registrationProgramStage:getDataStoreData.registration.programStage}),
         columnHeader,
         setcolumnHeader
     }
