@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import {useSearchParams} from 'react-router-dom'
 
 const useQueryParams = () => {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -22,9 +22,14 @@ const useQueryParams = () => {
             grade: useQuery().get('grade'),
             class: useQuery().get('class'),
             academicYear: useQuery().get('academicYear'),
-            sectionType:useQuery().get('sectionType'),
+            sectionType: useQuery().get('sectionType')
         }
     }
-    return { add, remove, useQuery, urlParamiters }
+    return {
+        add,
+        remove,
+        useQuery,
+        urlParamiters
+    }
 }
-export { useQueryParams }
+export {useQueryParams}
