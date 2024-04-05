@@ -87,3 +87,28 @@ export function formatResponse({ data, programStageId, tableColumns = [],registr
 
     return headerResponse;
 }
+
+export function formatResponsePromotionSummary({ data, programStageId, tableColumns = [],registrationProgramStage}: FormatResponseProps){
+    return tableColumns?.length > 0 ? tableColumns : data?.programTrackedEntityAttributes?.map((item) => {
+        return {
+            id: item.trackedEntityAttribute.id,
+            displayName: item.trackedEntityAttribute.displayName,
+            header: item.trackedEntityAttribute.displayName,
+            required: item.mandatory,
+            name: item.trackedEntityAttribute.displayName,
+            labelName: item.trackedEntityAttribute.displayName,
+            valueType: item.trackedEntityAttribute.optionSet?.options?.length > 0 ? Attribute.valueType.LIST as unknown as CustomAttributeProps["valueType"] : item.trackedEntityAttribute.valueType as unknown as CustomAttributeProps["valueType"],
+            options: { optionSet: item.trackedEntityAttribute.optionSet },
+            initialOptions: { optionSet: item.trackedEntityAttribute.optionSet },
+            visible: item.displayInList,
+            disabled: false,
+            pattern: '',
+            searchable: false,
+            error: false,
+            content: '',
+            key: item.trackedEntityAttribute.id,
+            displayInFilters: true,
+            type: VariablesTypes.Attribute
+        }
+    })
+}
