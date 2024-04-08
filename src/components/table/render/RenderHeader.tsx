@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function RenderHeader(props: RenderHeaderProps): React.ReactElement {
-    const { rowsHeader, order, orderBy, createSortHandler } = props
+    const { rowsHeader, order, orderBy, createSortHandler,hideCheckBox} = props
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
@@ -81,7 +81,7 @@ function RenderHeader(props: RenderHeaderProps): React.ReactElement {
             <RowTable
                 className={classes.row}
             >
-                <HeaderCell
+                {hideCheckBox?null:<HeaderCell
                     className={classNames(classes.cell, classes.headerCell)}
                 >
                     <Checkbox
@@ -91,7 +91,7 @@ function RenderHeader(props: RenderHeaderProps): React.ReactElement {
                         name="Ex"
                         value="checked"
                     />
-                </HeaderCell>
+                </HeaderCell>}
                 {headerCells}
             </RowTable>
         </thead>

@@ -12,7 +12,7 @@ import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, Not
 
 
 function ModalContentPromotion(props: ContentProps): React.ReactElement {
-    const { setOpen } = props
+    const { setOpen, setOpenSummary,setSummaryData} = props
     const { useQuery } = useQueryParams();
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const orgUnitName = useQuery().get("schoolName");
@@ -53,7 +53,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 return false;
             });
 
-            void promoteStudents(listaSemDuplicados, fieldsWitValue, enrollmentDate)
+            void promoteStudents(listaSemDuplicados, fieldsWitValue, enrollmentDate, setOpenSummary,setSummaryData)
                 .then(() => {
                     setOpen(false)
                 })
