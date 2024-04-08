@@ -87,7 +87,7 @@ export function useTableData() {
                 // order: "created:desc",
                 // pageSize,
                 program: program as unknown as string,
-                programStatus: "ACTIVE",
+                // programStatus: "ACTIVE",
                 // orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {
