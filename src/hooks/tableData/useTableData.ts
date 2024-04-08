@@ -29,7 +29,7 @@ const EVENT_QUERY = ({ ouMode, page, pageSize, program, order, programStage, fil
     }
 })
 
-const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order,programStatus }: TeiQueryProps) => ({
+const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order, programStatus }: TeiQueryProps) => ({
     results: {
         resource: "tracker/trackedEntities",
         params: {
@@ -58,7 +58,7 @@ export function useTableData() {
     const school = urlParamiters().school as unknown as string
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
-    async function getData(page: number, pageSize: number) {
+    async function getData(page: number, pageSize: number, clearSelection: boolean) {
         setLoading(true)
         const events: EventQueryResults = await engine.query(EVENT_QUERY({
             ouMode: "SELECTED",
@@ -87,7 +87,7 @@ export function useTableData() {
                 // order: "created:desc",
                 // pageSize,
                 program: program as unknown as string,
-                programStatus:"ACTIVE",
+                programStatus: "ACTIVE",
                 // orgUnit: school,
                 trackedEntity: trackedEntityToFetch
             })).catch((error) => {
@@ -141,7 +141,7 @@ export function useTableData() {
             });
         });
 
-        setSelected({ ...selected, rows: eventsWithTei })
+        setSelected(clearSelection ? { rows: eventsWithTei, selectedRows: [], isAllRowsSelected: false } : { ...selected, rows: eventsWithTei })
         setTableData(localData);
         setLoading(false)
     }

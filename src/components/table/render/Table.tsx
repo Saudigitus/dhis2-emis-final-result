@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import RenderRows from './RenderRows'
 import RenderHeader from './RenderHeader'
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { teiRefetch } from '../../../schema/teiRefetchSchema';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { WithBorder, WithPadding } from '../../../components';
 import { HeaderFieldsState } from '../../../schema/headersSchema';
 import WorkingLits from '../components/filters/workingList/WorkingLits';
 import { HeaderFilters, Pagination, TableComponent } from '../components'
-import { useQueryParams, useTableData, useHeader  } from '../../../hooks';
+import { useQueryParams, useTableData, useHeader } from '../../../hooks';
+import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
 
 const usetStyles = makeStyles({
     tableContainer: {
@@ -30,10 +31,18 @@ function Table() {
     const [page, setpage] = useState(1)
     const [pageSize, setpageSize] = useState(10)
     const [refetch] = useRecoilState(teiRefetch)
+    const didMount = useRef(false);
 
     useEffect(() => {
-        void getData(page, pageSize)
-    }, [school, headerFieldsState, grade, section, page, pageSize, refetch])
+        void getData(page, pageSize,false);
+    }, [page, pageSize])
+
+    useEffect(() => {
+        if (didMount.current){
+            void getData(page, pageSize,true)
+        }
+        else didMount.current = true;
+    }, [school, headerFieldsState, grade, section, refetch])
 
     const onPageChange = (newPage: number) => {
         setpage(newPage)
