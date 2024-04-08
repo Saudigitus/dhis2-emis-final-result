@@ -1,3 +1,4 @@
+
 import { useRecoilState } from "recoil";
 import { teiRefetch } from '../../schema/teiRefetchSchema';
 import { useShowAlerts } from '../../hooks';
@@ -64,7 +65,7 @@ const usePromoteStudent = () => {
                     })
                     await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, enrollmentDate) })
                         .then(() => {
-                            setSelected({ ...selected, selectedRows: [], isAllRowsSelected: false })
+                            setSelected({ rows:[], selectedRows: [], isAllRowsSelected: false })
                             show({ message: "Promotion completed successfully", type: { success: true } })
                             setRefetch(!refetch)
                         })
