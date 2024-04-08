@@ -3,6 +3,8 @@ import i18n from '@dhis2/d2-i18n';
 import classNames from 'classnames';
 import { Checkbox } from "@dhis2/ui";
 import { useRecoilState } from 'recoil';
+import {useRecoilValue } from 'recoil';
+import { ProgramConfigState } from '../../../schema/programSchema';
 import { RowCell, RowTable } from '../components';
 import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
 import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
@@ -37,6 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function RenderRows(props: RenderRowsProps): React.ReactElement {
     const { headerData, rowsData, hideCheckBox } = props
     const classes = useStyles()
+    const programConfigState = useRecoilValue(ProgramConfigState);
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
     const onToggle = (rawRowData: object) => {
@@ -61,7 +64,7 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
     return (
         <React.Fragment>
             {
-                rowsData.map((row, index) => (
+                rowsData?.map((row, index) => (
                     <RowTable
                         key={index}
                         className={classNames(classes.row, classes.dataRow)}
@@ -85,7 +88,7 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                                     className={classNames(classes.cell, classes.bodyCell)}
                                 >
                                     <div>
-                                        {getDisplayName({ attribute: column.id, headers: headerData, value: row[column.id] }) ?? "---"}
+                                        {getDisplayName({ metaData: column.id, value: row[column.id], program: programConfigState }) ?? "---"}
                                     </div>
                                 </RowCell>
                             ))
