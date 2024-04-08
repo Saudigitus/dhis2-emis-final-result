@@ -97,7 +97,7 @@ function ContentFilter(props: ContentFilterProps) {
                     } else {
                         if (variableType === "attribute") {
                             attributesQuerybuilder.push([`${key}:like:${value}`])
-                        } else dataElementsQuerybuilder.push([`${key}:like:${value}`])
+                        } else dataElementsQuerybuilder.push([`${key}:in:${value}`])
                     }
             }
         }
@@ -126,7 +126,7 @@ function ContentFilter(props: ContentFilterProps) {
     return (
         <div className={styles.contentFilterContainer}>
             {
-                localFilters.map((colums, index) => (
+                localFilters.filter(x => x.displayInFilters === true).map((colums, index) => (
                     <SelectButton key={index}
                         tooltipContent=''
                         title={colums.displayName}
@@ -152,7 +152,7 @@ function ContentFilter(props: ContentFilterProps) {
                 ))
             }
             <div className={styles.contentMoreFilterContainer}>
-                {headers?.filter(x => !localFilters.includes(x))?.length > 0 &&
+                {headers?.filter(x => !localFilters.includes(x) && x.displayInFilters)?.length > 0 &&
                     <Button 
                         className={styles.moreFilterButton}
                         variant='outlined'
@@ -164,7 +164,7 @@ function ContentFilter(props: ContentFilterProps) {
                 <MenuFilters
                     anchorEl={anchorEl}
                     setAnchorEl={setAnchorEl}
-                    options={headers?.filter(x => !localFilters.includes(x))}
+                    options={headers?.filter(x => !localFilters.includes(x) && x.displayInFilters)}
                     addSearchableHeaders={addSearchableHeaders}
                 />
             </div>

@@ -8,7 +8,7 @@ import { onSubmitClicked } from "../../../schema/formOnSubmitClicked";
 import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
 import { formFields } from "../../../utils/constants/enrollmentForm/enrollmentForm";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
-import { useQueryParams, useGetEnrollmentForm,  usePostEvent } from "../../../hooks";
+import { useQueryParams, useGetEnrollmentForm, usePostEvent } from "../../../hooks";
 
 function ModalContentComponent(props: ContentProps): React.ReactElement {
   const { setOpen } = props
@@ -42,15 +42,24 @@ function ModalContentComponent(props: ContentProps): React.ReactElement {
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
     if (allFields.filter((element: any) => (element?.assignedValue === undefined && element.required)).length === 0) {
-      const events = []
+      const enrollments = []
       for (const event of selected.selectedRows) {
-        events.push(
-          {
-            ...event,
-            dataValues: [{ dataElement: allFields[0].id, value: allFields[0].assignedValue }]
-          })
+        enrollments.push({
+          enrollment: event?.enrollment,
+          status: allFields[0].assignedValue==="Dropout"?"CANCELLED":"COMPLETED",
+          orgUnit: event?.orgUnit,
+          program: event?.program,
+          enrolledAt:event?.createdAt,
+          trackedEntity: event?.trackedEntity,
+          events: [
+            {
+              ...event,
+              dataValues: [{ dataElement: allFields[0].id, value: allFields[0].assignedValue }]
+            }
+          ]
+        })
       }
-      void updateEvent({ data: { events } })
+      void updateEvent({ data: { enrollments } })
     }
   }
 

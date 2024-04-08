@@ -35,12 +35,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function RenderRows(props: RenderRowsProps): React.ReactElement {
-    const { headerData, rowsData } = props
+    const { headerData, rowsData, hideCheckBox } = props
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
     const onToggle = (rawRowData: object) => {
-        setSelected({ ...selected, selectedRows: checkIsRowSelected({rawRowData:rawRowData, selected:selected}), isAllRowsSelected: selected.rows.length === checkIsRowSelected({rawRowData: rawRowData, selected:selected}).length })
+        setSelected({ ...selected, selectedRows: checkIsRowSelected({ rawRowData: rawRowData, selected: selected }), isAllRowsSelected: selected.rows.length === checkIsRowSelected({ rawRowData: rawRowData, selected: selected }).length })
     }
 
     if (rowsData?.length === 0) {
@@ -66,18 +66,18 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                         key={index}
                         className={classNames(classes.row, classes.dataRow)}
                     >
-                        <RowCell
+                        {hideCheckBox ?null: <RowCell
                             className={classNames(classes.cell, classes.bodyCell)}
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
-                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element : any ) => element?.event === row?.event).length > 0}
+                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element: any) => element?.event === row?.event).length > 0}
                                     name="Ex"
-                                    onChange={() => { onToggle(selected.rows.filter(rowTable => rowTable?.event===row?.event)?.[0]); }}
+                                    onChange={() => { onToggle(selected.rows.filter(rowTable => rowTable?.event === row?.event)?.[0]); }}
                                     value="checked"
                                 />
                             </div>
-                        </RowCell>
+                        </RowCell>}
                         {
                             headerData?.filter(x => x.visible)?.map(column => (
                                 <RowCell

@@ -1,0 +1,162 @@
+.cardContainer {
+    background: #FFFFFF;
+    box-shadow: 0px 0px 0px 1px #E0E0E0 !important;
+    border-radius: 4px !important;
+}
+
+.carBox {
+
+    border-radius: 4px !important;
+}
+
+.cardHeader {
+    width: 100%;
+    height: 100px;
+    background-color: #FFF;
+    display: flex;
+    border-radius: 4px !important;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.section {
+    margin: 0px 20px;
+    gap: 10px;
+    left: 52px;
+    flex-wrap: wrap !important;
+}
+
+.cardHeader img {
+    width: 72px;
+    height: 72px;
+}
+
+.cardTitle {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    line-height: 160% !important;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.80);
+    text-align: center;
+    font-weight: 450;
+    font-size: 1rem;
+    font-family: 'Roboto';
+}
+
+.cardStatistics {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.cardActions {
+    height: 50px !important;
+    display: flex;
+    padding: 0 7px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.cardTotalLabel {
+    font-size: 18px;
+}
+
+.cardStatisticsTotalValue {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-right: 5px;
+    letter-spacing: 0.15px;
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.cardInfoIcon {
+    color: #56A44F !important;
+}
+
+.cardStatisticsTotal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== Summary Cards styles ============== */
+.default,
+.primary,
+.success,
+.error,
+.warning {
+    min-width: 154px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 3px;
+    padding: 5px 10px !important;
+    text-align: center !important;
+}
+
+.default {
+    border: solid 1px #D5DDE5;
+    background-color: #FBFCFD;
+}
+
+.primary {
+    border: solid 1px #29A0BA;
+    background-color: #EEFBFF;
+}
+
+.success {
+    border: solid 1px #4CAF50;
+    background-color: #F4FBF4;
+}
+
+.error {
+    border: solid 1px #DEA9A7;
+    background-color: #FFECE7;
+}
+
+
+.warning {
+    border: solid 1px #E6C89B;
+    background-color: #FFF4E7;
+}
+
+.default h5,
+.primary h5,
+.success h5,
+.error h5,
+.warning h5 {
+    text-align: center;
+    font-family: Roboto;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    margin: 0px !important;
+    margin-top: 5px !important;
+}
+
+.default span,
+.primary span,
+.success span,
+.error span,
+.warning span {
+    font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+letter-spacing: 0em;
+text-align: center;
+margin: 0px !important;
+
+}

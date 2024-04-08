@@ -16,6 +16,17 @@ import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
 const usetStyles = makeStyles({
     tableContainer: {
         overflowX: 'auto'
+    },
+    workingListsContainer: {
+        display: 'flex',
+        marginLeft: '0.5rem',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    h4: {
+        margin: '0px',
+        fontSize: '22px',
+        fontWeigth: '500'
     }
 });
 
@@ -59,7 +70,10 @@ function Table() {
                     <CircularLoader />
                 </CenteredContent>
             }
-            <WorkingLits />
+            <div className={classes.workingListsContainer}>
+                <h4 className={classes.h4}>Final result</h4>
+                <WorkingLits/>
+            </div>
             <WithBorder type='bottom' />
             <WithPadding >
                 <WithBorder type='all' >

@@ -27,6 +27,7 @@ interface RowProps {
 }
 
 interface RenderHeaderProps {
+    hideCheckBox?:boolean
     rowsHeader?: CustomAttributeProps[]
     orderBy?: string
     order?: "asc" | "desc"
@@ -47,6 +48,7 @@ interface TableSortProps {
 type TableDataProps = Record<string, string>;
 
 interface RenderRowsProps {
+    hideCheckBox?:boolean
     rowsData: any[]
     headerData: CustomAttributeProps[]
 }

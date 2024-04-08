@@ -20,6 +20,15 @@ interface FormatResponseRowsDataProps {
     programStageId?: string | undefined
 }
 
+interface FormatResponsePromotionSummaryRowsDataProps {
+
+    teiInstances: [{
+        trackedEntity: string
+        attributes: attributesProps[]
+    }]
+    programConfig: ProgramConfig
+}
+
 type RowsDataProps = Record<string, string | number | boolean | any>;
 
 interface DefaultProps {
@@ -40,4 +49,4 @@ interface FormatResponseRowsMarksProps {
     programStageId:string | undefined
 }
 
-export type { FormatResponseRowsDataProps, RowsDataProps, DefaultProps, attributesProps, dataValuesProps, FormatResponseRowsMarksProps }
+export type {FormatResponsePromotionSummaryRowsDataProps, FormatResponseRowsDataProps, RowsDataProps, DefaultProps, attributesProps, dataValuesProps, FormatResponseRowsMarksProps }
