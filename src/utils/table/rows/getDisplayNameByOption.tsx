@@ -1,7 +1,6 @@
 import { defaultProps } from "../../../types/utils/FormatRowsDataProps";
 
 export function getDisplayName({ metaData, value, program }: defaultProps): string {
-    console.log(metaData,"metaData")
     const dataElementsWithOptions = program?.programStages?.flatMap((stage:any) => stage?.programStageDataElements?.map((dataElement:any) => dataElement?.dataElement?.optionSet ? dataElement.dataElement : null))?.filter(Boolean);
     const attributesWithOptions = program?.programTrackedEntityAttributes?.flatMap((programAttributes:any) => programAttributes?.trackedEntityAttribute?.optionSet ? programAttributes.trackedEntityAttribute : null)?.filter(Boolean)
 

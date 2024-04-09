@@ -45,30 +45,13 @@ const usePromoteStudent = () => {
             }
         }
 
-        if (studentsAbleToSave.length > 0) {
-            // GET AND CLOSE ACTIVE ENROLLMENTS OF SELECTED STUDENTS
-            const closedEnrollments = studentsAbleToSave.map(student => student?.enrollments.filter((enrollment: any) => enrollment.status === "ACTIVE")[0])
-                .map((enrollment: any) => (
-                    { ...enrollment, status: "COMPLETED" }
-                ))
 
-            await mutate({ data: { enrollments: closedEnrollments } })
-                .then(async (response: any) => {
-                    // GET CLOSED ENROLLMENTS STUDENTS AFTER POST
-                    const studentsToPromote: any = [];
-                    response.bundleReport?.typeReportMap?.ENROLLMENT?.objectReports?.map(({ uid }: { uid: string }) => {
-                        for (const student of students) {
-                            if (student?.enrollments.filter((enrollment: any) => enrollment.enrollment === uid).length > 0) {
-                                studentsToPromote.push(student)
-                            }
-                        }
-                    })
-                    await mutate({ data: promoteTeiPostBody(studentsToPromote, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, enrollmentDate) })
-                        .then(() => {
-                            setSelected({ rows:[], selectedRows: [], isAllRowsSelected: false })
-                            show({ message: "Promotion completed successfully", type: { success: true } })
-                            setRefetch(!refetch)
-                        })
+        if (studentsAbleToSave.length > 0) {
+            await mutate({ data: promoteTeiPostBody(studentsAbleToSave, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, enrollmentDate) })
+                .then(() => {
+                    setSelected({ rows: [], selectedRows: [], isAllRowsSelected: false })
+                    show({ message: "Promotion completed successfully", type: { success: true } })
+                    setRefetch(!refetch)
                 })
         }
         setSummaryData({

@@ -4,6 +4,7 @@ import { reducer } from "../commons/formatDistinctValue";
 export const promoteTeiPostBody = (students: any[], dataValues: any, performanceProgramStages: string[], socioEconomicProgramStage: string,enrollmentDate:string): any => {
     const buildEventBody = (program: string, orgUnit: string, enrollment: any) => {
         const events = []
+        
         for (const [key, value] of Object.entries(reducer(dataValues[0]))) {
             events.push({
                 occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
@@ -66,7 +67,7 @@ export const promoteTeiPostBody = (students: any[], dataValues: any, performance
                 {
                     attributes,
                     program: enrollments[0]?.program,
-                    status: "ACTIVE",
+                    status: "COMPLETED",
                     occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
                     orgUnit: enrollments[0]?.orgUnit,
                     enrolledAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
