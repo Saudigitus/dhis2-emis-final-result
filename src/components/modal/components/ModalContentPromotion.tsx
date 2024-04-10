@@ -9,16 +9,19 @@ import { RowSelectionState } from "../../../schema/tableSelectedRowsSchema";
 import { useQueryParams, useShowAlerts, usePromoteStudent, useGetEnrollmentForm } from "../../../hooks";
 import { enrollmentDetailsForm } from "../../../utils/constants/enrollmentForm/enrollmentDetailsForm";
 import { ModalActions, Button, ButtonStrip, CircularLoader, CenteredContent, NoticeBox } from "@dhis2/ui";
+import { CustomDhis2RulesEngine } from "../../../hooks/programRules/rules-engine/RulesEngine";
+import { formatKeyValueType } from "../../../utils/programRules/formatKeyValueType";
+import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey";
 
 
 function ModalContentPromotion(props: ContentProps): React.ReactElement {
-    const { setOpen, setOpenSummary,setSummaryData} = props
+    const { setOpen, setOpenSummary, setSummaryData, enrollmentsDetailsData } = props
     const { useQuery } = useQueryParams();
     const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null);
     const orgUnitName = useQuery().get("schoolName");
-    const { enrollmentsDetailsData } = useGetEnrollmentForm();
+    const orgUnit = useQuery().get("school");
     const [, setClicked] = useRecoilState<boolean>(onSubmitClicked);
-    const [, setValues] = useState<object>({})
+    const [values, setValues] = useState<object>({ orgUnit })
     const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsDetailsData])
     const [enrollmentDate, setEnrollmentDate] = useState<any>(format(new Date(), "yyyy-MM-dd"));
     const [clickedButton, setClickedButton] = useState<string>("");
@@ -31,6 +34,17 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     })
 
     useEffect(() => { setClicked(false) }, [])
+
+    const { runRulesEngine, updatedVariables } = CustomDhis2RulesEngine({
+        variables: enrollmentDetailsForm(enrollmentsDetailsData),
+        values,
+        type: "programStageSection",
+        formatKeyValueType: formatKeyValueType(enrollmentsDetailsData)
+    })
+
+    useEffect(() => {
+        runRulesEngine()
+    }, [values])
 
     function onSubmit() {
         const allFields = fieldsWitValue.flat()
@@ -53,15 +67,12 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 return false;
             });
 
-            void promoteStudents(listaSemDuplicados, fieldsWitValue, enrollmentDate, setOpenSummary,setSummaryData)
+            void promoteStudents(listaSemDuplicados, fieldsWitValue, enrollmentDate, setOpenSummary, setSummaryData)
                 .then(() => {
                     setOpen(false)
                 })
         }
     }
-
-
-
 
     const modalActions = [
         { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
@@ -96,6 +107,8 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
         setValues(e)
     }
 
+    // console.log(updatedVariables, enrollmentDetailsForm(enrollmentsDetailsData), enrollmentsDetailsData);
+
     return (
         <WithPadding>
             <React.Fragment>
@@ -112,7 +125,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                         onChange={onChange(values)}
                     >
                         {
-                            enrollmentDetailsForm(enrollmentsDetailsData).map((field: any, index: number) => (
+                            updatedVariables?.map((field: any, index: number) => (
                                 <GroupForm
                                     name={field.section}
                                     description={field.description}
