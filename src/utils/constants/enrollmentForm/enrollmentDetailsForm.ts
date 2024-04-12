@@ -48,7 +48,7 @@ const staticForm = () => {
 }
 
 function enrollmentDetailsForm(enrollmentsDetailsData: any[]): FormSectionProps[] {
-    const [enrollmentDetails] = enrollmentsDetailsData;
+    const [enrollmentDetails] = enrollmentsDetailsData || [{ "enrollmentDetails": [] }];
 
     return [
         {

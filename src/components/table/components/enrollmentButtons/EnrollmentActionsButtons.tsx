@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil';
 import Tooltip from '@material-ui/core/Tooltip';
-import { useQueryParams } from '../../../../hooks';
+import { useGetEnrollmentForm, useQueryParams } from '../../../../hooks';
 import { IconAddCircle24, Button, ButtonStrip } from "@dhis2/ui";
 import { RowSelectionState } from '../../../../schema/tableSelectedRowsSchema';
 import { ModalComponent, ModalContentComponent, ModalContentPromotion, ImportContent } from '../../../../components';
@@ -16,6 +16,7 @@ function EnrollmentActionsButtons() {
   const { useQuery } = useQueryParams();
   const orgUnit = useQuery().get("school")
   const [selected] = useRecoilState(RowSelectionState);
+  const { enrollmentsDetailsData } = useGetEnrollmentForm();
 
   return (
     <div>
@@ -32,7 +33,7 @@ function EnrollmentActionsButtons() {
           </span>
         </Tooltip>
       </ButtonStrip>
-      {openPromotion && <ModalComponent title="Bulk Student Promotion" open={openPromotion} setOpen={setOpenPromotion}><ModalContentPromotion setSummaryData={setSummaryData} setOpenSummary={setOpenSummary} setOpen={setOpenPromotion} /></ModalComponent>}
+      {openPromotion && <ModalComponent title="Bulk Student Promotion" open={openPromotion} setOpen={setOpenPromotion}><ModalContentPromotion enrollmentsDetailsData={enrollmentsDetailsData} setSummaryData={setSummaryData} setOpenSummary={setOpenSummary} setOpen={setOpenPromotion} /></ModalComponent>}
       {openSummary && <ModalComponent title="Students Promotion Summary" open={openSummary} setOpen={setOpenSummary}><ModalSummaryContent setOpen={setOpenSummary} summaryData={summaryData} /></ModalComponent>}
       {open && <ModalComponent title="Bulk Student Final Result" open={open} setOpen={setOpen}><ModalContentComponent setOpen={setOpen} /></ModalComponent>}
       {openImport && <ModalComponent title="Import Students" open={openImport} setOpen={setOpenImport}><ImportContent setOpen={setOpen} /></ModalComponent>}

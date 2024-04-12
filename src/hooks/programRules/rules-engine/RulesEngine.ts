@@ -140,11 +140,10 @@ export const CustomDhis2RulesEngine = (props: RulesEngineProps) => {
                                 const foundOrgUnitGroup = orgUnitsGroups?.filter(x => x.value === orgUnitGroup)
 
                                 if (foundOrgUnitGroup.length > 0) {
-
                                     if (foundOrgUnitGroup[0]?.organisationUnits.findIndex(x => x.value === values["orgUnit"]) > -1) {
+                                        console.log(variable);
                                         const options = getOptionGroups?.filter((op) => op.id === programRule.optionGroup)?.[0]?.options?.slice()?.sort(compareStringByLabel) || []
-                                        
-                                        variable.options = { optionSet: { options: variable?.initialOptions?.optionSet?.options?.filter(obj1 => !options.some(obj2 => obj2.value === obj1.value)) } }
+                                        variable.options = { optionSet: { options: variable?.initialOptions?.optionSet?.options?.filter((obj1: any) => !options.some(obj2 => obj2.value === obj1.value)) } }
                                     }
                                 }
                             }
