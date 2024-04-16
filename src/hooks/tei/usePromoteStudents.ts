@@ -33,7 +33,7 @@ const usePromoteStudent = () => {
         for (const student of students) {
             for (const enrollment of student?.enrollments) {
                 const registrationEventDataValue = enrollment?.events.filter((event: any) => event.programStage === getDataStoreData.registration.programStage)?.[0]
-                    .dataValues?.filter((dataValue: any) => dataValue.dataElement === getDataStoreData.registration.academicYear)?.[0]?.value;
+                    ?.dataValues?.filter((dataValue: any) => dataValue?.dataElement === getDataStoreData?.registration?.academicYear)?.[0]?.value;
                 if (registrationEventDataValue === fieldsWitValue[0].filter((field: any) => field?.id === getDataStoreData.registration.academicYear)?.[0]?.assignedValue) {
                     if (!studentsUnableSave.filter((studentUnableSave: any) => studentUnableSave.trackedEntity === student.trackedEntity)?.[0]) {
                         studentsUnableSave.push(student)

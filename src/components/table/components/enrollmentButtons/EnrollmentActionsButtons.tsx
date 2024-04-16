@@ -18,6 +18,9 @@ function EnrollmentActionsButtons() {
   const [selected] = useRecoilState(RowSelectionState);
   const { enrollmentsDetailsData } = useGetEnrollmentForm();
 
+  const noFinalResultStudentSelected = selected.selectedRows.filter((selectedRow:any) => selectedRow?.dataValues?.[0]?.value)[0]
+  console.log(noFinalResultStudentSelected,"noFinalResultStudentSelected")
+
   return (
     <div>
       <ButtonStrip>
