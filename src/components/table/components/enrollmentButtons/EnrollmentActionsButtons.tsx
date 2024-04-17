@@ -11,12 +11,14 @@ function EnrollmentActionsButtons() {
   const [open, setOpen] = useState<boolean>(false);
   const [openPromotion, setOpenPromotion] = useState<boolean>(false);
   const [openImport, setOpenImport] = useState<boolean>(false);
-  const [openSummary,setOpenSummary] = useState<boolean>(false);
-  const [summaryData,setSummaryData] = useState<any>({});
+  const [openSummary, setOpenSummary] = useState<boolean>(false);
+  const [summaryData, setSummaryData] = useState<any>({});
   const { useQuery } = useQueryParams();
   const orgUnit = useQuery().get("school")
   const [selected] = useRecoilState(RowSelectionState);
   const { enrollmentsDetailsData } = useGetEnrollmentForm();
+
+  const noFinalResultStudentSelected = selected.selectedRows.filter((selectedRow: any) => !selectedRow?.dataValues?.[0]?.value)
 
   return (
     <div>
@@ -26,10 +28,9 @@ function EnrollmentActionsButtons() {
             <Button disabled={orgUnit == null || selected.selectedRows.length === 0} onClick={() => { setOpen(true); }} icon={<IconAddCircle24 />}>Assign final result</Button>
           </span>
         </Tooltip>
-
-        <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : ""}>
+        <Tooltip title={orgUnit === null ? "Please select an organisation unit before" : noFinalResultStudentSelected.length > 0 ? "From selected students, some of them don't have final result" : ""}>
           <span>
-            <Button onClick={() => { setOpenPromotion(true); }} disabled={selected.selectedRows.length === 0} icon={<IconAddCircle24 />}>Perform promotion</Button>
+            <Button onClick={() => { setOpenPromotion(true); }} disabled={selected.selectedRows.length === 0 || noFinalResultStudentSelected.length > 0} icon={<IconAddCircle24 />}>Perform promotion</Button>
           </span>
         </Tooltip>
       </ButtonStrip>
