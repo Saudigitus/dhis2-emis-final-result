@@ -52,7 +52,7 @@ function ModalSummaryContent(props: ModalContentProps): React.ReactElement {
             <Button small icon={<InfoOutlined className={styles.infoIcon} />} onClick={handleShowDetails}>More details</Button>
           </ButtonStrip>
           <br/>
-          <span style={{color:"red"}}>The following students was not promoted. They already exist on the selected academic year</span>
+          <span style={{color:"red"}}>The following students were not promoted. They already exist on the selected academic year</span>
         </>
         : null}
       <WithPadding />

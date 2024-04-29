@@ -26,7 +26,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     const [enrollmentDate, setEnrollmentDate] = useState<any>(format(new Date(), "yyyy-MM-dd"));
     const [clickedButton, setClickedButton] = useState<string>("");
     const [selected] = useRecoilState(RowSelectionState);
-    const { promoteStudents, mutateState } = usePromoteStudent();
+    const { promoteStudents, mutateState,loadingPromote } = usePromoteStudent();
     const { hide, show } = useShowAlerts()
     const [initialValues] = useState<object>({
         registerschoolstaticform: orgUnitName,
@@ -75,8 +75,8 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     }
 
     const modalActions = [
-        { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
-        { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: mutateState.loading, loading: mutateState.loading, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
+        { id: "cancel", type: "button", label: "Cancel", disabled: mutateState.loading || loadingPromote, onClick: () => { setClickedButton("cancel"); setOpen(false) } },
+        { id: "saveandcontinue", type: "submit", label: "Perform promotion", primary: true, disabled: mutateState.loading || loadingPromote, loading: mutateState.loading || loadingPromote, onClick: () => { setClickedButton("saveandcontinue"); setClicked(true) } }
     ];
 
     if (mutateState.error) {
