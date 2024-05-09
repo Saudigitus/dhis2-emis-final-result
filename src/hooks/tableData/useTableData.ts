@@ -107,11 +107,11 @@ export function useTableData() {
 
         for (const tei of allTeis) {
             const marksResults: MarksQueryResults = await engine.query(EVENT_QUERY({
-                ouMode: "SELECTED",
+                //ouMode: "SELECTED",
                 program: program as unknown as string,
                 order: "createdAt:desc",
                 programStage: getDataStoreData?.["final-result"].programStage,
-                orgUnit: school,
+                //orgUnit: school,
                 trackedEntity: tei
             })).catch((error) => {
                 show({
