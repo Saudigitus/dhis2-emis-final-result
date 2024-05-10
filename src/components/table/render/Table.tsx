@@ -11,7 +11,7 @@ import { HeaderFieldsState } from '../../../schema/headersSchema';
 import WorkingLits from '../components/filters/workingList/WorkingLits';
 import { HeaderFilters, Pagination, TableComponent } from '../components'
 import { useQueryParams, useTableData, useHeader } from '../../../hooks';
-import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
+import { RowSelectionState, TableLoaderState } from '../../../schema/tableSelectedRowsSchema';
 
 const usetStyles = makeStyles({
     tableContainer: {
@@ -33,24 +33,25 @@ const usetStyles = makeStyles({
 function Table() {
     const classes = usetStyles()
     const { columns } = useHeader()
-    const { getData, loading, tableData } = useTableData()
+    const { getData, tableData } = useTableData()
     const { useQuery } = useQueryParams();
     const school = useQuery().get('school');
     const grade = useQuery().get('grade');
     const section = useQuery().get('class');
     const headerFieldsState = useRecoilValue(HeaderFieldsState)
+    const loading = useRecoilValue(TableLoaderState)
     const [page, setpage] = useState(1)
     const [pageSize, setpageSize] = useState(10)
     const [refetch] = useRecoilState(teiRefetch)
     const didMount = useRef(false);
 
     useEffect(() => {
-        void getData(page, pageSize,false);
+        void getData(page, pageSize, false);
     }, [page, pageSize])
 
     useEffect(() => {
-        if (didMount.current){
-            void getData(page, pageSize,true)
+        if (didMount.current) {
+            void getData(page, pageSize, true)
         }
         else didMount.current = true;
     }, [school, headerFieldsState, grade, section, refetch])
@@ -72,7 +73,7 @@ function Table() {
             }
             <div className={classes.workingListsContainer}>
                 <h4 className={classes.h4}>Final result</h4>
-                <WorkingLits/>
+                <WorkingLits />
             </div>
             <WithBorder type='bottom' />
             <WithPadding >

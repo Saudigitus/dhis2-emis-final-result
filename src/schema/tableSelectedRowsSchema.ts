@@ -17,3 +17,8 @@ export const RowSelectionState = atom<SelectionSchemaConfig>({
         rows: []
     }
 })
+
+export const TableLoaderState = atom<boolean>({
+    key: "table-loader",
+    default: false
+})

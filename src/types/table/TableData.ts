@@ -3,12 +3,12 @@ export type TableDataProps = Record<string, string>;
 export interface EventQueryProps {
     page?: number
     pageSize?: number
-    ouMode: string
+    ouMode?: string
     program: string
     order: string
     programStage: string
     trackedEntity?: string
-    orgUnit: string
+    orgUnit?: string
     filter?: string[]
     filterAttributes?: string[]
 }
