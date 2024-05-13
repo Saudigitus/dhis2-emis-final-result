@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDataEngine } from "@dhis2/app-runtime";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { useQueryParams, useShowAlerts } from "../../hooks";
 import { HeaderFieldsState } from "../../schema/headersSchema";
-import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
+import { RowSelectionState, TableLoaderState } from "../../schema/tableSelectedRowsSchema";
 import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 import { formatResponseRows } from "../../utils/table/rows/formatResponseRows";
 import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys";
@@ -40,7 +40,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order, p
             pageSize,
             trackedEntity,
             orgUnit,
-            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,status,orgUnit,enrolledAt,program,trackedEntity,events]"
+            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,orgUnit,program,trackedEntity]"
         }
     }
 })
@@ -51,7 +51,7 @@ export function useTableData() {
     const programConfig = useRecoilValue(ProgramConfigState)
     const { getDataStoreData } = getSelectedKey();
     const { urlParamiters } = useQueryParams()
-    const [loading, setLoading] = useState<boolean>(false)
+    const setLoading = useSetRecoilState<boolean>(TableLoaderState)
     const [tableData, setTableData] = useState<TableDataProps[]>([])
     const { hide, show } = useShowAlerts()
     const { program, registration } = getDataStoreKeys()
@@ -60,7 +60,9 @@ export function useTableData() {
 
     async function getData(page: number, pageSize: number, clearSelection: boolean) {
         setLoading(true)
-        const events: EventQueryResults = await engine.query(EVENT_QUERY({
+
+        //GET ALL CURRENT YEAR REAGISTRATION EVENTS 
+        await engine.query(EVENT_QUERY({
             ouMode: "SELECTED",
             page,
             pageSize,
@@ -70,85 +72,91 @@ export function useTableData() {
             filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,
             orgUnit: school
-        })).catch((error) => {
+        })).then(async (response: any) => {
+            const allTeis: [] = response?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
+
+            //GET ALL TEIS THAT HAVE REGISTRATION EVENTS 'CAUSE WE NEED THEY ATTRIBUTES
+            allTeis?.length > 0
+                ? await engine.query(TEI_QUERY({
+                    program: program as unknown as string,
+                    trackedEntity: allTeis.join(";")
+                })).then(async (teiResponse: any) => {
+
+                    //GET FINAL RESULT EVENT FOR EACH STUDENT
+                    const marskEvents: MarksQueryResults = {
+                        results: { instances: [] }
+                    }
+
+                    for (const tei of allTeis) {
+                        await engine.query(EVENT_QUERY({
+                            // ouMode: "SELECTED",
+                            program: program as unknown as string,
+                            order: "createdAt:desc",
+                            programStage: getDataStoreData?.["final-result"].programStage,
+                            // orgUnit: school,
+                            trackedEntity: tei
+                        })).then((finalResuntEvent: any) => {
+                            marskEvents.results.instances.push(...finalResuntEvent?.results?.instances)
+                        }).catch((error) => {
+                            setLoading(false)
+                            show({
+                                message: `${("Could not get data")}: ${error.message}`,
+                                type: { critical: true }
+                            });
+                            setTimeout(hide, 5000);
+                        }) as unknown as MarksQueryResults
+                    }
+
+                    //FORMAT DATA TO LIST ON TABLE
+                    const localData = formatResponseRows({
+                        eventsInstances: response?.results?.instances,
+                        teiInstances: teiResponse?.results?.instances,
+                        marksInstances: marskEvents?.results?.instances,
+                        programConfig: programConfig,
+                        programStageId: getDataStoreData["final-result"].programStage
+                    })
+
+                    //FORMAT DATA TO SELECTION PROCESS
+                    var eventsWithTei: any[] = []
+                    response.results.instances.map((event: any) => {
+                        const currentEnrollmentMarkEvent = marskEvents.results.instances.filter((markEvent: any) => markEvent.enrollment === event.enrollment)[0]
+                        eventsWithTei.push({
+                            ...currentEnrollmentMarkEvent,
+                            tei: teiResponse?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
+                        });
+                    });
+
+                    setSelected(clearSelection ? { rows: eventsWithTei, selectedRows: [], isAllRowsSelected: false } : { ...selected, rows: eventsWithTei })
+                    setTableData(localData);
+                    setLoading(false)
+
+                }).catch((error) => {
+                    setLoading(false)
+                    show({
+                        message: `${("Could not get data")}: ${error.message}`,
+                        type: { critical: true }
+                    });
+                    setTimeout(hide, 5000);
+                }) as unknown as TeiQueryResults
+                : { results: { instances: [] } } as unknown as TeiQueryResults
+
+            if (allTeis?.length === 0) {
+                setLoading(false)
+                setTableData([]);
+            }
+
+        }).catch((error) => {
+            setLoading(false)
             show({
                 message: `${("Could not get data")}: ${error.message}`,
                 type: { critical: true }
             });
             setTimeout(hide, 5000);
         }) as unknown as EventQueryResults
-
-        const allTeis = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity)
-        const trackedEntityToFetch = events?.results?.instances.map((x: { trackedEntity: string }) => x.trackedEntity).toString().replaceAll(",", ";")
-
-        const teiResults: TeiQueryResults = trackedEntityToFetch?.length > 0
-            ? await engine.query(TEI_QUERY({
-                // ouMode: "SELECTED",
-                // order: "created:desc",
-                // pageSize,
-                program: program as unknown as string,
-                // programStatus: "ACTIVE",
-                // orgUnit: school,
-                trackedEntity: trackedEntityToFetch
-            })).catch((error) => {
-                show({
-                    message: `${("Could not get data")}: ${error.message}`,
-                    type: { critical: true }
-                });
-                setTimeout(hide, 5000);
-            }) as unknown as TeiQueryResults
-            : { results: { instances: [] } } as unknown as TeiQueryResults
-
-        const marskEvents: MarksQueryResults = {
-            results: {
-                instances: [] as unknown as []
-            }
-        }
-
-        for (const tei of allTeis) {
-            const marksResults: MarksQueryResults = await engine.query(EVENT_QUERY({
-                //ouMode: "SELECTED",
-                program: program as unknown as string,
-                order: "createdAt:desc",
-                programStage: getDataStoreData?.["final-result"].programStage,
-                //orgUnit: school,
-                trackedEntity: tei
-            })).catch((error) => {
-                show({
-                    message: `${("Could not get data")}: ${error.message}`,
-                    type: { critical: true }
-                });
-                setTimeout(hide, 5000);
-            }) as unknown as MarksQueryResults
-            marskEvents.results.instances.push(...marksResults?.results?.instances)
-        }
-
-
-        const localData = formatResponseRows({
-            eventsInstances: events?.results?.instances,
-            teiInstances: teiResults?.results?.instances,
-            marksInstances: marskEvents?.results?.instances,
-            programConfig: programConfig,
-            programStageId: getDataStoreData["final-result"].programStage
-        })
-
-        var eventsWithTei: any[] = []
-        events.results.instances.map((event: any) => {
-            const currentEnrollmentMarkEvent = marskEvents.results.instances.filter((markEvent: any) => markEvent.enrollment === event.enrollment)[0]
-            eventsWithTei.push({
-                ...currentEnrollmentMarkEvent,
-                tei: teiResults?.results?.instances.find((tei: { trackedEntity: string }) => tei.trackedEntity === event.trackedEntity)
-            });
-        });
-
-        setSelected(clearSelection ? { rows: eventsWithTei, selectedRows: [], isAllRowsSelected: false } : { ...selected, rows: eventsWithTei })
-        setTableData(localData);
-        setLoading(false)
     }
 
     return {
         getData,
-        tableData,
-        loading,
+        tableData
     }
 }

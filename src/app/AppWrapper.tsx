@@ -29,7 +29,7 @@ export default function AppWrapper(props: AppConfigurationsProps) {
             </CenteredContent>
         )
     }
-
+    
     return (
         <>{props.children}</>
     )
