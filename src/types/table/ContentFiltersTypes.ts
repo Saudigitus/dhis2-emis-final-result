@@ -16,6 +16,7 @@ interface SelectorContentsProps {
     onClose: () => void
     disabledReset: boolean
     colum: CustomAttributeProps
+    filled: boolean | string
     onChange: () => void
     value: any
     onQuerySubmit: () => void
