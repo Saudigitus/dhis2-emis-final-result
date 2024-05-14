@@ -117,6 +117,7 @@ function SelectButton(props: SelectButtonProps) {
                                     <SelectorContents
                                         colum={colum}
                                         onClose={onClose}
+                                        filled={filled}
                                         onChange={onChange}
                                         value={value}
                                         onQuerySubmit={onQuerySubmit}
