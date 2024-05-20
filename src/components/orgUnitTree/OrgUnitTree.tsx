@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDataQuery } from '@dhis2/app-runtime'
 import { useQueryParams } from '../../hooks';
 import { CenteredContent, CircularLoader, Help } from "@dhis2/ui"
-import {  useRecoilState } from "recoil"
+import { useRecoilState } from "recoil"
 import OrgUnitTreeComponent from './OrgUnitTreeComponent';
 import { SearchOu } from '../../types/ouQueryParams/ouQueryParams';
 import { OuQueryString } from '../../schema/headerSearchInputSchema';
@@ -95,13 +95,13 @@ export default function OrgUnitTree(props: OrgUnitTreeProps): React.ReactElement
     const renderOrgUnitTree = () => {
         if (stringQuery?.length) {
             return (<OrgUnitTreeComponent
-                roots={searchData?.orgUnits?.organisationUnits}
+                roots={searchData?.orgUnits?.organisationUnits as unknown[]}
                 onSelectClick={onOuChange}
                 treeKey={key}
             />);
         }
         return (<OrgUnitTreeComponent
-            roots={data?.orgUnits?.organisationUnits}
+            roots={data?.orgUnits?.organisationUnits as unknown[]}
             onSelectClick={onOuChange}
             treeKey={'initial'}
             previousOrgUnitId={[]}
