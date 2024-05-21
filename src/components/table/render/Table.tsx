@@ -3,7 +3,7 @@ import RenderRows from './RenderRows'
 import RenderHeader from './RenderHeader'
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { teiRefetch } from '../../../schema/teiRefetchSchema';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
 import { WithBorder, WithPadding } from '../../../components';
@@ -11,7 +11,7 @@ import { HeaderFieldsState } from '../../../schema/headersSchema';
 import WorkingLits from '../components/filters/workingList/WorkingLits';
 import { HeaderFilters, Pagination, TableComponent } from '../components'
 import { useQueryParams, useTableData, useHeader } from '../../../hooks';
-import { RowSelectionState, TableLoaderState } from '../../../schema/tableSelectedRowsSchema';
+import { TableLoaderState } from '../../../schema/tableSelectedRowsSchema';
 
 const usetStyles = makeStyles({
     tableContainer: {
@@ -66,11 +66,6 @@ function Table() {
     }
     return (
         <Paper>
-            {loading &&
-                <CenteredContent>
-                    <CircularLoader />
-                </CenteredContent>
-            }
             <div className={classes.workingListsContainer}>
                 <h4 className={classes.h4}>Final result</h4>
                 <WorkingLits />
@@ -82,20 +77,26 @@ function Table() {
                     <div
                         className={classes.tableContainer}
                     >
-                        <TableComponent>
-                            <>
-                                <RenderHeader
-                                    createSortHandler={() => { }}
-                                    order='asc'
-                                    orderBy='desc'
-                                    rowsHeader={columns}
-                                />
-                                <RenderRows
-                                    headerData={columns}
-                                    rowsData={tableData}
-                                />
-                            </>
-                        </TableComponent>
+                        {loading ?
+                            <CenteredContent>
+                                <CircularLoader />
+                            </CenteredContent>
+                            :
+                            <TableComponent>
+                                <>
+                                    <RenderHeader
+                                        createSortHandler={() => { }}
+                                        order='asc'
+                                        orderBy='desc'
+                                        rowsHeader={columns}
+                                    />
+                                    <RenderRows
+                                        headerData={columns}
+                                        rowsData={tableData}
+                                    />
+                                </>
+                            </TableComponent>
+                        }
                     </div>
                     <Pagination
                         loading={loading}
