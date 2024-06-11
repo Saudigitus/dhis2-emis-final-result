@@ -11,6 +11,8 @@ import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
 import { RenderRowsProps } from '../../../types/table/TableContentTypes';
 import { makeStyles, type Theme, createStyles } from '@material-ui/core/styles';
 import { getDisplayName } from '../../../utils/table/rows/getDisplayNameByOption';
+import { useQueryParams } from '../../../hooks';
+import { checkOwnershipOu } from '../../../utils/table/rows/rowDisable';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,11 +41,23 @@ const useStyles = makeStyles((theme: Theme) =>
 function RenderRows(props: RenderRowsProps): React.ReactElement {
     const { headerData, rowsData, hideCheckBox } = props
     const classes = useStyles()
+    const { useQuery } = useQueryParams()
+    const currentSchool = useQuery().get("school")
     const programConfigState = useRecoilValue(ProgramConfigState);
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
+    const filterCheckables = () => {
+        const students: any[] = []
+        for (const student of selected.rows) {
+            if (student?.tei?.programOwners?.[0].orgUnit == currentSchool) {
+                students.push(student)
+            }
+        }
+        return students
+    }
+
     const onToggle = (rawRowData: object) => {
-        setSelected({ ...selected, selectedRows: checkIsRowSelected({ rawRowData: rawRowData, selected: selected }), isAllRowsSelected: selected.rows.length === checkIsRowSelected({ rawRowData: rawRowData, selected: selected }).length })
+        setSelected({ ...selected, selectedRows: checkIsRowSelected({ rawRowData: rawRowData, selected: selected }), isAllRowsSelected: filterCheckables().length === checkIsRowSelected({ rawRowData: rawRowData, selected: selected }).length })
     }
 
     if (rowsData?.length === 0) {
@@ -67,6 +81,7 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                 rowsData?.map((row, index) => (
                     <RowTable
                         key={index}
+                        isOwnershipOu={checkOwnershipOu(row.ownershipOu, currentSchool as unknown as string)}
                         className={classNames(classes.row, classes.dataRow)}
                     >
                         {hideCheckBox ? null : <RowCell
@@ -74,8 +89,9 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
-                                    checked={selected.isAllRowsSelected || selected.selectedRows.filter((element: any) => element?.event === row?.event).length > 0}
+                                    checked={selected.selectedRows.filter((element: any) => element?.event === row?.event).length > 0}
                                     name="Ex"
+                                    disabled={!checkOwnershipOu(row.ownershipOu, currentSchool as unknown as string)}
                                     onChange={() => { onToggle(selected.rows.filter((rowTable: any) => rowTable?.event === row?.event)?.[0]); }}
                                     value="checked"
                                 />

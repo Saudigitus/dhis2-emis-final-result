@@ -72,6 +72,7 @@ interface RowTableProps {
     className?: string
     passOnProps?: object
     table?: tableProps
+    isOwnershipOu?: boolean
 }
 
 export type { TableComponentProps, HeaderCellProps, RowProps, RenderHeaderProps, TableSortProps, TableDataProps, RenderRowsProps, RowCellProps, RowTableProps }

@@ -40,7 +40,7 @@ const TEI_QUERY = ({ ouMode, pageSize, program, trackedEntity, orgUnit, order, p
             pageSize,
             trackedEntity,
             orgUnit,
-            fields: "trackedEntity,trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,orgUnit,program,trackedEntity]"
+            fields: "trackedEntity,programOwners[orgUnit],trackedEntityType,createdAt,orgUnit,attributes[attribute,value],enrollments[enrollment,orgUnit,program,trackedEntity]"
         }
     }
 })
@@ -81,7 +81,6 @@ export function useTableData() {
                     program: program as unknown as string,
                     trackedEntity: allTeis.join(";")
                 })).then(async (teiResponse: any) => {
-
                     //GET FINAL RESULT EVENT FOR EACH STUDENT
                     const marskEvents: MarksQueryResults = {
                         results: { instances: [] }

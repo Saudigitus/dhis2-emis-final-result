@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react'
 import { Checkbox } from "@dhis2/ui"
 import classNames from 'classnames';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { RowTable, HeaderCell } from '../components'
-import { RowSelectionState } from '../../../schema/tableSelectedRowsSchema';
+import { RowSelectionState, TableLoaderState } from '../../../schema/tableSelectedRowsSchema';
 import { RenderHeaderProps } from '../../../types/table/TableContentTypes';
 import { makeStyles, createStyles, type Theme } from '@material-ui/core/styles';
+import { useQueryParams } from '../../../hooks';
+import { checkOwnershipOu } from '../../../utils/table/rows/rowDisable';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -42,12 +44,29 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function RenderHeader(props: RenderHeaderProps): React.ReactElement {
-    const { rowsHeader, order, orderBy, createSortHandler,hideCheckBox} = props
+    const { rowsHeader, hideCheckBox } = props
+    const { useQuery } = useQueryParams()
+    const currentSchool = useQuery().get("school")
+    const loading = useRecoilValue(TableLoaderState)
     const classes = useStyles()
     const [selected, setSelected] = useRecoilState(RowSelectionState);
 
+    const filterCheckables = () => {
+        const students: any[] = []
+        for (const student of selected.rows) {
+            if (student?.tei?.programOwners?.[0].orgUnit == currentSchool) {
+                students.push(student)
+            }
+        }
+        return students
+    }
+
+    // const checkAllRowsSelected = (checked: boolean) => {
+    //     return filterCheckables().length < selected.rows.length ? false : checked
+    // }
+
     const onToggle = (event: { checked: boolean }) => {
-        const copySelectedState = { ...selected, isAllRowsSelected: event.checked, selectedRows: event.checked ? selected.rows : [] };
+        const copySelectedState = { ...selected, isAllRowsSelected: event.checked, selectedRows: event.checked ? filterCheckables() : [] };
         setSelected(copySelectedState);
     }
 
@@ -81,13 +100,14 @@ function RenderHeader(props: RenderHeaderProps): React.ReactElement {
             <RowTable
                 className={classes.row}
             >
-                {hideCheckBox?null:<HeaderCell
+                {hideCheckBox ? null : <HeaderCell
                     className={classNames(classes.cell, classes.headerCell)}
                 >
                     <Checkbox
-                        indeterminate={selected.selectedRows.length > 0 && selected.selectedRows.length !== selected.rows.length}
+                        indeterminate={selected.selectedRows.length > 0 && selected.selectedRows.length !== filterCheckables().length}
                         checked={selected.isAllRowsSelected}
                         onChange={onToggle}
+                        disabled={loading}
                         name="Ex"
                         value="checked"
                     />

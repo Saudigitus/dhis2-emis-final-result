@@ -130,3 +130,12 @@
     display: flex;
     align-items: center;
 }
+
+.disabledRowOwnershipOu {
+    background: rgba(207, 207, 207, .3) !important;
+    cursor: not-allowed !important;
+}
+
+.disabledRowOwnershipOu .tableCell {
+    color: rgba(0, 0, 0, 0.4) !important;
+}

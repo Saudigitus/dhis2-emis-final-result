@@ -12,7 +12,7 @@ export function formatResponseRows({ eventsInstances, teiInstances, marksInstanc
         allRows.push({
             ...(marksDetails !== undefined ? { ...dataValues(marksDetails?.dataValues, programConfig, programStageId) } : {}),
             ...(event !== undefined ? { ...dataValues(event.dataValues, programConfig, programStageId) } : {}),
-            ...(attributes((teiDetails?.attributes) ?? [], programConfig)), ...{ trackedEntity: marksDetails?.trackedEntity, event: marksDetails?.event }
+            ...(attributes((teiDetails?.attributes) ?? [], programConfig)), ...{ trackedEntity: marksDetails?.trackedEntity, event: marksDetails?.event,ownershipOu: teiDetails?.programOwners?.[0]?.orgUnit}
         })
     }
     return allRows;
