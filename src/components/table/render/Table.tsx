@@ -77,26 +77,28 @@ function Table() {
                     <div
                         className={classes.tableContainer}
                     >
-                        {loading ?
-                            <CenteredContent>
-                                <CircularLoader />
-                            </CenteredContent>
-                            :
-                            <TableComponent>
-                                <>
-                                    <RenderHeader
-                                        createSortHandler={() => { }}
-                                        order='asc'
-                                        orderBy='desc'
-                                        rowsHeader={columns}
-                                    />
+                        <TableComponent>
+                            <>
+                                <RenderHeader
+                                    createSortHandler={() => { }}
+                                    order='asc'
+                                    orderBy='desc'
+                                    rowsHeader={columns}
+                                />
+                                {!loading && (
                                     <RenderRows
                                         headerData={columns}
                                         rowsData={tableData}
+                                        loading={loading}
                                     />
-                                </>
-                            </TableComponent>
-                        }
+                                )}
+                            </>
+                        </TableComponent>
+                        {(loading) ? (
+                            <CenteredContent className="p-4">
+                                <CircularLoader />
+                            </CenteredContent>
+                        ) : null}
                     </div>
                     <Pagination
                         loading={loading}

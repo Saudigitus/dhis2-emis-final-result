@@ -50,6 +50,7 @@ type TableDataProps = Record<string, string>;
 interface RenderRowsProps {
     hideCheckBox?:boolean
     rowsData: any[]
+    loading?: boolean, 
     headerData: CustomAttributeProps[]
 }
 

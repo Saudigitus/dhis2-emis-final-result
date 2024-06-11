@@ -3,7 +3,7 @@ import i18n from '@dhis2/d2-i18n';
 import classNames from 'classnames';
 import { Checkbox } from "@dhis2/ui";
 import { useRecoilState } from 'recoil';
-import {useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { ProgramConfigState } from '../../../schema/programSchema';
 import { RowCell, RowTable } from '../components';
 import { checkIsRowSelected } from '../../../utils/commons/arrayUtils';
@@ -69,14 +69,14 @@ function RenderRows(props: RenderRowsProps): React.ReactElement {
                         key={index}
                         className={classNames(classes.row, classes.dataRow)}
                     >
-                        {hideCheckBox ?null: <RowCell
+                        {hideCheckBox ? null : <RowCell
                             className={classNames(classes.cell, classes.bodyCell)}
                         >
                             <div onClick={(event) => { event.stopPropagation(); }}>
                                 <Checkbox
                                     checked={selected.isAllRowsSelected || selected.selectedRows.filter((element: any) => element?.event === row?.event).length > 0}
                                     name="Ex"
-                                    onChange={() => { onToggle(selected.rows.filter(rowTable => rowTable?.event === row?.event)?.[0]); }}
+                                    onChange={() => { onToggle(selected.rows.filter((rowTable: any) => rowTable?.event === row?.event)?.[0]); }}
                                     value="checked"
                                 />
                             </div>
