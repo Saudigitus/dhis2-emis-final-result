@@ -8,6 +8,7 @@ import { RowSelectionState } from "../../schema/tableSelectedRowsSchema";
 import useGetUsedPProgramStages from "../programStages/useGetUsedPProgramStages";
 import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
 import {useState} from "react"
+import { formatDateToIsoString } from "../../utils/commons/formatDateToIsoString";
 
 const UPDATE_ENROLLMENT_MUTATION: any = {
     resource: "tracker",
@@ -98,7 +99,7 @@ const usePromoteStudent = () => {
         }
 
         if (studentsAbleToSave.length > 0) {
-            await mutate({ data: promoteTeiPostBody(studentsAbleToSave, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, enrollmentDate) })
+            await mutate({ data: promoteTeiPostBody(studentsAbleToSave, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, formatDateToIsoString(enrollmentDate)) })
                 .then(() => {
                     setSelected({ rows: [], selectedRows: [], isAllRowsSelected: false })
                     show({ message: "Promotion completed successfully", type: { success: true } })
