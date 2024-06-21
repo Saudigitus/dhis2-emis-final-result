@@ -104,8 +104,10 @@ export const CustomDhis2RulesEngine = (props: RulesEngineProps) => {
                             if (variable.name === programRule.variable) {
                                 if (executeFunctionName(programRule.functionName, existValue(programRule.condition, values, formatKeyValueType))) {
                                     variable.content = programRule.content
+                                    variable.warning = true
                                 } else {
                                     variable.content = ""
+                                    variable.warning = false
                                 }
                             }
                             break;
@@ -140,10 +142,11 @@ export const CustomDhis2RulesEngine = (props: RulesEngineProps) => {
                                 const foundOrgUnitGroup = orgUnitsGroups?.filter(x => x.value === orgUnitGroup)
 
                                 if (foundOrgUnitGroup.length > 0) {
+
                                     if (foundOrgUnitGroup[0]?.organisationUnits.findIndex(x => x.value === values["orgUnit"]) > -1) {
-                                        console.log(variable);
                                         const options = getOptionGroups?.filter((op) => op.id === programRule.optionGroup)?.[0]?.options?.slice()?.sort(compareStringByLabel) || []
-                                        variable.options = { optionSet: { options: variable?.initialOptions?.optionSet?.options?.filter((obj1: any) => !options.some(obj2 => obj2.value === obj1.value)) } }
+
+                                        variable.options = { optionSet: { options: variable?.initialOptions?.optionSet?.options?.filter((obj1: { value: string }) => !options.some(obj2 => obj2.value === obj1.value)) } }
                                     }
                                 }
                             }
@@ -169,6 +172,7 @@ export function removeSpecialCharacters(text: string | undefined) {
     if (typeof text === "string") {
         return text
             .replaceAll("d2:hasValue", "")
+            .replaceAll("d2:length", "")
             .replaceAll("d2:yearsBetween", "")
             .replaceAll("d2:concatenate", "")
             .replaceAll("d2:inOrgUnitGroup", "")
@@ -176,6 +180,7 @@ export function removeSpecialCharacters(text: string | undefined) {
             .replaceAll("A{", "")
             .replaceAll("V{", "")
             .replaceAll("}", "")
+            .replaceAll("&&", "&")
             .replaceAll("current_date", `'${format(new Date(), "yyyy-MM-dd")}'`);
     }
 }
@@ -210,7 +215,7 @@ export function replaceEspecifValue(values: Record<string, any>, variables: Reco
 }
 
 // execute function
-function executeFunctionName(functionName: string | undefined, condition: string | undefined) {
+function executeFunctionName(functionName: string | undefined, condition: string | undefined, value?: string | undefined) {
     switch (functionName) {
         case "hasValue":
             return eval(condition ?? "");
@@ -218,11 +223,40 @@ function executeFunctionName(functionName: string | undefined, condition: string
             return eval(d2YearsBetween(condition, condition?.split(")")) ?? "");
 
         case "inOrgUnitGroup":
-            console.log(condition);
             return true
+
+        case "length":
+            return eval(compareLength(condition ?? "")) ? true : false;
+
+        case "substring":
+            const function_paramter = returnSubstring(condition?.split("d2:substring(").pop() ?? "")
+            const formated_function = condition?.replaceAll(condition?.split("d2:substring(").pop() as string, `${function_paramter}`).replaceAll("d2:substring", '').replaceAll("(", '')
+            return eval(formated_function as string)
+
         default:
             return eval(condition ?? "");
     }
+}
+
+function returnSubstring(value: string) {
+    const date = value.split(",")[0]
+    const start = value.split(",")[1] as unknown as number
+    const end = value.split(",")[2]?.split(")")[0] as unknown as number
+
+    return date.substring(start, end)
+}
+
+//compare values in string
+function compareLength(assignedValue: string) {
+    let value: any
+    const pattern = /\('([^']*)'\)/g;
+    const matches = [...assignedValue.matchAll(pattern)].map(match => match[1]);
+
+    for (let index = 0; index < matches.length; index++) {
+        value = assignedValue.replaceAll(`('${matches[index]}')`, `${matches[index].length}`)
+    }
+
+    return value
 }
 
 // get years between dates
