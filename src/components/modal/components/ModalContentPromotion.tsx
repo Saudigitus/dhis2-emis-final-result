@@ -30,7 +30,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     const { hide, show } = useShowAlerts()
     const [initialValues] = useState<object>({
         registerschoolstaticform: orgUnitName,
-        eventdatestaticform: format(new Date(), "yyyy-MM-dd")
+        enrollment_date: format(new Date(), "yyyy-MM-dd")
     })
 
     useEffect(() => { setClicked(false) }, [])
@@ -98,7 +98,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
                 if (sections[i].find((element: any) => element.id === key) !== null && sections[i].find((element: any) => element.id === key) !== undefined) {
                     // Sending onChanging form value to variables object
                     sections[i].find((element: any) => element.id === key).assignedValue = value
-                } else if (key === "eventdatestaticform") {
+                } else if (key === "enrollment_date") {
                     setEnrollmentDate(value)
                 }
             }

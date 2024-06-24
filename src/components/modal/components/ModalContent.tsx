@@ -24,7 +24,7 @@ function ModalContentComponent(props: ContentProps): React.ReactElement {
   const { loadUpdateEvent, updateEvent, data } = usePostEvent();
   const [initialValues] = useState<object>({
     registerschoolstaticform: orgUnitName,
-    eventdatestaticform: format(new Date(), "yyyy-MM-dd")
+    enrollment_date: format(new Date(), "yyyy-MM-dd")
   })
 
   useEffect(() => {

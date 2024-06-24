@@ -22,7 +22,7 @@ function GroupForm(props: GroupFormProps) {
                             key={i}
                             className={
                                 classNames( "row d-flex align-items-center", 
-                                x.error ? styles.errorFormField : styles.notErrorFormField,
+                                x.error ? styles.errorFormField : x.warning ? styles.warningFormField : styles.notErrorFormField,
                                 i % 2 === 0 ? styles.evenFormField  : styles.oddFormField)}
                             >
                                 <div className="col-12 col-md-6 d-flex">
