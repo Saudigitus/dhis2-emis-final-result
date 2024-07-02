@@ -7,13 +7,13 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
 
         for (const [key, value] of Object.entries(reducer(dataValues[0]))) {
             events.push({
-                occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+                occurredAt: enrollmentDate,
                 notes: [],
                 status: "ACTIVE",
                 program,
                 programStage: key,
                 orgUnit,
-                scheduledAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+                scheduledAt: enrollmentDate,
                 dataValues: value
             })
         }
@@ -29,13 +29,13 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
             })
         })
         events.push({
-            occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            occurredAt: enrollmentDate,
             notes: [],
             status: "ACTIVE",
             program,
             programStage: socioEconomicProgramStage,
             orgUnit,
-            scheduledAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+            scheduledAt: enrollmentDate,
             dataValues: socioEconomicDataValues
         })}
 
@@ -44,13 +44,13 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
         //CREATING  EMPTIES  EVENTS FOR PERFORMANCE AND FINAL RESULT PROGRAM STAGE
         performanceProgramStages.forEach(performanceProgramStage => {
             events.push({
-                occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+                occurredAt: enrollmentDate,
                 notes: [],
                 status: "ACTIVE",
                 program,
                 programStage: performanceProgramStage,
                 orgUnit,
-                scheduledAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+                scheduledAt: enrollmentDate
             })
         })
 
@@ -68,9 +68,9 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
                     attributes,
                     program: enrollments[0]?.program,
                     status: "COMPLETED",
-                    occurredAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+                    occurredAt: enrollmentDate,
                     orgUnit,
-                    enrolledAt: format(new Date(enrollmentDate), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"),
+                    enrolledAt: enrollmentDate,
                     events: buildEventBody(enrollments[0]?.program, orgUnit, socioEvents)
                 }
             ]
