@@ -78,7 +78,7 @@ const usePromoteStudent = () => {
             ).then(async (response: any) => {
                 if (response?.events?.instances?.length > 0) {
                     studentsUnableSave.push(student)
-                } else {
+                } else if (getDataStoreData?.["socio-economics"]?.programStage) {
                     await engine.query(SOCIO_ECONOMIC_EVENTS, {
                         variables: {
                             program: getDataStoreData.program,
@@ -94,11 +94,18 @@ const usePromoteStudent = () => {
                         }
                     })
                 }
+                else {
+                    for (const row of selected.selectedRows as unknown as any) {
+                        if (row?.trackedEntity === student?.trackedEntity) {
+                            studentsAbleToSave.push({ ...student })
+                        }
+                    }     
+                }
             }).catch(error => { })
         }
 
         if (studentsAbleToSave.length > 0) {
-            await mutate({ data: promoteTeiPostBody(studentsAbleToSave, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"].programStage, enrollmentDate) })
+            await mutate({ data: promoteTeiPostBody(studentsAbleToSave, fieldsWitValue, performanceProgramStages, getDataStoreData["socio-economics"]?.programStage, enrollmentDate) })
                 .then(() => {
                     setSelected({ rows: [], selectedRows: [], isAllRowsSelected: false })
                     show({ message: "Promotion completed successfully", type: { success: true } })
