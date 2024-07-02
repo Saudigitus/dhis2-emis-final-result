@@ -188,9 +188,15 @@ export function removeSpecialCharacters(text: string | undefined) {
 // replace condition with specific variable
 export function replaceConditionVariables(condition: string | undefined, variables: Record<string, string | undefined>) {
     let newcondition = condition;
-    for (const value of Object.keys(variables)) {
-        if (newcondition?.includes(value)) {
-            newcondition = newcondition.replaceAll(value, `'${variables[value]}'` || "''")
+
+    if (condition) {
+        const dataArray = condition.split(/[^a-zA-Z0-9_ ]+/)
+            .map(item => item.trim().replace(/^'(.*)'$/, '$1'))
+
+        for (const value of Object.keys(variables)) {
+            if (dataArray?.includes(value)) {
+                newcondition = newcondition?.replaceAll(value, `'${variables[value]}'` || "''")
+            }
         }
     }
     return newcondition;
@@ -206,7 +212,6 @@ export function replaceEspecifValue(values: Record<string, any>, variables: Reco
     // eslint-disable-next-line no-prototype-builtins
     if (values.hasOwnProperty(variables[variable])) {
         if (values[variables[variable]] != false) {
-
             return `'${values[variables[variable]]}'`;
         }
     }
@@ -215,7 +220,7 @@ export function replaceEspecifValue(values: Record<string, any>, variables: Reco
 }
 
 // execute function
-function executeFunctionName(functionName: string | undefined, condition: string | undefined, value?: string | undefined) {
+function executeFunctionName(functionName: string | undefined, condition: string | undefined) {
     switch (functionName) {
         case "hasValue":
             return eval(condition ?? "");
@@ -229,8 +234,9 @@ function executeFunctionName(functionName: string | undefined, condition: string
             return eval(compareLength(condition ?? "")) ? true : false;
 
         case "substring":
-            const function_paramter = returnSubstring(condition?.split("d2:substring(").pop() ?? "")
-            const formated_function = condition?.replaceAll(condition?.split("d2:substring(").pop() as string, `${function_paramter}`).replaceAll("d2:substring", '').replaceAll("(", '')
+            console.log(condition)
+            let function_paramter = returnSubstring(condition?.split("d2:substring(").pop() ?? "")
+            const formated_function = condition?.replaceAll(condition?.split("d2:substring(").pop() as string, function_paramter).replaceAll("d2:substring", '').replaceAll("(", '')
             return eval(formated_function as string)
 
         default:
@@ -239,11 +245,16 @@ function executeFunctionName(functionName: string | undefined, condition: string
 }
 
 function returnSubstring(value: string) {
-    const date = value.split(",")[0]
-    const start = value.split(",")[1] as unknown as number
-    const end = value.split(",")[2]?.split(")")[0] as unknown as number
+    const [stringToRepair, startStr, endStr] = value.replaceAll(")", "").split(",");
+    const start = Number(startStr);
+    const end = Number(endStr);
 
-    return date.substring(start, end)
+    const repairedString = stringToRepair.substring(start, end)
+
+    if (!isNaN(Number.parseInt(repairedString)))
+        return Number.parseInt(repairedString) as unknown as string
+    else
+        return `'${repairedString}'`
 }
 
 //compare values in string
@@ -278,16 +289,20 @@ function d2YearsBetween(origin: string | undefined, condition: string[] | undefi
 
 // replace varieble by value from condition
 export function existValue(condition: string | undefined, values: Record<string, any> = {}, formatKeyValueType: any) {
-    let localCondition = `'false'`;
+    let localCondition = `false`;
+    const dataArray = condition?.split(/[^a-zA-Z0-9_ ]+/)
+        .map(item => item.trim().replace(/^'(.*)'$/, '$1'))
+
     for (const value of Object.keys(values) || []) {
-        if (condition?.includes(value)) {
-            if (localCondition.includes(`'false'`)) {
-                localCondition = condition
+        if (dataArray?.includes(value)) {
+
+            if (localCondition.includes(`false`)) {
+                localCondition = condition as string
             }
 
             switch (formatKeyValueType[value]) {
                 case "BOOLEAN":
-                    localCondition = localCondition.replaceAll(value, `${values[value]}`.replace("false", "0").replace("true", "1"))
+                    localCondition = localCondition.replaceAll(value, `${values[value]}`.replaceAll("false", "0").replaceAll("true", "1"))
                     break;
 
                 case "NUMBER":
