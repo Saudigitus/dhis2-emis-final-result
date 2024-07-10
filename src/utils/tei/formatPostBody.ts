@@ -19,6 +19,7 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
         }
 
         //REPLICATING SOCIO ECONIMIC EVENTS
+        if(socioEconomicProgramStage){
         var socioEconomicDataValues: any[] = []
 
         socioEvents?.dataValues.forEach((dataValue: any) => {
@@ -36,7 +37,7 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
             orgUnit,
             scheduledAt: enrollmentDate,
             dataValues: socioEconomicDataValues
-        })
+        })}
 
         /////////////////////
 
