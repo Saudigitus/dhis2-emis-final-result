@@ -19,6 +19,7 @@ import ModalSummaryContent from "../../../modal/components/SummaryModalContent";
 import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps";
 import DropdownButtonComponent from "../../../button/DropdownButton";
 import styles from "./enrollmentActionsButtons.module.css";
+import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent";
 
 function EnrollmentActionsButtons() {
   const [open, setOpen] = useState<boolean>(false);
@@ -30,6 +31,8 @@ function EnrollmentActionsButtons() {
   const orgUnit = useQuery().get("school");
   const [selected] = useRecoilState(RowSelectionState);
   const { enrollmentsDetailsData } = useGetEnrollmentForm();
+  const [openExportEmptyTemplate, setOpenExportEmptyTemplate] =
+    useState<boolean>(false);
 
   const noFinalResultStudentSelected = selected.selectedRows.filter(
     (selectedRow: any) => !selectedRow?.dataValues?.[0]?.value
@@ -39,7 +42,9 @@ function EnrollmentActionsButtons() {
     {
       label: "Download template",
       divider: false,
-      onClick: () => {}
+      onClick: () => {
+        setOpenExportEmptyTemplate(true);
+      }
     }
   ];
 
@@ -142,6 +147,18 @@ function EnrollmentActionsButtons() {
           setOpen={setOpenImport}
         >
           <ImportContent setOpen={setOpen} />
+        </ModalComponent>
+      )}
+      {openExportEmptyTemplate && (
+        <ModalComponent
+          title={`Data Import Template Export`}
+          open={openExportEmptyTemplate}
+          setOpen={setOpenExportEmptyTemplate}
+        >
+          <ModalExportTemplateContent
+            sectionName={""}
+            setOpen={setOpenExportEmptyTemplate}
+          />
         </ModalComponent>
       )}
     </div>
