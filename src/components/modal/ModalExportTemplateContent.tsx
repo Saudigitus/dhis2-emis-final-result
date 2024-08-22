@@ -109,14 +109,7 @@ function ModalExportTemplateContent(
                 <ButtonStrip end>
                   {modalActions.map((action, i) => {
                     return (
-                      <Button
-                        key={i}
-                        {...action}
-                        disabled={
-                          action.id === "downloadTemplate" &&
-                          (!grade || !currentClass)
-                        }
-                      >
+                      <Button key={i} {...action}>
                         {action.label}
                       </Button>
                     )

@@ -28,13 +28,12 @@ function EnrollmentActionsButtons() {
   const [openSummary, setOpenSummary] = useState<boolean>(false)
   const [summaryData, setSummaryData] = useState<any>({})
   const { useQuery, urlParamiters } = useQueryParams()
-  const x = urlParamiters()
+  const { grade, class: currentClass } = urlParamiters()
   const orgUnit = useQuery().get("school")
   const [selected] = useRecoilState(RowSelectionState)
   const { enrollmentsDetailsData } = useGetEnrollmentForm()
   const [openExportEmptyTemplate, setOpenExportEmptyTemplate] =
     useState<boolean>(false)
-  console.log(x.class)
   const noFinalResultStudentSelected = selected.selectedRows.filter(
     (selectedRow: any) => !selectedRow?.dataValues?.[0]?.value
   )
@@ -101,7 +100,8 @@ function EnrollmentActionsButtons() {
               </span>
             ) as unknown as string
           }
-          disabled={false}
+          // disabled={false}
+          disabled={!grade || !currentClass}
           icon={<IconUserGroup16 />}
           options={enrollmentOptions}
         />
