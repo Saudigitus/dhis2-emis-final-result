@@ -23,9 +23,9 @@ function ModalExportTemplateContent(
     school: orgUnit,
     schoolName: orgUnitName,
     academicYear,
-    grade
+    grade,
+    class: currentClass
   } = urlParamiters()
-
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> =
     useRef(null)
 
@@ -109,7 +109,14 @@ function ModalExportTemplateContent(
                 <ButtonStrip end>
                   {modalActions.map((action, i) => {
                     return (
-                      <Button key={i} {...action}>
+                      <Button
+                        key={i}
+                        {...action}
+                        disabled={
+                          action.id === "downloadTemplate" &&
+                          (!grade || !currentClass)
+                        }
+                      >
                         {action.label}
                       </Button>
                     )
