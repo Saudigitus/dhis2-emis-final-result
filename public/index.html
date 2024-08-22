@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <meta name="theme-color" content="#ffffff" />
     <!--
             manifest.json provides metadata used when your web app is installed on a
             user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
         -->
-    <link rel="manifest" crossorigin="use-credentials" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="manifest"
+      crossorigin="use-credentials"
+      href="%PUBLIC_URL%/manifest.json"
+    />
     <meta name="msapplication-config" content="browserconfig.xml" />
-    <link rel="icon" type="image/png" sizes="48x48" href="%PUBLIC_URL%/dhis2-app-icon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="48x48"
+      href="%PUBLIC_URL%/dhis2-app-icon.png"
+    />
     <!--
             Notice the use of %PUBLIC_URL% in the tags above.
             It will be replaced with the URL of the `public` folder during the build.
@@ -22,9 +33,12 @@
             Learn how to configure a non-root public URL by running `npm run build`.
         -->
     <title>%REACT_APP_DHIS2_APP_NAME% | DHIS2</title>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  </head>
 
-<body>
+  <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="dhis2-app-root"></div>
     <div id="dhis2-portal-root"></div>
@@ -38,6 +52,5 @@
             To begin the development, run `npm start` or `yarn start`.
             To create a production bundle, use `npm run build` or `yarn build`.
         -->
-</body>
-
+  </body>
 </html>

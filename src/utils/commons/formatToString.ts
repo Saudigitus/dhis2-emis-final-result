@@ -1,4 +1,4 @@
-import { FormatToStringProps } from "../../types/utils/CommonsTypes"
+import type { FormatToStringProps } from "../../types/utils/CommonsTypes";
 
 /**
  * Our backend returns certain values as a number, but our
@@ -6,9 +6,9 @@ import { FormatToStringProps } from "../../types/utils/CommonsTypes"
  */
 
 export const formatToString = ({ value }: FormatToStringProps) => {
-    if (typeof value === 'number') {
-        return value.toString()
-    }
+  if (typeof value === "number") {
+    return value.toString();
+  }
 
-    return value
-}
+  return value;
+};
