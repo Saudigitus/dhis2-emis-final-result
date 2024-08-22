@@ -1,52 +1,52 @@
-import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import Tooltip from "@material-ui/core/Tooltip";
-import { useGetEnrollmentForm, useQueryParams } from "../../../../hooks";
+import React, { useState } from "react"
+import { useRecoilState } from "recoil"
+import Tooltip from "@material-ui/core/Tooltip"
+import { useGetEnrollmentForm, useQueryParams } from "../../../../hooks"
 import {
   IconAddCircle24,
   Button,
   ButtonStrip,
   IconUserGroup16
-} from "@dhis2/ui";
-import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema";
+} from "@dhis2/ui"
+import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema"
 import {
   ModalComponent,
   ModalContentComponent,
   ModalContentPromotion,
   ImportContent
-} from "../../../../components";
-import ModalSummaryContent from "../../../modal/components/SummaryModalContent";
-import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps";
-import DropdownButtonComponent from "../../../button/DropdownButton";
-import styles from "./enrollmentActionsButtons.module.css";
-import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent";
+} from "../../../../components"
+import ModalSummaryContent from "../../../modal/components/SummaryModalContent"
+import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps"
+import DropdownButtonComponent from "../../../button/DropdownButton"
+import styles from "./enrollmentActionsButtons.module.css"
+import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent"
 
 function EnrollmentActionsButtons() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [openPromotion, setOpenPromotion] = useState<boolean>(false);
-  const [openImport, setOpenImport] = useState<boolean>(false);
-  const [openSummary, setOpenSummary] = useState<boolean>(false);
-  const [summaryData, setSummaryData] = useState<any>({});
-  const { useQuery } = useQueryParams();
-  const orgUnit = useQuery().get("school");
-  const [selected] = useRecoilState(RowSelectionState);
-  const { enrollmentsDetailsData } = useGetEnrollmentForm();
+  const [open, setOpen] = useState<boolean>(false)
+  const [openPromotion, setOpenPromotion] = useState<boolean>(false)
+  const [openImport, setOpenImport] = useState<boolean>(false)
+  const [openSummary, setOpenSummary] = useState<boolean>(false)
+  const [summaryData, setSummaryData] = useState<any>({})
+  const { useQuery } = useQueryParams()
+  const orgUnit = useQuery().get("school")
+  const [selected] = useRecoilState(RowSelectionState)
+  const { enrollmentsDetailsData } = useGetEnrollmentForm()
   const [openExportEmptyTemplate, setOpenExportEmptyTemplate] =
-    useState<boolean>(false);
+    useState<boolean>(false)
 
   const noFinalResultStudentSelected = selected.selectedRows.filter(
     (selectedRow: any) => !selectedRow?.dataValues?.[0]?.value
-  );
+  )
 
   const enrollmentOptions: FlyoutOptionsProps[] = [
     {
-      label: "Download template",
+      label: "Export students list",
       divider: false,
       onClick: () => {
-        setOpenExportEmptyTemplate(true);
+        setOpenExportEmptyTemplate(true)
       }
     }
-  ];
+  ]
 
   return (
     <div>
@@ -60,7 +60,7 @@ function EnrollmentActionsButtons() {
             <Button
               disabled={orgUnit == null || selected.selectedRows.length === 0}
               onClick={() => {
-                setOpen(true);
+                setOpen(true)
               }}
               icon={<IconAddCircle24 />}
             >
@@ -80,7 +80,7 @@ function EnrollmentActionsButtons() {
           <span>
             <Button
               onClick={() => {
-                setOpenPromotion(true);
+                setOpenPromotion(true)
               }}
               disabled={
                 selected.selectedRows.length === 0 ||
@@ -162,7 +162,7 @@ function EnrollmentActionsButtons() {
         </ModalComponent>
       )}
     </div>
-  );
+  )
 }
 
-export default EnrollmentActionsButtons;
+export default EnrollmentActionsButtons

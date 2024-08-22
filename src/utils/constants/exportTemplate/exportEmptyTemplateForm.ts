@@ -1,5 +1,5 @@
-import { VariablesTypes } from "../../../types/variables/AttributeColumns";
-import type { FormSectionProps } from "../../../types/form/FormSectionProps";
+import { VariablesTypes } from "../../../types/variables/AttributeColumns"
+import type { FormSectionProps } from "../../../types/form/FormSectionProps"
 
 const staticForm = () => {
   return {
@@ -22,48 +22,48 @@ const staticForm = () => {
       header: "School",
       type: VariablesTypes.DataElement,
       assignedValue: undefined
-    },
-    numberOfStudents: {
-      required: true,
-      name: "studentsNumber",
-      labelName: "Number of Students",
-      valueType: "NUMBER",
-      options: undefined,
-      disabled: false,
-      pattern: "",
-      visible: true,
-      description: "Number of Students",
-      searchable: false,
-      error: false,
-      programStage: "",
-      content: "",
-      id: "studentsNumber",
-      displayName: "Number of Students",
-      header: "Number of Students",
-      type: VariablesTypes.DataElement,
-      assignedValue: undefined,
-      placeholder: "Maximum number of students supported for each file: 1000"
     }
-  };
-};
+    // numberOfStudents: {
+    //   required: true,
+    //   name: "studentsNumber",
+    //   labelName: "Number of Students",
+    //   valueType: "NUMBER",
+    //   options: undefined,
+    //   disabled: false,
+    //   pattern: "",
+    //   visible: true,
+    //   description: "Number of Students",
+    //   searchable: false,
+    //   error: false,
+    //   programStage: "",
+    //   content: "",
+    //   id: "studentsNumber",
+    //   displayName: "Number of Students",
+    //   header: "Number of Students",
+    //   type: VariablesTypes.DataElement,
+    //   assignedValue: undefined,
+    //   placeholder: "Maximum number of students supported for each file: 1000"
+    // }
+  }
+}
 
 function formFields(
   apiFormData: any[],
   sectionName: string
 ): FormSectionProps[] {
-  const [enrollmentDetails = []] = apiFormData;
+  const [enrollmentDetails = []] = apiFormData
   return [
     {
       section: "Details",
-      description: `This file will allow the import of new ${sectionName} data into the system.`,
+      description: `This file will allow you export student ${sectionName} data, update it with final decisions then import back into the system.`,
       visible: true,
       fields: [
         staticForm().registeringSchool,
-        ...enrollmentDetails,
-        staticForm().numberOfStudents
+        ...enrollmentDetails
+        // staticForm().numberOfStudents
       ]
     }
-  ];
+  ]
 }
 
-export { formFields, staticForm };
+export { formFields, staticForm }

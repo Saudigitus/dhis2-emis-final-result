@@ -1,57 +1,58 @@
-import React, { useState, useRef } from "react";
-import { ModalActions, Button, ButtonStrip, Tag, IconInfo16 } from "@dhis2/ui";
-import { Form } from "react-final-form";
-import GroupForm from "../form/GroupForm";
-import { useQueryParams } from "../../hooks";
-import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys";
-import { formFields } from "../../utils/constants/exportTemplate/exportEmptyTemplateForm";
-import type { ModalExportTemplateProps } from "../../types/modal/ModalProps";
-import useGetExportTemplateForm from "../../hooks/form/useGetExportTemplateForm";
-import useExportTemplate from "../../hooks/exportTemplate/useExportTemplate";
-import { removeFalseKeys } from "../../utils/commons/removeFalseKeys";
+import React, { useState, useRef } from "react"
+import { ModalActions, Button, ButtonStrip, Tag, IconInfo16 } from "@dhis2/ui"
+import { Form } from "react-final-form"
+import GroupForm from "../form/GroupForm"
+import { useQueryParams } from "../../hooks"
+import { getDataStoreKeys } from "../../utils/commons/dataStore/getDataStoreKeys"
+import { formFields } from "../../utils/constants/exportTemplate/exportEmptyTemplateForm"
+import type { ModalExportTemplateProps } from "../../types/modal/ModalProps"
+import useGetExportTemplateForm from "../../hooks/form/useGetExportTemplateForm"
+import useExportTemplate from "../../hooks/exportTemplate/useExportTemplate"
+import { removeFalseKeys } from "../../utils/commons/removeFalseKeys"
 
-const loading = false;
+const loading = false
 function ModalExportTemplateContent(
   props: ModalExportTemplateProps
 ): React.ReactElement {
-  const { setOpen, sectionName } = props;
-  const { exportFormFields } = useGetExportTemplateForm();
-  const { registration } = getDataStoreKeys();
+  const { setOpen, sectionName } = props
+  const { exportFormFields } = useGetExportTemplateForm()
+  const { registration } = getDataStoreKeys()
 
-  const { urlParamiters } = useQueryParams();
+  const { urlParamiters } = useQueryParams()
   const {
     school: orgUnit,
     schoolName: orgUnitName,
-    academicYear
-  } = urlParamiters();
+    academicYear,
+    grade
+  } = urlParamiters()
 
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> =
-    useRef(null);
+    useRef(null)
 
-  const [values, setValues] = useState<Record<string, string>>({});
+  const [values, setValues] = useState<Record<string, string>>({})
   const [initialValues] = useState<object>({
     orgUnitName,
-    [registration?.academicYear]: academicYear
-  });
-  const [loadingExport, setLoadingExport] = useState(false);
+    [registration?.academicYear]: academicYear,
+    [registration?.grade]: grade
+  })
+  const [loadingExport, setLoadingExport] = useState(false)
 
-  const { handleExportToWord } = useExportTemplate();
+  const { handleExportToWord } = useExportTemplate()
 
   async function onSubmit() {
     await handleExportToWord({
       academicYearId: values[registration.academicYear],
+      gradeId: values[registration.grade],
       orgUnit: values.orgUnit,
       orgUnitName: values.orgUnitName,
       studentsNumber: values.studentsNumber,
       setLoadingExport
-    });
-    // window.open(`${baseUrl}/api/documents/${documentId?.id}/data`, "_blank");
-    setOpen(false);
+    })
+    setOpen(false)
   }
 
   function onChange(e: any): void {
-    //object with form fields data
-    setValues(removeFalseKeys(e));
+    setValues(removeFalseKeys(e))
   }
 
   const modalActions = [
@@ -61,18 +62,18 @@ function ModalExportTemplateContent(
       label: "Cancel",
       disabled: loading,
       onClick: () => {
-        setOpen(false);
+        setOpen(false)
       }
     },
     {
       id: "downloadTemplate",
       type: "submit",
-      label: "Download template",
+      label: "Export Students List",
       primary: true,
       disabled: loadingExport,
       loading: loadingExport
     }
-  ];
+  ]
 
   return (
     <div>
@@ -83,7 +84,7 @@ function ModalExportTemplateContent(
 
       <Form initialValues={{ ...initialValues, orgUnit }} onSubmit={onSubmit}>
         {({ handleSubmit, values, form }) => {
-          formRef.current = form;
+          formRef.current = form
           return (
             <form
               onSubmit={handleSubmit}
@@ -99,7 +100,7 @@ function ModalExportTemplateContent(
                       fields={field.fields}
                       disabled={false}
                     />
-                  );
+                  )
                 }
               )}
 
@@ -111,16 +112,16 @@ function ModalExportTemplateContent(
                       <Button key={i} {...action}>
                         {action.label}
                       </Button>
-                    );
+                    )
                   })}
                 </ButtonStrip>
               </ModalActions>
             </form>
-          );
+          )
         }}
       </Form>
     </div>
-  );
+  )
 }
 
-export default ModalExportTemplateContent;
+export default ModalExportTemplateContent

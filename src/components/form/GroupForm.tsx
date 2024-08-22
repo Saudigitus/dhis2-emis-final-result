@@ -1,14 +1,12 @@
-import React from "react";
-import { Label } from "@dhis2/ui";
-import classNames from "classnames";
-import styles from "./groupForm.module.css";
-import type { GroupFormProps } from "../../types/groupForm/GroupFormTypes";
-import { WithBorder, WithPadding, GenericFields, Subtitle } from "../index";
+import React from "react"
+import { Label } from "@dhis2/ui"
+import classNames from "classnames"
+import styles from "./groupForm.module.css"
+import type { GroupFormProps } from "../../types/groupForm/GroupFormTypes"
+import { WithBorder, WithPadding, GenericFields, Subtitle } from "../index"
 
 function GroupForm(props: GroupFormProps) {
-  const { name, fields, description } = props;
-  console.log(fields);
-
+  const { name, fields, description } = props
   return (
     <WithBorder type={"all"}>
       <WithPadding p={"16px 5px 0px 5px"}>
@@ -47,12 +45,12 @@ function GroupForm(props: GroupFormProps) {
                     <span className={styles.helpText}>{x.content}</span>
                   </div>
                 </div>
-              );
+              )
             })}
         </WithPadding>
       </WithPadding>
     </WithBorder>
-  );
+  )
 }
 
-export default GroupForm;
+export default GroupForm
