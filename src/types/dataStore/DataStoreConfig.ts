@@ -1,65 +1,78 @@
 interface attendance {
-    absenceReason: string
-    programStage: string
-    status: string
-    statusOptions: [{
-        code: string
-        icon: string
-    }]
+  absenceReason: string
+  programStage: string
+  status: string
+  statusOptions: [
+    {
+      code: string
+      icon: string
+    }
+  ]
 }
 interface simpleProgramStage {
-    programStage: string
+  programStage: string
 }
 interface performance {
-    programStages: simpleProgramStage[]
+  programStages: simpleProgramStage[]
 }
 interface registration {
-    academicYear: string
-    grade: string
-    programStage: string
-    section: string
+  academicYear: string
+  grade: string
+  programStage: string
+  section: string
 }
 interface transfer {
-    destinySchool: string
-    programStage: string
-    status: string
+  destinySchool: string
+  programStage: string
+  status: string
+}
+
+interface finalResult extends simpleProgramStage {
+  status: string
 }
 
 interface defaults {
-    currentAcademicYear: string
+  currentAcademicYear: string
 }
 
 interface filterItem {
-    code: string
-    dataElement: string
-    order: number
+  code: string
+  dataElement: string
+  order: number
 }
-
 
 interface filterDataElements {
-    code: string
-    order: number
-    dataElement: string
+  code: string
+  order: number
+  dataElement: string
 }
 interface filters {
-    dataElements: filterDataElements[]
+  dataElements: filterDataElements[]
 }
 
 interface dataStoreRecord {
-    attendance: attendance
-    key: string
-    trackedEntityType: string
-    lastUpdate: string
-    performance: performance
-    program: string
-    filters: filters
-    registration: registration
-    ["socio-economics"]: simpleProgramStage
-    transfer: transfer
-    ["final-result"]: simpleProgramStage
-    defaults: defaults 
-
-
+  attendance: attendance
+  key: string
+  trackedEntityType: string
+  lastUpdate: string
+  performance: performance
+  program: string
+  filters: filters
+  registration: registration
+  ["socio-economics"]: simpleProgramStage
+  transfer: transfer
+  ["final-result"]: finalResult
+  defaults: defaults
 }
 
-export type {filterItem, dataStoreRecord, transfer, registration, performance, attendance, simpleProgramStage, filters, filterDataElements}
+export type {
+  filterItem,
+  dataStoreRecord,
+  transfer,
+  registration,
+  performance,
+  attendance,
+  simpleProgramStage,
+  filters,
+  filterDataElements
+}
