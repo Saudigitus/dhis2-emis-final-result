@@ -23,8 +23,7 @@ function ModalExportTemplateContent(
     school: orgUnit,
     schoolName: orgUnitName,
     academicYear,
-    grade,
-    class: currentClass
+    grade
   } = urlParamiters()
   const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> =
     useRef(null)

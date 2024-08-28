@@ -326,6 +326,16 @@ export default function useExportTemplate() {
         options: [],
         optionSetId: null,
         required: true
+      },
+      {
+        key: `occurredAt`,
+        id: `occurredAt`,
+        label: "Event Date",
+        valueType: "DATE",
+        optionSetValue: false,
+        options: [],
+        optionSetId: null,
+        required: true
       }
     ]
 
@@ -623,7 +633,6 @@ export default function useExportTemplate() {
       let index = 0
       for (let data of datas) {
         const rowData = localData[index]
-        console.log(rowData)
         dataSheet.addRow(
           headers.map((curr: any) => {
             const allIds = String(curr.id).split(".")

@@ -43,8 +43,9 @@ export function formatResponseRows({
       ...attributes(teiDetails?.attributes ?? [], programConfig),
       ...{
         trackedEntity: event?.trackedEntity,
-        event: marksDetails?.event,
-        enrollment: event?.enrollment
+        event: marksDetails?.event ?? "",
+        enrollment: event?.enrollment,
+        occurredAt: marksDetails?.occurredAt ?? new Date().toISOString()
       }
     })
   }
