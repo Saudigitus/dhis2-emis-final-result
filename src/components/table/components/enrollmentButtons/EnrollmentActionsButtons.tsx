@@ -1,42 +1,50 @@
+import Tooltip from "@material-ui/core/Tooltip"
+import { CloudUpload } from "@material-ui/icons"
+import { DropzoneDialog } from "material-ui-dropzone"
 import React, { useState } from "react"
 import { useRecoilState } from "recoil"
-import Tooltip from "@material-ui/core/Tooltip"
-import { DropzoneDialog } from "material-ui-dropzone"
-import { CloudUpload } from "@material-ui/icons"
+import { useShowAlerts } from "../../../../hooks/commons/useShowAlert"
 import SummaryCard from "../../../card/SummaryCard"
-
-// import {
-//   Divider,
-//   IconCheckmarkCircle16,
-//   Tag,
-//   ModalActions,
-//   Button,
-//   ButtonStrip
-// } from "@dhis2/ui"
-
-import { useGetEnrollmentForm, useQueryParams } from "../../../../hooks"
+import { useDataEngine } from "@dhis2/app-runtime"
 import {
-  IconAddCircle24,
   Button,
   ButtonStrip,
+  IconAddCircle24,
+  IconUserGroup16,
   ModalActions,
-  IconUserGroup16
+  TabBar,
+  Tab,
+  DataTable,
+  DataTableHead,
+  DataTableBody,
+  DataTableCell,
+  DataTableColumnHeader,
+  DataTableRow,
+  IconChevronDown16,
+  IconChevronRight16,
+  Divider,
+  Tag,
+  IconCheckmarkCircle16
 } from "@dhis2/ui"
-import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema"
+import Collapse from "@material-ui/core/Collapse"
+import InfoOutlined from "@material-ui/icons/InfoOutlined"
 import {
+  ImportContent,
   ModalComponent,
   ModalContentComponent,
   ModalContentPromotion,
-  ImportContent
+  WithPadding
 } from "../../../../components"
-import ModalSummaryContent from "../../../modal/components/SummaryModalContent"
-import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps"
-import DropdownButtonComponent from "../../../button/DropdownButton"
-import styles from "./enrollmentActionsButtons.module.css"
-import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent"
-import { getSelectedKey } from "../../../../utils/commons/dataStore/getSelectedKey"
+import { useGetEnrollmentForm, useQueryParams } from "../../../../hooks"
+import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema"
 import type { ButtonActionProps } from "../../../../types/Buttons/ButtonActions"
-import { useDataEngine } from "@dhis2/app-runtime"
+import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps"
+import { getSelectedKey } from "../../../../utils/commons/dataStore/getSelectedKey"
+import DropdownButtonComponent from "../../../button/DropdownButton"
+import ModalSummaryContent from "../../../modal/components/SummaryModalContent"
+import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent"
+import styles from "./enrollmentActionsButtons.module.css"
+import { teiRefetch } from "../../../../schema/teiRefetchSchema"
 
 function EnrollmentActionsButtons() {
   const engine = useDataEngine()
@@ -48,8 +56,13 @@ function EnrollmentActionsButtons() {
   const [openStudentUpdate, setOpenStudentUpdate] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [summaryData, setSummaryData] = useState<any>({})
-  const [foundEvents, setFoundEvents] = useState<any[]>([])
+  const [rowData, setRowData] = useState<any[]>([])
   const [ignoredEvents, setIgnoredEvents] = useState<any[]>([])
+  const [foundEvents, setFoundEvents] = useState<any[]>([]) // Track events to be sent to the system
+  const [, setRefresh] = useRecoilState(teiRefetch)
+  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
+
+  const { show } = useShowAlerts()
   const [loaders, setLoaders] = useState<{
     dryRun: boolean
     importation: boolean
@@ -61,16 +74,64 @@ function EnrollmentActionsButtons() {
   const { enrollmentsDetailsData } = useGetEnrollmentForm()
   const [openExportEmptyTemplate, setOpenExportEmptyTemplate] =
     useState<boolean>(false)
-  const [report, setReport] = useState<{
+  const [, setReport] = useState<{
     created: number
     updated: number
     deleted: number
     ignored: number
   }>({ deleted: 0, ignored: 0, created: 0, updated: 0 })
-  const [template, setTemplate] = useState<string>("validation")
+  const [, setTemplate] = useState<string>("validation")
+  const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false)
+  const [showDetails, setShowDetails] = useState<boolean>(false) // State for toggling details
+
+  // State to manage the active tab
+  const [activeTab, setActiveTab] = useState<string>("updates")
+
   const noFinalResultStudentSelected = selected.selectedRows.filter(
     (selectedRow: any) => !selectedRow?.dataValues?.[0]?.value
   )
+
+  const handleShowDetails = () => {
+    setShowDetails((prev) => !prev) // Toggle details view
+  }
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab)
+  }
+
+  const toggleRowExpansion = (index: number) => {
+    setExpandedRows((prev) => {
+      const newSet = new Set(prev)
+      if (newSet.has(index)) {
+        newSet.delete(index)
+      } else {
+        newSet.add(index)
+      }
+      return newSet
+    })
+  }
+
+  // Function to validate the data and return errors
+  const validateData = (event: any) => {
+    const errors: Array<{ field: string; value: string; error: string }> = []
+    const validValues = ["Promoted", "Dropout", "Failed"]
+
+    // Validate each field that is required to be "Promoted", "Dropout", or "Failed"
+    if (!validValues.includes(event["hcrjYJ6Yl5F.bsyU0WFfskG"])) {
+      errors.push({
+        field: "Final Decision",
+        value: event["hcrjYJ6Yl5F.bsyU0WFfskG"],
+        error: "Invalid value. Expected: Promoted, Dropout, or Failed."
+      })
+    }
+
+    return errors
+  }
+
+  const getErrors = (event: any) => {
+    return validateData(event)
+  }
+
   const enrollmentOptions: FlyoutOptionsProps[] = [
     {
       label: "Export students list",
@@ -84,66 +145,98 @@ function EnrollmentActionsButtons() {
       divider: false,
       onClick: () => {
         setIsOpen(() => true)
-        setFoundEvents(() => [])
+        setRowData(() => [])
         setIgnoredEvents(() => [])
+        setFoundEvents(() => [])
       }
     }
   ]
+
   const modalActions: ButtonActionProps[] = [
     {
       label: "Dry Run",
-      disabled: foundEvents.length === 0 || loaders.importation,
+      disabled:
+        rowData.length === 0 ||
+        loaders.importation ||
+        buttonsDisabled ||
+        ignoredEvents.length > 0,
       loading: loaders.dryRun,
-      onClick: async (): void => {
+      onClick: () => {
         setLoaders(() => ({ dryRun: true, importation: false }))
-        const response: any = await engine.mutate({
-          resource: "/tracker",
-          type: "create",
-          data: { events: foundEvents },
-          params: {
-            async: false,
-            importMode: "VALIDATE"
-          }
-        })
-        setReport(() => response.stats)
-        setTemplate(() => "report")
-        setLoaders(() => ({ dryRun: false, importation: false }))
+        engine
+          .mutate({
+            resource: "/tracker",
+            type: "create",
+            data: { events: foundEvents }, // Use foundEvents instead of rowData
+            params: {
+              async: false,
+              importMode: "VALIDATE"
+            }
+          })
+          .then((response: any) => {
+            setReport(() => response.stats)
+            setTemplate(() => "report")
+            setLoaders(() => ({ dryRun: false, importation: false }))
+            show({
+              message: "Dry Run Successful",
+              type: { success: true }
+            })
+          })
+          .catch(() => {})
       }
     },
     {
       label: "Update final decision",
       primary: true,
-      disabled: foundEvents.length === 0 || loaders.dryRun,
+      disabled:
+        rowData.length === 0 ||
+        loaders.dryRun ||
+        buttonsDisabled ||
+        ignoredEvents.length > 0,
       loading: loaders.importation,
-      onClick: async (): void => {
+      onClick: () => {
         setLoaders(() => ({ dryRun: false, importation: true }))
-        const response: any = await engine.mutate({
-          resource: "/tracker",
-          type: "create",
-          data: { events: foundEvents },
-          params: {
-            async: false
-          }
-        })
-        setReport(() => response.stats)
-        setTemplate(() => "report")
-        setLoaders(() => ({ dryRun: false, importation: false }))
+        engine
+          .mutate({
+            resource: "/tracker",
+            type: "create",
+            data: { events: foundEvents },
+            params: {
+              async: false
+            }
+          })
+          .then((response: any) => {
+            setReport(() => response.stats)
+            setTemplate(() => "report")
+            setLoaders(() => ({ dryRun: false, importation: false }))
+            show({
+              message: "Final Decisions Updated Successfully",
+              type: { success: true }
+            })
+            setButtonsDisabled(false)
+            setRowData([])
+            setIgnoredEvents([])
+            setSummaryData({})
+            setRefresh(true)
+          })
+          .catch(() => {})
       }
     },
     {
       label: "Close",
-      disabled: loaders.dryRun || loaders.importation,
+      disabled: false,
+      loading: false,
       onClick: () => {
         setOpenStudentUpdate(() => false)
       }
     }
   ]
+
   const onSave = async (files: File[]): Promise<void> => {
     const arrayBuffer = await files[0].arrayBuffer()
     const excelJS = (window as any).ExcelJS
     const workbook = new excelJS.Workbook()
     await workbook.xlsx.load(arrayBuffer)
-    // Assuming you want to read the first sheet
 
     const worksheet = workbook.getWorksheet(1) // Read the first worksheet
     const jsonData: any[] = []
@@ -167,9 +260,9 @@ function EnrollmentActionsButtons() {
 
       jsonData.push(rowData)
     })
+
     const { status, programStage } = getDataStoreData["final-result"]
     const program = getDataStoreData.program
-
     const dataElements: string[] = [status]
 
     jsonData.forEach((a) => {
@@ -193,12 +286,16 @@ function EnrollmentActionsButtons() {
         }
         return []
       })
-      if (dataValues.length > 0) {
+
+      const finalDecision = rest["hcrjYJ6Yl5F.bsyU0WFfskG"]
+      if (
+        dataValues.length > 0 &&
+        ["Promoted", "Dropout", "Failed"].includes(finalDecision)
+      ) {
+        setRowData((prev) => prev.concat({ ...currentEvent, ...rest }))
         setFoundEvents((prev) => prev.concat({ ...currentEvent, dataValues }))
       } else {
-        setIgnoredEvents((prev) =>
-          prev.concat({ ...currentEvent, ignoredEvents })
-        )
+        setIgnoredEvents((prev) => prev.concat({ ...currentEvent, ...rest }))
       }
     })
 
@@ -251,14 +348,7 @@ function EnrollmentActionsButtons() {
           </span>
         </Tooltip>
         <DropdownButtonComponent
-          name={
-            (
-              <span className={styles.work_buttons_text}>
-                Bulk final decision
-              </span>
-            ) as unknown as string
-          }
-          // disabled={false}
+          name="Bulk final decision"
           disabled={!grade || !currentClass}
           icon={<IconUserGroup16 />}
           options={enrollmentOptions}
@@ -350,37 +440,221 @@ function EnrollmentActionsButtons() {
       {openStudentUpdate && (
         <ModalComponent
           title={`Bulk final decision Summary`}
-          open={openExportEmptyTemplate}
+          open={openStudentUpdate}
           setOpen={setOpenStudentUpdate}
         >
-          {template === "report" && (
-            <ButtonStrip>
-              <SummaryCard
-                color="primary"
-                label="Updated"
-                value={report.updated}
-              />
-              <SummaryCard
-                color="error"
-                label="Ignored"
-                value={report.ignored}
-              />
-            </ButtonStrip>
-          )}
-          {template === "validation" && (
-            <ButtonStrip>
-              <SummaryCard
-                color="primary"
-                label="Final Decision Updates"
-                value={foundEvents.length}
-              />
-              <SummaryCard
-                color="error"
-                label="Ignored"
-                value={ignoredEvents.length}
-              />
-            </ButtonStrip>
-          )}
+          <Tag
+            positive
+            icon={<IconCheckmarkCircle16 />}
+            className={styles.tagContainer}
+          >
+            Students Final Decision Updates preview
+          </Tag>
+          <h3>Students List Template Processing Summary</h3>
+          <WithPadding />
+          <WithPadding />
+          <ButtonStrip>
+            <SummaryCard
+              color="primary"
+              label="Final Decision Updates"
+              value={rowData.length}
+            />
+            <SummaryCard
+              color="error"
+              label="Invalid Records"
+              value={ignoredEvents.length}
+            />
+          </ButtonStrip>
+          <WithPadding />
+          <WithPadding />
+          <ButtonStrip>
+            <Button
+              small
+              icon={<InfoOutlined className={styles.infoIcon} />}
+              onClick={handleShowDetails}
+            >
+              More details
+            </Button>
+          </ButtonStrip>
+          <Collapse in={showDetails}>
+            <div className={styles.detailsContainer}>
+              <TabBar>
+                <Tab
+                  onClick={() => handleTabClick("updates")}
+                  selected={activeTab === "updates"}
+                >
+                  {rowData.length}
+                  <br />
+                  Final Decision Updates
+                </Tab>
+                <Tab
+                  onClick={() => handleTabClick("ignored")}
+                  selected={activeTab === "ignored"}
+                >
+                  {ignoredEvents.length}
+                  <br />
+                  Ignored
+                </Tab>
+              </TabBar>
+
+              {activeTab === "updates" && (
+                <div>
+                  {rowData.length > 0 ? (
+                    <DataTable>
+                      <DataTableHead>
+                        <DataTableRow>
+                          <DataTableColumnHeader>Ref</DataTableColumnHeader>
+                          <DataTableColumnHeader>School</DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            Academic Year
+                          </DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            First Name
+                          </DataTableColumnHeader>
+                          <DataTableColumnHeader>Surname</DataTableColumnHeader>
+                          <DataTableColumnHeader>Grade</DataTableColumnHeader>
+                          <DataTableColumnHeader>Class</DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            Final Decision
+                          </DataTableColumnHeader>
+                        </DataTableRow>
+                      </DataTableHead>
+                      <DataTableBody>
+                        {rowData.map((event, index) => (
+                          <DataTableRow key={index}>
+                            <DataTableCell>{event.ref}</DataTableCell>
+                            <DataTableCell>{event.orgUnitName}</DataTableCell>
+                            <DataTableCell>
+                              {event.enrollmentDate}
+                            </DataTableCell>
+                            <DataTableCell>{event.gz8w04YBSS0}</DataTableCell>
+                            <DataTableCell>{event.ZIDlK6BaAU2}</DataTableCell>
+                            <DataTableCell>
+                              {event["Ni2qsy2WJn4.kNNoif9gASf"]}
+                            </DataTableCell>
+                            <DataTableCell>
+                              {event["Ni2qsy2WJn4.RhABRLO2Fae"]}
+                            </DataTableCell>
+                            <DataTableCell>
+                              {event["hcrjYJ6Yl5F.bsyU0WFfskG"]}
+                            </DataTableCell>
+                          </DataTableRow>
+                        ))}
+                      </DataTableBody>
+                    </DataTable>
+                  ) : (
+                    <p>No final decision updates to display!</p>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "ignored" && (
+                <div>
+                  {ignoredEvents.length > 0 ? (
+                    <DataTable>
+                      <DataTableHead>
+                        <DataTableRow>
+                          <DataTableColumnHeader>Actions</DataTableColumnHeader>
+                          <DataTableColumnHeader>Ref</DataTableColumnHeader>
+                          <DataTableColumnHeader>School</DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            Academic Year
+                          </DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            First Name
+                          </DataTableColumnHeader>
+                          <DataTableColumnHeader>Surname</DataTableColumnHeader>
+                          <DataTableColumnHeader>Grade</DataTableColumnHeader>
+                          <DataTableColumnHeader>Class</DataTableColumnHeader>
+                          <DataTableColumnHeader>
+                            Final Decision
+                          </DataTableColumnHeader>
+                        </DataTableRow>
+                      </DataTableHead>
+                      <DataTableBody>
+                        {ignoredEvents.map((event, index) => (
+                          <React.Fragment key={index}>
+                            <DataTableRow>
+                              <DataTableCell>
+                                <Button
+                                  small
+                                  icon={
+                                    expandedRows.has(index) ? (
+                                      <IconChevronDown16 />
+                                    ) : (
+                                      <IconChevronRight16 />
+                                    )
+                                  }
+                                  onClick={() => toggleRowExpansion(index)}
+                                />
+                              </DataTableCell>
+                              <DataTableCell>{event.ref}</DataTableCell>
+                              <DataTableCell>{event.orgUnitName}</DataTableCell>
+                              <DataTableCell>
+                                {event.enrollmentDate}
+                              </DataTableCell>
+                              <DataTableCell>{event.gz8w04YBSS0}</DataTableCell>
+                              <DataTableCell>{event.ZIDlK6BaAU2}</DataTableCell>
+                              <DataTableCell>
+                                {event["Ni2qsy2WJn4.kNNoif9gASf"]}
+                              </DataTableCell>
+                              <DataTableCell>
+                                {event["Ni2qsy2WJn4.RhABRLO2Fae"]}
+                              </DataTableCell>
+                              <DataTableCell>
+                                {event["hcrjYJ6Yl5F.bsyU0WFfskG"]}
+                              </DataTableCell>
+                            </DataTableRow>
+                            {expandedRows.has(index) && (
+                              <DataTableRow>
+                                <DataTableCell colSpan={9}>
+                                  <DataTable>
+                                    <DataTableHead>
+                                      <DataTableRow>
+                                        <DataTableColumnHeader>
+                                          Field
+                                        </DataTableColumnHeader>
+                                        <DataTableColumnHeader>
+                                          Value
+                                        </DataTableColumnHeader>
+                                        <DataTableColumnHeader>
+                                          Error
+                                        </DataTableColumnHeader>
+                                      </DataTableRow>
+                                    </DataTableHead>
+                                    <DataTableBody>
+                                      {getErrors(event).map(
+                                        (error, errIndex) => (
+                                          <DataTableRow key={errIndex}>
+                                            <DataTableCell>
+                                              {error.field}
+                                            </DataTableCell>
+                                            <DataTableCell>
+                                              {error.value}
+                                            </DataTableCell>
+                                            <DataTableCell>
+                                              {error.error}
+                                            </DataTableCell>
+                                          </DataTableRow>
+                                        )
+                                      )}
+                                    </DataTableBody>
+                                  </DataTable>
+                                </DataTableCell>
+                              </DataTableRow>
+                            )}
+                          </React.Fragment>
+                        ))}
+                      </DataTableBody>
+                    </DataTable>
+                  ) : (
+                    <p>No ignored updates to display!</p>
+                  )}
+                </div>
+              )}
+            </div>
+          </Collapse>
+          <Divider className={styles.divider} />
           <ModalActions>
             <ButtonStrip end>
               {modalActions.map((action, i) => (

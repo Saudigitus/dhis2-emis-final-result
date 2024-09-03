@@ -1,11 +1,11 @@
-import React from "react";
-import styles from "./text.module.css";
-import { TitleProps } from "../../types/text/TitleTypes";
+import React from "react"
+import styles from "./text.module.css"
+import type { TitleProps } from "../../types/text/TitleTypes"
 
 function Title(props: TitleProps): React.ReactElement {
-  const { label } = props;
+  const { label } = props
 
-  return <label className={styles.title}>{label}</label>;
+  return <label className={styles.title}>{label}</label>
 }
 
-export default Title;
+export default Title

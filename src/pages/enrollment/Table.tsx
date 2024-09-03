@@ -1,8 +1,8 @@
-import React from "react";
-import { Table } from "../../components";
+import React from "react"
+import { Table } from "../../components"
 
 function TableComponent() {
-  return <Table />;
+  return <Table />
 }
 
-export default TableComponent;
+export default TableComponent

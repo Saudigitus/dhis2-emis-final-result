@@ -91,11 +91,11 @@ function Table() {
                 )}
               </>
             </TableComponent>
-            {loading ? (
+            {loading && (
               <CenteredContent className="p-4">
                 <CircularLoader />
               </CenteredContent>
-            ) : null}
+            )}
           </div>
           <Pagination
             loading={loading}
