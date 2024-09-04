@@ -326,6 +326,16 @@
 //         options: [],
 //         optionSetId: null,
 //         required: true
+//       },
+//       {
+//         key: `occurredAt`,
+//         id: `occurredAt`,
+//         label: "Event Date",
+//         valueType: "DATE",
+//         optionSetValue: false,
+//         options: [],
+//         optionSetId: null,
+//         required: true
 //       }
 //     ]
 
@@ -458,7 +468,7 @@
 //       // Generating validation data
 //       validationSheetConstructor(validationSheet, headers)
 
-//       // generation des données du metadatas
+//       // Set columns for Metadata sheet
 //       metaDataSheet.columns = [
 //         {
 //           header: "programId",
@@ -500,6 +510,7 @@
 //         }
 //       ]
 
+//       // Add data to Metadata sheet
 //       for (let i = 0; i < headers.length; i++) {
 //         metaDataSheet.addRow({
 //           id: headers[i].id,
@@ -519,7 +530,7 @@
 //         })
 //       }
 
-//       // Ajout des headers de la data
+//       // Add headers to the data sheet
 //       dataSheet.columns = headers.map((header: any, index: number) => ({
 //         header: `${header.label} ${header.required ? "*" : ""}`,
 //         key: `${header.id}`,
@@ -600,7 +611,7 @@
 //         }
 //       })
 
-//       // Ajout du deuxieme headers
+//       // Add second header row
 //       const headerRow = dataSheet.addRow(
 //         headers.reduce((prev: any, curr: any) => {
 //           prev[curr.id] = curr.id
@@ -619,12 +630,11 @@
 //       // Hide the header IDs row
 //       headerRow.hidden = true
 
-//       // Ajout des rows maintenants
+//       // Add data rows
 //       let index = 0
 //       for (let data of datas) {
 //         const rowData = localData[index]
-//         console.log(rowData)
-//         dataSheet.addRow(
+//         const row = dataSheet.addRow(
 //           headers.map((curr: any) => {
 //             const allIds = String(curr.id).split(".")
 //             const id = allIds[allIds.length - 1]
@@ -636,6 +646,9 @@
 //           })
 //         )
 //         index++
+//         const cell = row.getCell(headers.length)
+//         cell.protection = { locked: false }
+//         cell.dataValidationn = dataValidationn
 //       }
 
 //       // Data Validation
@@ -687,7 +700,34 @@
 //         }
 //       }
 
-//       // fix the section and headers row
+//       // Hide empty rows
+//       const lastFilledRowIndex = dataSheet.actualRowCount
+//       dataSheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+//         const isEmpty = row.values
+//           .slice(1)
+//           .every((cell) => cell === null || cell === undefined)
+//         if (isEmpty) {
+//           row.hidden = true
+//         }
+//       })
+
+//       // Protect the data sheet but allow editing of existing cells
+//       dataSheet.protect("", {
+//         selectLockedCells: true,
+//         selectUnlockedCells: true,
+//         formatCells: true,
+//         formatColumns: false,
+//         formatRows: false,
+//         insertColumns: false,
+//         insertRows: false,
+//         deleteColumns: false,
+//         deleteRows: false,
+//         sort: false,
+//         autoFilter: false,
+//         pivotTables: false
+//       })
+
+//       // Set freeze panes for headers
 //       dataSheet.views = [
 //         { state: "frozen", ySplit: 1 },
 //         { state: "frozen", ySplit: 2 }
@@ -726,6 +766,7 @@
 //     handleExportToWord
 //   }
 // }
+
 import { useDataEngine, useDataQuery } from "@dhis2/app-runtime"
 import { format } from "date-fns"
 import { useSearchParams } from "react-router-dom"
@@ -835,6 +876,16 @@ const TEI_QUERY = ({
     }
   }
 })
+
+// const dataValidationn = {
+//   type: "list",
+//   allowBlank: true,
+//   formulae: ['"Failed,Promoted,Dropout"'], // Options must be a comma-separated string
+//   showDropDown: true,
+//   showErrorMessage: true,
+//   errorTitle: "Invalid Entry",
+//   error: "Please select a value from the list."
+// }
 
 export default function useExportTemplate() {
   const engine = useDataEngine()
@@ -1320,9 +1371,6 @@ export default function useExportTemplate() {
         cell.fill = cellFillBg(header.metadataType)
         cell.border = cellBorders
         cell.font = { bold: true }
-        // if (index === 0) {
-        //   cell.protection = { locked: false }
-        // }
 
         // Hide the orgUnit ID column
         if (header.id === "orgUnit") {
@@ -1380,7 +1428,6 @@ export default function useExportTemplate() {
         const cell = row.getCell(headers.length)
         cell.protection = { locked: false }
       }
-
       // Data Validation
       for (let i = 0; i < datas.length; i++) {
         const currentRow = dataSheet.getRow(i + 4)
