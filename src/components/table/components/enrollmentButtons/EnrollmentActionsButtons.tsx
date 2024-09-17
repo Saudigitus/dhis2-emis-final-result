@@ -61,7 +61,7 @@ function EnrollmentActionsButtons() {
   const [foundEvents, setFoundEvents] = useState<any[]>([]) // Track events to be sent to the system
   const [, setRefresh] = useRecoilState(teiRefetch)
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
-
+  const [validValues] = useState<string[]>([])
   const { show } = useShowAlerts()
   const [loaders, setLoaders] = useState<{
     dryRun: boolean
@@ -83,8 +83,8 @@ function EnrollmentActionsButtons() {
   const [, setTemplate] = useState<string>("validation")
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false)
   const [showDetails, setShowDetails] = useState<boolean>(false) // State for toggling details
+  const { status, programStage } = getDataStoreData["final-result"]
 
-  // State to manage the active tab
   const [activeTab, setActiveTab] = useState<string>("updates")
 
   const noFinalResultStudentSelected = selected.selectedRows.filter(
@@ -92,7 +92,7 @@ function EnrollmentActionsButtons() {
   )
 
   const handleShowDetails = () => {
-    setShowDetails((prev) => !prev) // Toggle details view
+    setShowDetails((prev) => !prev)
   }
 
   const handleTabClick = (tab: string) => {
@@ -110,18 +110,14 @@ function EnrollmentActionsButtons() {
       return newSet
     })
   }
-
-  // Function to validate the data and return errors
   const validateData = (event: any) => {
     const errors: Array<{ field: string; value: string; error: string }> = []
-    const validValues = ["Promoted", "Dropout", "Failed"]
 
-    // Validate each field that is required to be "Promoted", "Dropout", or "Failed"
-    if (!validValues.includes(event["hcrjYJ6Yl5F.bsyU0WFfskG"])) {
+    if (!validValues.includes(event[`${programStage}.${status}`])) {
       errors.push({
         field: "Final Decision",
-        value: event["hcrjYJ6Yl5F.bsyU0WFfskG"],
-        error: "Invalid value. Expected: Promoted, Dropout, or Failed."
+        value: event[`${programStage}.${status}`],
+        error: `Invalid value. Expected one of: ${validValues.join(", ")}.`
       })
     }
 
