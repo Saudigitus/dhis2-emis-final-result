@@ -89,8 +89,9 @@ function EnrollmentActionsButtons() {
   }>({ deleted: 0, ignored: 0, created: 0, updated: 0 })
   const [, setTemplate] = useState<string>("validation")
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false)
-  const [showDetails, setShowDetails] = useState<boolean>(false) // State for toggling details
+  const [showDetails, setShowDetails] = useState<boolean>(false) 
   const { registration, "final-result": finalResult } = getDataStoreData
+  const { programStage } = finalResult  
 
   const [activeTab, setActiveTab] = useState<string>("updates")
 
