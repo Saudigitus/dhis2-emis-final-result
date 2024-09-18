@@ -2,7 +2,7 @@ import Tooltip from "@material-ui/core/Tooltip"
 import { CloudUpload } from "@material-ui/icons"
 import { DropzoneDialog } from "material-ui-dropzone"
 import React, { useState } from "react"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { useShowAlerts } from "../../../../hooks/commons/useShowAlert"
 import SummaryCard from "../../../card/SummaryCard"
 import { useDataEngine } from "@dhis2/app-runtime"
@@ -35,7 +35,11 @@ import {
   ModalContentPromotion,
   WithPadding
 } from "../../../../components"
-import { useGetEnrollmentForm, useQueryParams } from "../../../../hooks"
+import {
+  useGetEnrollmentForm,
+  useHeader,
+  useQueryParams
+} from "../../../../hooks"
 import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema"
 import type { ButtonActionProps } from "../../../../types/Buttons/ButtonActions"
 import type { FlyoutOptionsProps } from "../../../../types/Buttons/FlyoutOptionsProps"
@@ -45,8 +49,11 @@ import ModalSummaryContent from "../../../modal/components/SummaryModalContent"
 import ModalExportTemplateContent from "../../../modal/ModalExportTemplateContent"
 import styles from "./enrollmentActionsButtons.module.css"
 import { teiRefetch } from "../../../../schema/teiRefetchSchema"
+import { HeaderFieldsState } from "../../../../schema/headersSchema"
 
 function EnrollmentActionsButtons() {
+  const headerFieldsState = useRecoilValue(HeaderFieldsState)
+  const { columns } = useHeader()
   const engine = useDataEngine()
   const { getDataStoreData } = getSelectedKey()
   const [open, setOpen] = useState<boolean>(false)
@@ -61,7 +68,7 @@ function EnrollmentActionsButtons() {
   const [foundEvents, setFoundEvents] = useState<any[]>([]) // Track events to be sent to the system
   const [, setRefresh] = useRecoilState(teiRefetch)
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
-
+  const [validValues] = useState<string[]>([])
   const { show } = useShowAlerts()
   const [loaders, setLoaders] = useState<{
     dryRun: boolean
@@ -82,9 +89,10 @@ function EnrollmentActionsButtons() {
   }>({ deleted: 0, ignored: 0, created: 0, updated: 0 })
   const [, setTemplate] = useState<string>("validation")
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false)
-  const [showDetails, setShowDetails] = useState<boolean>(false) // State for toggling details
+  const [showDetails, setShowDetails] = useState<boolean>(false) 
+  const { registration, "final-result": finalResult } = getDataStoreData
+  const { programStage } = finalResult  
 
-  // State to manage the active tab
   const [activeTab, setActiveTab] = useState<string>("updates")
 
   const noFinalResultStudentSelected = selected.selectedRows.filter(
@@ -92,13 +100,13 @@ function EnrollmentActionsButtons() {
   )
 
   const handleShowDetails = () => {
-    setShowDetails((prev) => !prev) // Toggle details view
+    setShowDetails((prev) => !prev)
   }
 
   const handleTabClick = (tab: string) => {
     setActiveTab(tab)
   }
-
+  console.log(headerFieldsState)
   const toggleRowExpansion = (index: number) => {
     setExpandedRows((prev) => {
       const newSet = new Set(prev)
@@ -110,18 +118,14 @@ function EnrollmentActionsButtons() {
       return newSet
     })
   }
-
-  // Function to validate the data and return errors
   const validateData = (event: any) => {
     const errors: Array<{ field: string; value: string; error: string }> = []
-    const validValues = ["Promoted", "Dropout", "Failed"]
 
-    // Validate each field that is required to be "Promoted", "Dropout", or "Failed"
-    if (!validValues.includes(event["hcrjYJ6Yl5F.bsyU0WFfskG"])) {
+    if (!validValues.includes(event[`${programStage}.${status}`])) {
       errors.push({
         field: "Final Decision",
-        value: event["hcrjYJ6Yl5F.bsyU0WFfskG"],
-        error: "Invalid value. Expected: Promoted, Dropout, or Failed."
+        value: event[`${finalResult.programStage}.${finalResult.status}`],
+        error: `Invalid value. Expected one of: ${validValues.join(", ")}.`
       })
     }
 
@@ -287,7 +291,7 @@ function EnrollmentActionsButtons() {
         return []
       })
 
-      const finalDecision = rest["hcrjYJ6Yl5F.bsyU0WFfskG"]
+      const finalDecision = rest[`${programStage}.${status}`]
       if (
         dataValues.length > 0 &&
         ["Promoted", "Dropout", "Failed"].includes(finalDecision)
@@ -508,15 +512,13 @@ function EnrollmentActionsButtons() {
                           <DataTableColumnHeader>
                             Academic Year
                           </DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            First Name
-                          </DataTableColumnHeader>
-                          <DataTableColumnHeader>Surname</DataTableColumnHeader>
-                          <DataTableColumnHeader>Grade</DataTableColumnHeader>
-                          <DataTableColumnHeader>Class</DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            Final Decision
-                          </DataTableColumnHeader>
+                          {columns
+                            .filter((a) => a.visible)
+                            .map((column, index) => (
+                              <DataTableColumnHeader key={column.key}>
+                                {column.labelName}
+                              </DataTableColumnHeader>
+                            ))}
                         </DataTableRow>
                       </DataTableHead>
                       <DataTableBody>
@@ -527,17 +529,42 @@ function EnrollmentActionsButtons() {
                             <DataTableCell>
                               {event.enrollmentDate}
                             </DataTableCell>
-                            <DataTableCell>{event.gz8w04YBSS0}</DataTableCell>
-                            <DataTableCell>{event.ZIDlK6BaAU2}</DataTableCell>
-                            <DataTableCell>
-                              {event["Ni2qsy2WJn4.kNNoif9gASf"]}
-                            </DataTableCell>
-                            <DataTableCell>
-                              {event["Ni2qsy2WJn4.RhABRLO2Fae"]}
-                            </DataTableCell>
-                            <DataTableCell>
-                              {event["hcrjYJ6Yl5F.bsyU0WFfskG"]}
-                            </DataTableCell>
+                            {columns
+                              .filter((a) => a.visible)
+                              .map((column) => {
+                                if (
+                                  [
+                                    registration.grade,
+                                    registration.section
+                                  ].includes(column.id)
+                                ) {
+                                  return (
+                                    <DataTableCell key={column.id}>
+                                      {
+                                        event[
+                                          `${registration.programStage}.${column.key}`
+                                        ]
+                                      }
+                                    </DataTableCell>
+                                  )
+                                }
+                                if (column.id === finalResult.status) {
+                                  return (
+                                    <DataTableCell key={column.id}>
+                                      {
+                                        event[
+                                          `${finalResult.programStage}.${column.key}`
+                                        ]
+                                      }
+                                    </DataTableCell>
+                                  )
+                                }
+                                return (
+                                  <DataTableCell key={column.id}>
+                                    {event[column.id]}
+                                  </DataTableCell>
+                                )
+                              })}
                           </DataTableRow>
                         ))}
                       </DataTableBody>
@@ -560,15 +587,13 @@ function EnrollmentActionsButtons() {
                           <DataTableColumnHeader>
                             Academic Year
                           </DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            First Name
-                          </DataTableColumnHeader>
-                          <DataTableColumnHeader>Surname</DataTableColumnHeader>
-                          <DataTableColumnHeader>Grade</DataTableColumnHeader>
-                          <DataTableColumnHeader>Class</DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            Final Decision
-                          </DataTableColumnHeader>
+                          {columns
+                            .filter((a) => a.visible)
+                            .map((column, index) => (
+                              <DataTableColumnHeader key={column.key}>
+                                {column.labelName}
+                              </DataTableColumnHeader>
+                            ))}
                         </DataTableRow>
                       </DataTableHead>
                       <DataTableBody>
@@ -593,17 +618,42 @@ function EnrollmentActionsButtons() {
                               <DataTableCell>
                                 {event.enrollmentDate}
                               </DataTableCell>
-                              <DataTableCell>{event.gz8w04YBSS0}</DataTableCell>
-                              <DataTableCell>{event.ZIDlK6BaAU2}</DataTableCell>
-                              <DataTableCell>
-                                {event["Ni2qsy2WJn4.kNNoif9gASf"]}
-                              </DataTableCell>
-                              <DataTableCell>
-                                {event["Ni2qsy2WJn4.RhABRLO2Fae"]}
-                              </DataTableCell>
-                              <DataTableCell>
-                                {event["hcrjYJ6Yl5F.bsyU0WFfskG"]}
-                              </DataTableCell>
+                              {columns
+                                .filter((a) => a.visible)
+                                .map((column) => {
+                                  if (
+                                    [
+                                      registration.grade,
+                                      registration.section
+                                    ].includes(column.id)
+                                  ) {
+                                    return (
+                                      <DataTableCell key={column.id}>
+                                        {
+                                          event[
+                                            `${registration.programStage}.${column.key}`
+                                          ]
+                                        }
+                                      </DataTableCell>
+                                    )
+                                  }
+                                  if (column.id === finalResult.status) {
+                                    return (
+                                      <DataTableCell key={column.id}>
+                                        {
+                                          event[
+                                            `${finalResult.programStage}.${column.key}`
+                                          ]
+                                        }
+                                      </DataTableCell>
+                                    )
+                                  }
+                                  return (
+                                    <DataTableCell key={column.id}>
+                                      {event[column.id]}
+                                    </DataTableCell>
+                                  )
+                                })}
                             </DataTableRow>
                             {expandedRows.has(index) && (
                               <DataTableRow>

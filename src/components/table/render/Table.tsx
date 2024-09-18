@@ -63,6 +63,7 @@ function Table() {
     setpageSize(parseInt(event.value, 10))
     setpage(1)
   }
+  console.log(columns)
   return (
     <Paper>
       <div className={classes.workingListsContainer}>
