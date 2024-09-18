@@ -409,7 +409,7 @@ export default function useExportTemplate() {
           ouMode: "SELECTED",
           paging: false,
           program: program as unknown as string,
-          order: "createdAt:desc",
+          order: programConfigDataStore.defaults.defaultOrder || "occurredAt:desc",
           programStage: registration?.programStage as unknown as string,
           filter: headerFieldsState?.dataElements,
           filterAttributes: headerFieldsState?.attributes,
@@ -438,7 +438,7 @@ export default function useExportTemplate() {
         } = await engine.query(
           EVENT_QUERY({
             program: program as unknown as string,
-            order: "createdAt:desc",
+            order: programConfigDataStore.defaults.defaultOrder || "occurredAt:desc",
             programStage: programConfigDataStore["final-result"].programStage,
             trackedEntity: tei
           })
