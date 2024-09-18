@@ -234,7 +234,6 @@ function executeFunctionName(functionName: string | undefined, condition: string
             return eval(compareLength(condition ?? "")) ? true : false;
 
         case "substring":
-            console.log(condition)
             let function_paramter = returnSubstring(condition?.split("d2:substring(").pop() ?? "")
             const formated_function = condition?.replaceAll(condition?.split("d2:substring(").pop() as string, function_paramter).replaceAll("d2:substring", '').replaceAll("(", '')
             return eval(formated_function as string)
