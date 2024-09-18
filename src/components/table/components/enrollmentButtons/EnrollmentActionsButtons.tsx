@@ -7,38 +7,16 @@ import { useShowAlerts } from "../../../../hooks/commons/useShowAlert"
 import SummaryCard from "../../../card/SummaryCard"
 import { useDataEngine } from "@dhis2/app-runtime"
 import {
-  Button,
-  ButtonStrip,
-  IconAddCircle24,
-  IconUserGroup16,
-  ModalActions,
-  TabBar,
-  Tab,
-  DataTable,
-  DataTableHead,
-  DataTableBody,
-  DataTableCell,
-  DataTableColumnHeader,
-  DataTableRow,
-  IconChevronDown16,
-  IconChevronRight16,
-  Divider,
-  Tag,
-  IconCheckmarkCircle16
+  Button, ButtonStrip, IconAddCircle24, IconUserGroup16, ModalActions, TabBar, Tab, DataTable, DataTableHead, DataTableBody, DataTableCell, DataTableColumnHeader, DataTableRow, IconChevronDown16, IconChevronRight16, Divider, Tag, IconCheckmarkCircle16
 } from "@dhis2/ui"
 import Collapse from "@material-ui/core/Collapse"
 import InfoOutlined from "@material-ui/icons/InfoOutlined"
 import {
-  ImportContent,
-  ModalComponent,
-  ModalContentComponent,
-  ModalContentPromotion,
-  WithPadding
+  ImportContent, ModalComponent, ModalContentComponent, ModalContentPromotion, WithPadding
 } from "../../../../components"
+import { useEffect } from 'react'
 import {
-  useGetEnrollmentForm,
-  useHeader,
-  useQueryParams
+  useGetEnrollmentForm, useHeader, useQueryParams
 } from "../../../../hooks"
 import { RowSelectionState } from "../../../../schema/tableSelectedRowsSchema"
 import type { ButtonActionProps } from "../../../../types/Buttons/ButtonActions"
@@ -50,9 +28,12 @@ import ModalExportTemplateContent from "../../../modal/ModalExportTemplateConten
 import styles from "./enrollmentActionsButtons.module.css"
 import { teiRefetch } from "../../../../schema/teiRefetchSchema"
 import { HeaderFieldsState } from "../../../../schema/headersSchema"
+import IteractiveProgress from "../../../progress/interactiveProgress"
+import { ProgressState } from "../../../../schema/linearProgress"
 
 function EnrollmentActionsButtons() {
   const headerFieldsState = useRecoilValue(HeaderFieldsState)
+  const [progress, updateProgress] = useRecoilState(ProgressState)
   const { columns } = useHeader()
   const engine = useDataEngine()
   const { getDataStoreData } = getSelectedKey()
@@ -81,7 +62,7 @@ function EnrollmentActionsButtons() {
   const { enrollmentsDetailsData } = useGetEnrollmentForm()
   const [openExportEmptyTemplate, setOpenExportEmptyTemplate] =
     useState<boolean>(false)
-  const [, setReport] = useState<{
+  const [report, setReport] = useState<{
     created: number
     updated: number
     deleted: number
@@ -89,9 +70,8 @@ function EnrollmentActionsButtons() {
   }>({ deleted: 0, ignored: 0, created: 0, updated: 0 })
   const [, setTemplate] = useState<string>("validation")
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false)
-  const [showDetails, setShowDetails] = useState<boolean>(false) 
+  const [showDetails, setShowDetails] = useState<boolean>(false) // State for toggling details
   const { registration, "final-result": finalResult } = getDataStoreData
-  const { programStage } = finalResult  
 
   const [activeTab, setActiveTab] = useState<string>("updates")
 
@@ -106,7 +86,7 @@ function EnrollmentActionsButtons() {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab)
   }
-  console.log(headerFieldsState)
+
   const toggleRowExpansion = (index: number) => {
     setExpandedRows((prev) => {
       const newSet = new Set(prev)
@@ -156,6 +136,15 @@ function EnrollmentActionsButtons() {
     }
   ]
 
+  useEffect(() => {
+    if (progress?.progress >= 100) {
+      const timeout = setTimeout(() => {
+        updateProgress({ progress: null, buffer: null });
+      }, 400);
+      return () => clearTimeout(timeout)
+    }
+  }, [progress?.progress])
+
   const modalActions: ButtonActionProps[] = [
     {
       label: "Dry Run",
@@ -186,8 +175,9 @@ function EnrollmentActionsButtons() {
               type: { success: true }
             })
           })
-          .catch(() => {})
-      }
+          .catch(() => { })
+      },
+      className: progress?.progress != null && styles.remove
     },
     {
       label: "Update final decision",
@@ -200,6 +190,7 @@ function EnrollmentActionsButtons() {
       loading: loaders.importation,
       onClick: () => {
         setLoaders(() => ({ dryRun: false, importation: true }))
+        updateProgress({ progress: 36, buffer: 56 })
         engine
           .mutate({
             resource: "/tracker",
@@ -210,6 +201,7 @@ function EnrollmentActionsButtons() {
             }
           })
           .then((response: any) => {
+            console.log(response.stats)
             setReport(() => response.stats)
             setTemplate(() => "report")
             setLoaders(() => ({ dryRun: false, importation: false }))
@@ -222,12 +214,14 @@ function EnrollmentActionsButtons() {
             setIgnoredEvents([])
             setSummaryData({})
             setRefresh(true)
+            updateProgress({ progress: 100, buffer: 100 })
           })
-          .catch(() => {})
-      }
+          .catch(() => { })
+      },
+      className: progress?.progress != null && styles.remove
     },
     {
-      label: "Close",
+      label: progress?.progress != null ? "Hide" : "Close",
       disabled: false,
       loading: false,
       onClick: () => {
@@ -332,8 +326,8 @@ function EnrollmentActionsButtons() {
             orgUnit === null
               ? "Please select an organisation unit before"
               : noFinalResultStudentSelected.length > 0
-              ? "From selected students, some of them don't have final result"
-              : ""
+                ? "From selected students, some of them don't have final result"
+                : ""
           }
         >
           <span>
@@ -402,6 +396,7 @@ function EnrollmentActionsButtons() {
           <ImportContent setOpen={setOpen} />
         </ModalComponent>
       )}
+
       {openExportEmptyTemplate && (
         <ModalComponent
           title={`Data Import Template Export`}
@@ -447,264 +442,270 @@ function EnrollmentActionsButtons() {
           open={openStudentUpdate}
           setOpen={setOpenStudentUpdate}
         >
-          <Tag
-            positive
-            icon={<IconCheckmarkCircle16 />}
-            className={styles.tagContainer}
-          >
-            Students Final Decision Updates preview
-          </Tag>
-          <h3>Students List Template Processing Summary</h3>
-          <WithPadding />
-          <WithPadding />
-          <ButtonStrip>
-            <SummaryCard
-              color="primary"
-              label="Final Decision Updates"
-              value={rowData.length}
-            />
-            <SummaryCard
-              color="error"
-              label="Invalid Records"
-              value={ignoredEvents.length}
-            />
-          </ButtonStrip>
-          <WithPadding />
-          <WithPadding />
-          <ButtonStrip>
-            <Button
-              small
-              icon={<InfoOutlined className={styles.infoIcon} />}
-              onClick={handleShowDetails}
-            >
-              More details
-            </Button>
-          </ButtonStrip>
-          <Collapse in={showDetails}>
-            <div className={styles.detailsContainer}>
-              <TabBar>
-                <Tab
-                  onClick={() => handleTabClick("updates")}
-                  selected={activeTab === "updates"}
+          {
+            progress.progress != null ? <IteractiveProgress />
+              :
+              <>
+                <Tag
+                  positive
+                  icon={<IconCheckmarkCircle16 />}
+                  className={styles.tagContainer}
                 >
-                  {rowData.length}
-                  <br />
-                  Final Decision Updates
-                </Tab>
-                <Tab
-                  onClick={() => handleTabClick("ignored")}
-                  selected={activeTab === "ignored"}
-                >
-                  {ignoredEvents.length}
-                  <br />
-                  Ignored
-                </Tab>
-              </TabBar>
+                  Students Final Decision Updates preview
+                </Tag>
+                <h3>Students List Template Processing Summary</h3>
+                <WithPadding />
+                <WithPadding />
+                <ButtonStrip>
+                  <SummaryCard
+                    color="primary"
+                    label="Final Decision Updates"
+                    value={rowData.length}
+                  />
+                  <SummaryCard
+                    color="error"
+                    label="Invalid Records"
+                    value={ignoredEvents.length}
+                  />
+                </ButtonStrip>
+                <WithPadding />
+                <WithPadding />
+                <ButtonStrip>
+                  <Button
+                    small
+                    icon={<InfoOutlined className={styles.infoIcon} />}
+                    onClick={handleShowDetails}
+                  >
+                    More details
+                  </Button>
+                </ButtonStrip>
+                <Collapse in={showDetails}>
+                  <div className={styles.detailsContainer}>
+                    <TabBar>
+                      <Tab
+                        onClick={() => handleTabClick("updates")}
+                        selected={activeTab === "updates"}
+                      >
+                        {rowData.length}
+                        <br />
+                        Final Decision Updates
+                      </Tab>
+                      <Tab
+                        onClick={() => handleTabClick("ignored")}
+                        selected={activeTab === "ignored"}
+                      >
+                        {ignoredEvents.length}
+                        <br />
+                        Ignored
+                      </Tab>
+                    </TabBar>
 
-              {activeTab === "updates" && (
-                <div>
-                  {rowData.length > 0 ? (
-                    <DataTable>
-                      <DataTableHead>
-                        <DataTableRow>
-                          <DataTableColumnHeader>Ref</DataTableColumnHeader>
-                          <DataTableColumnHeader>School</DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            Academic Year
-                          </DataTableColumnHeader>
-                          {columns
-                            .filter((a) => a.visible)
-                            .map((column, index) => (
-                              <DataTableColumnHeader key={column.key}>
-                                {column.labelName}
-                              </DataTableColumnHeader>
-                            ))}
-                        </DataTableRow>
-                      </DataTableHead>
-                      <DataTableBody>
-                        {rowData.map((event, index) => (
-                          <DataTableRow key={index}>
-                            <DataTableCell>{event.ref}</DataTableCell>
-                            <DataTableCell>{event.orgUnitName}</DataTableCell>
-                            <DataTableCell>
-                              {event.enrollmentDate}
-                            </DataTableCell>
-                            {columns
-                              .filter((a) => a.visible)
-                              .map((column) => {
-                                if (
-                                  [
-                                    registration.grade,
-                                    registration.section
-                                  ].includes(column.id)
-                                ) {
-                                  return (
-                                    <DataTableCell key={column.id}>
-                                      {
-                                        event[
-                                          `${registration.programStage}.${column.key}`
-                                        ]
-                                      }
-                                    </DataTableCell>
-                                  )
-                                }
-                                if (column.id === finalResult.status) {
-                                  return (
-                                    <DataTableCell key={column.id}>
-                                      {
-                                        event[
-                                          `${finalResult.programStage}.${column.key}`
-                                        ]
-                                      }
-                                    </DataTableCell>
-                                  )
-                                }
-                                return (
-                                  <DataTableCell key={column.id}>
-                                    {event[column.id]}
-                                  </DataTableCell>
-                                )
-                              })}
-                          </DataTableRow>
-                        ))}
-                      </DataTableBody>
-                    </DataTable>
-                  ) : (
-                    <p>No final decision updates to display!</p>
-                  )}
-                </div>
-              )}
-
-              {activeTab === "ignored" && (
-                <div>
-                  {ignoredEvents.length > 0 ? (
-                    <DataTable>
-                      <DataTableHead>
-                        <DataTableRow>
-                          <DataTableColumnHeader>Actions</DataTableColumnHeader>
-                          <DataTableColumnHeader>Ref</DataTableColumnHeader>
-                          <DataTableColumnHeader>School</DataTableColumnHeader>
-                          <DataTableColumnHeader>
-                            Academic Year
-                          </DataTableColumnHeader>
-                          {columns
-                            .filter((a) => a.visible)
-                            .map((column, index) => (
-                              <DataTableColumnHeader key={column.key}>
-                                {column.labelName}
-                              </DataTableColumnHeader>
-                            ))}
-                        </DataTableRow>
-                      </DataTableHead>
-                      <DataTableBody>
-                        {ignoredEvents.map((event, index) => (
-                          <React.Fragment key={index}>
-                            <DataTableRow>
-                              <DataTableCell>
-                                <Button
-                                  small
-                                  icon={
-                                    expandedRows.has(index) ? (
-                                      <IconChevronDown16 />
-                                    ) : (
-                                      <IconChevronRight16 />
-                                    )
-                                  }
-                                  onClick={() => toggleRowExpansion(index)}
-                                />
-                              </DataTableCell>
-                              <DataTableCell>{event.ref}</DataTableCell>
-                              <DataTableCell>{event.orgUnitName}</DataTableCell>
-                              <DataTableCell>
-                                {event.enrollmentDate}
-                              </DataTableCell>
-                              {columns
-                                .filter((a) => a.visible)
-                                .map((column) => {
-                                  if (
-                                    [
-                                      registration.grade,
-                                      registration.section
-                                    ].includes(column.id)
-                                  ) {
-                                    return (
-                                      <DataTableCell key={column.id}>
-                                        {
-                                          event[
-                                            `${registration.programStage}.${column.key}`
-                                          ]
-                                        }
-                                      </DataTableCell>
-                                    )
-                                  }
-                                  if (column.id === finalResult.status) {
-                                    return (
-                                      <DataTableCell key={column.id}>
-                                        {
-                                          event[
-                                            `${finalResult.programStage}.${column.key}`
-                                          ]
-                                        }
-                                      </DataTableCell>
-                                    )
-                                  }
-                                  return (
-                                    <DataTableCell key={column.id}>
-                                      {event[column.id]}
-                                    </DataTableCell>
-                                  )
-                                })}
-                            </DataTableRow>
-                            {expandedRows.has(index) && (
+                    {activeTab === "updates" && (
+                      <div>
+                        {rowData.length > 0 ? (
+                          <DataTable>
+                            <DataTableHead>
                               <DataTableRow>
-                                <DataTableCell colSpan={9}>
-                                  <DataTable>
-                                    <DataTableHead>
-                                      <DataTableRow>
-                                        <DataTableColumnHeader>
-                                          Field
-                                        </DataTableColumnHeader>
-                                        <DataTableColumnHeader>
-                                          Value
-                                        </DataTableColumnHeader>
-                                        <DataTableColumnHeader>
-                                          Error
-                                        </DataTableColumnHeader>
-                                      </DataTableRow>
-                                    </DataTableHead>
-                                    <DataTableBody>
-                                      {getErrors(event).map(
-                                        (error, errIndex) => (
-                                          <DataTableRow key={errIndex}>
-                                            <DataTableCell>
-                                              {error.field}
-                                            </DataTableCell>
-                                            <DataTableCell>
-                                              {error.value}
-                                            </DataTableCell>
-                                            <DataTableCell>
-                                              {error.error}
-                                            </DataTableCell>
-                                          </DataTableRow>
-                                        )
-                                      )}
-                                    </DataTableBody>
-                                  </DataTable>
-                                </DataTableCell>
+                                <DataTableColumnHeader>Ref</DataTableColumnHeader>
+                                <DataTableColumnHeader>School</DataTableColumnHeader>
+                                <DataTableColumnHeader>
+                                  Academic Year
+                                </DataTableColumnHeader>
+                                {columns
+                                  .filter((a) => a.visible)
+                                  .map((column, index) => (
+                                    <DataTableColumnHeader key={column.key}>
+                                      {column.labelName}
+                                    </DataTableColumnHeader>
+                                  ))}
                               </DataTableRow>
-                            )}
-                          </React.Fragment>
-                        ))}
-                      </DataTableBody>
-                    </DataTable>
-                  ) : (
-                    <p>No ignored updates to display!</p>
-                  )}
-                </div>
-              )}
-            </div>
-          </Collapse>
-          <Divider className={styles.divider} />
+                            </DataTableHead>
+                            <DataTableBody>
+                              {rowData.map((event, index) => (
+                                <DataTableRow key={index}>
+                                  <DataTableCell>{event.ref}</DataTableCell>
+                                  <DataTableCell>{event.orgUnitName}</DataTableCell>
+                                  <DataTableCell>
+                                    {event.enrollmentDate}
+                                  </DataTableCell>
+                                  {columns
+                                    .filter((a) => a.visible)
+                                    .map((column) => {
+                                      if (
+                                        [
+                                          registration.grade,
+                                          registration.section
+                                        ].includes(column.id)
+                                      ) {
+                                        return (
+                                          <DataTableCell key={column.id}>
+                                            {
+                                              event[
+                                              `${registration.programStage}.${column.key}`
+                                              ]
+                                            }
+                                          </DataTableCell>
+                                        )
+                                      }
+                                      if (column.id === finalResult.status) {
+                                        return (
+                                          <DataTableCell key={column.id}>
+                                            {
+                                              event[
+                                              `${finalResult.programStage}.${column.key}`
+                                              ]
+                                            }
+                                          </DataTableCell>
+                                        )
+                                      }
+                                      return (
+                                        <DataTableCell key={column.id}>
+                                          {event[column.id]}
+                                        </DataTableCell>
+                                      )
+                                    })}
+                                </DataTableRow>
+                              ))}
+                            </DataTableBody>
+                          </DataTable>
+                        ) : (
+                          <p>No final decision updates to display!</p>
+                        )}
+                      </div>
+                    )}
+
+                    {activeTab === "ignored" && (
+                      <div>
+                        {ignoredEvents.length > 0 ? (
+                          <DataTable>
+                            <DataTableHead>
+                              <DataTableRow>
+                                <DataTableColumnHeader>Actions</DataTableColumnHeader>
+                                <DataTableColumnHeader>Ref</DataTableColumnHeader>
+                                <DataTableColumnHeader>School</DataTableColumnHeader>
+                                <DataTableColumnHeader>
+                                  Academic Year
+                                </DataTableColumnHeader>
+                                {columns
+                                  .filter((a) => a.visible)
+                                  .map((column, index) => (
+                                    <DataTableColumnHeader key={column.key}>
+                                      {column.labelName}
+                                    </DataTableColumnHeader>
+                                  ))}
+                              </DataTableRow>
+                            </DataTableHead>
+                            <DataTableBody>
+                              {ignoredEvents.map((event, index) => (
+                                <React.Fragment key={index}>
+                                  <DataTableRow>
+                                    <DataTableCell>
+                                      <Button
+                                        small
+                                        icon={
+                                          expandedRows.has(index) ? (
+                                            <IconChevronDown16 />
+                                          ) : (
+                                            <IconChevronRight16 />
+                                          )
+                                        }
+                                        onClick={() => toggleRowExpansion(index)}
+                                      />
+                                    </DataTableCell>
+                                    <DataTableCell>{event.ref}</DataTableCell>
+                                    <DataTableCell>{event.orgUnitName}</DataTableCell>
+                                    <DataTableCell>
+                                      {event.enrollmentDate}
+                                    </DataTableCell>
+                                    {columns
+                                      .filter((a) => a.visible)
+                                      .map((column) => {
+                                        if (
+                                          [
+                                            registration.grade,
+                                            registration.section
+                                          ].includes(column.id)
+                                        ) {
+                                          return (
+                                            <DataTableCell key={column.id}>
+                                              {
+                                                event[
+                                                `${registration.programStage}.${column.key}`
+                                                ]
+                                              }
+                                            </DataTableCell>
+                                          )
+                                        }
+                                        if (column.id === finalResult.status) {
+                                          return (
+                                            <DataTableCell key={column.id}>
+                                              {
+                                                event[
+                                                `${finalResult.programStage}.${column.key}`
+                                                ]
+                                              }
+                                            </DataTableCell>
+                                          )
+                                        }
+                                        return (
+                                          <DataTableCell key={column.id}>
+                                            {event[column.id]}
+                                          </DataTableCell>
+                                        )
+                                      })}
+                                  </DataTableRow>
+                                  {expandedRows.has(index) && (
+                                    <DataTableRow>
+                                      <DataTableCell colSpan={9}>
+                                        <DataTable>
+                                          <DataTableHead>
+                                            <DataTableRow>
+                                              <DataTableColumnHeader>
+                                                Field
+                                              </DataTableColumnHeader>
+                                              <DataTableColumnHeader>
+                                                Value
+                                              </DataTableColumnHeader>
+                                              <DataTableColumnHeader>
+                                                Error
+                                              </DataTableColumnHeader>
+                                            </DataTableRow>
+                                          </DataTableHead>
+                                          <DataTableBody>
+                                            {getErrors(event).map(
+                                              (error, errIndex) => (
+                                                <DataTableRow key={errIndex}>
+                                                  <DataTableCell>
+                                                    {error.field}
+                                                  </DataTableCell>
+                                                  <DataTableCell>
+                                                    {error.value}
+                                                  </DataTableCell>
+                                                  <DataTableCell>
+                                                    {error.error}
+                                                  </DataTableCell>
+                                                </DataTableRow>
+                                              )
+                                            )}
+                                          </DataTableBody>
+                                        </DataTable>
+                                      </DataTableCell>
+                                    </DataTableRow>
+                                  )}
+                                </React.Fragment>
+                              ))}
+                            </DataTableBody>
+                          </DataTable>
+                        ) : (
+                          <p>No ignored updates to display!</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </Collapse>
+                <Divider className={styles.divider} />
+              </>
+          }
           <ModalActions>
             <ButtonStrip end>
               {modalActions.map((action, i) => (

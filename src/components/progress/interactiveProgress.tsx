@@ -1,12 +1,11 @@
 import Lottie from "lottie-react";
-import styles from '../modal.module.css'
 import loading from '../../assets/animations/loading.json'
 import LinearBuffer from "../progress/linearProgress";
 import download from '../../assets/animations/download.json'
 import { useRecoilValue } from "recoil";
 import { ProgressState } from "../../schema/linearProgress";
 import upload from '../../assets/animations/upload.json'
-
+import styles from '../../components/modal/components/modal.module.css'
 export default function IteractiveProgress() {
     const progress = useRecoilValue(ProgressState)
 
@@ -29,7 +28,7 @@ export default function IteractiveProgress() {
                 }
             </div>
             <div className={styles.loading} >
-                <span>{progress.stage == 'export' ? 'Exporting' : 'Importing'}  performance data</span>
+                <span>{progress.stage == 'export' ? 'Exporting' : 'Importing'} final result data</span>
                 <Lottie style={{ height: 100, marginLeft: "-40px" }} animationData={loading} loop={true} />
             </div>
         </div>

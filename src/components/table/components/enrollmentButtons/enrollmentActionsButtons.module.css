@@ -3,6 +3,10 @@
     overflow: auto !important;
 }
 
+.remove {
+    display: none !important;
+}
+
 @media screen and (max-width: 885px) and (min-width: 715px) {
     .work_buttons button {
         font-size: 12px !important;
