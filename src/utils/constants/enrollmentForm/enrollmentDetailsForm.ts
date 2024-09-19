@@ -48,7 +48,7 @@ const staticForm = () => {
     }
 }
 
-function enrollmentDetailsForm(enrollmentsDetailsData: any[],staffFormConfigDataStore:dataStoreRecordStaffFormConfig): FormSectionProps[] {
+function enrollmentDetailsForm(enrollmentsDetailsData: any[], variableToShowOnForm: string): FormSectionProps[] {
     const [enrollmentDetails] = enrollmentsDetailsData || [{ "enrollmentDetails": [] }];
 
     return [
@@ -57,8 +57,7 @@ function enrollmentDetailsForm(enrollmentsDetailsData: any[],staffFormConfigData
             description: "Staff re-enroll details",
             fields: [
                 staticForm().registeringSchool,
-                //FILTERING ONLY THE DATAELEMENTS THAS IS ON DATASTORE STAFF FORM CONFIG
-                ...enrollmentDetails?.filter((dataElements:any) => staffFormConfigDataStore.formShownVaribles.includes(dataElements.id)),
+                ...enrollmentDetails?.filter((dataElements: any) => variableToShowOnForm === dataElements.id),
                 staticForm().enrollmentDate
             ]
         }

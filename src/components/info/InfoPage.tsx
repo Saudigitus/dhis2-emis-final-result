@@ -14,7 +14,7 @@ export default function InfoPage() {
                 </ul>
                 <span>How to perform operations:</span>
                 <ul>
-                    <li className={styles.paperOtherText}><strong>Bulk Promotion:</strong> select the staffs you want to re-enroll and click <strong>Perform staff re-enroll</strong> button</li>
+                    <li className={styles.paperOtherText}><strong>Bulk Staff Re-enroll:</strong> select the staffs you want to re-enroll and click <strong>Perform staff re-enroll</strong> button</li>
                 </ul>
             </Paper>
         </div>

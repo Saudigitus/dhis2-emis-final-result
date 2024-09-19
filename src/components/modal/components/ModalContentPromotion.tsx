@@ -24,7 +24,6 @@ import {
 import { CustomDhis2RulesEngine } from "../../../hooks/programRules/rules-engine/RulesEngine"
 import { formatKeyValueType } from "../../../utils/programRules/formatKeyValueType"
 import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey"
-import { DataStoreStaffFormConfigState } from "../../../schema/dataStoreSchema"
 
 function ModalContentPromotion(props: ContentProps): React.ReactElement {
   const { setOpen, setOpenSummary, setSummaryData, enrollmentsDetailsData } = props
@@ -44,14 +43,16 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     registerschoolstaticform: orgUnitName,
     enrollment_date: format(new Date(), "yyyy-MM-dd")
   })
-  const staffFormConfigDataStore = useRecoilValue(DataStoreStaffFormConfigState)
+  const { getDataStoreData } = getSelectedKey()
+
+
 
   useEffect(() => {
     setClicked(false)
   }, [])
 
   const { runRulesEngine, updatedVariables } = CustomDhis2RulesEngine({
-    variables: enrollmentDetailsForm(enrollmentsDetailsData, staffFormConfigDataStore),
+    variables: enrollmentDetailsForm(enrollmentsDetailsData, getDataStoreData.registration.academicYear),
     values,
     type: "programStageSection",
     formatKeyValueType: formatKeyValueType(enrollmentsDetailsData)
