@@ -15,7 +15,7 @@ export function useHeader() {
     columns: formatResponse({
       data: programConfigState,
       tableColumns,
-      registrationProgramStage: getDataStoreData.registration.programStage
+      registrationProgramStage: getDataStoreData?.registration?.programStage
     }),
     columnHeader,
     setcolumnHeader

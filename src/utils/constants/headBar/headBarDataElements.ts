@@ -5,7 +5,7 @@ import {filterDataElements} from "../../../types/dataStore/DataStoreConfig";
 export const headBarDataElements = ({ selectedOptions, getDataStoreData, programStageDataElements}: HeadBarDataProps): HeadBarTypes[] => {
     const headBarFilters: HeadBarTypes[] = []
 
-    getDataStoreData.filters.dataElements.map((filter: filterDataElements) => {
+    getDataStoreData.filters?.dataElements.map((filter: filterDataElements) => {
 
         if (programStageDataElements) {
             let headBarFilterName: string = '';
@@ -24,7 +24,7 @@ export const headBarDataElements = ({ selectedOptions, getDataStoreData, program
                 label: headBarFilterName,
                 value: selectedOptions[filter.code] ?? `Select a ${filter.code}`,
                 placeholder: `Search for ${filter.code}`,
-                dataElementId: filter.dataElement,
+                dataElementId: filter?.dataElement,
                 component: "menuItemContainer",
                 selected: selectedOptions[filter.code] ? true : false,
             })

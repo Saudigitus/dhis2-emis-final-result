@@ -50,7 +50,6 @@ export function useDataStore() {
                         setTimeout(hide, 5000);
                     })
                 //=======================================================================    
-                console.log(config)
                 setData(config)
                 setDataStoreState(config)
             })

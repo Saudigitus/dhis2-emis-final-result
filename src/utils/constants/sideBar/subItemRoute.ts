@@ -7,8 +7,8 @@ export const subItemRoute = (location:string, sectionType: string, filterDataEle
         newLocation = location;
     
     else {
-        newLocation = location.replace(/(student|staff)/g, sectionType);
-        filterDataElements.forEach( filter =>  newLocation = removeQueryParam(newLocation, filter.code));
+        newLocation = location?.replace(/(student|staff)/g, sectionType);
+        filterDataElements?.forEach( filter =>  newLocation = removeQueryParam(newLocation, filter.code));
     }
 
     return newLocation.toString();

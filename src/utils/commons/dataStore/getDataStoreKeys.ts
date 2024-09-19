@@ -14,7 +14,7 @@ export const getDataStoreKeys = () => {
     lastUpdate,
     defaults,
     filters
-  } = getSelectedKey().getDataStoreData
+  } = getSelectedKey()?.getDataStoreData
 
   return {
     attendance,

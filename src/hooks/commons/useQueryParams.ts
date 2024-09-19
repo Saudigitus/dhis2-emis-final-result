@@ -19,10 +19,12 @@ const useQueryParams = () => {
         return {
             school: useQuery().get('school'),
             schoolName: useQuery().get('schoolName'),
+            academicYear: useQuery().get('academicYear'),
+            sectionType: useQuery().get('sectionType'),
             grade: useQuery().get('grade'),
             class: useQuery().get('class'),
-            academicYear: useQuery().get('academicYear'),
-            sectionType: useQuery().get('sectionType')
+            position: useQuery().get('position'),
+            employmentType: useQuery().get('employmentType')
         }
     }
     return {

@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { useDataQuery } from "@dhis2/app-runtime";
 import { ProgramConfigState } from "../../schema/programSchema";
 import { useShowAlerts, useGetInitialValues } from "../../hooks";
 import { type ProgramConfig } from "../../types/programConfig/ProgramConfig";
-const PROGRAMQUERY = (id: string) => ({
+import { getSelectedKey } from "../../utils/commons/dataStore/getSelectedKey";
+
+const PROGRAMQUERY: any = {
   results: {
     resource: "programs",
-    id: `${id}`,
+    id: ({ id }: { id: string }) => id,
     params: {
       fields: [
         "access",
@@ -18,26 +20,41 @@ const PROGRAMQUERY = (id: string) => ({
       ]
     }
   }
-});
+};
 
-export function useGetProgramConfig(program: string) {
+export function useGetProgramConfig() {
+  const { isSetSectionType, sectionType } = useGetInitialValues()
   const setProgramConfigState = useSetRecoilState(ProgramConfigState);
-  const { hide, show } = useShowAlerts();
+  const { hide, show } = useShowAlerts()
+  const { getDataStoreData } = getSelectedKey()
+  const program = getDataStoreData.program
+  const [customLoading, setcustomLoading] = useState(true)
 
-  const { loading } = useDataQuery<{ results: ProgramConfig }>(
-    PROGRAMQUERY(program),
-    {
+  useEffect(() => {
+      if (isSetSectionType) {
+          setcustomLoading(true)
+          void refetch({
+              id: program
+          })
+      }
+  }, [sectionType, program])
+
+  const { loading, refetch } = useDataQuery<{ results: ProgramConfig }>(PROGRAMQUERY, {
+      variables: { id: program },
       onError(error) {
-        show({
-          message: `${"Could not get program"}: ${error.message}`,
-          type: { critical: true }
-        });
-        setTimeout(hide, 5000);
+          show({
+              message: `${("Could not get program")}: ${error.message}`,
+              type: { critical: true }
+          });
+          setTimeout(hide, 5000);
+          setcustomLoading(false)
       },
       onComplete(response) {
-        setProgramConfigState(response?.results);
-      }
-    }
-  );
-  return { loading };
+          setProgramConfigState(response?.results);
+          setcustomLoading(false)
+      },
+      lazy: true
+  })
+
+  return { loading: loading || customLoading }
 }

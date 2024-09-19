@@ -3,22 +3,22 @@ import style from "../layout.module.css";
 import InfoPage from '../../components/info/InfoPage';
 import { MainHeader, SideBar } from '../../components';
 import { CenteredContent, CircularLoader } from "@dhis2/ui";
+import { useGetInitialValues, useGetProgramConfig, useQueryParams } from '../../hooks';
 import { getDataStoreKeys } from '../../utils/commons/dataStore/getDataStoreKeys';
-import { useQueryParams, useGetInitialValues, useGetProgramConfig } from '../../hooks';
 
 export default function FullLayout({ children }: { children: React.ReactNode }) {
-    const { useQuery, add } = useQueryParams();
-    const school = useQuery().get("school");
-    const academicYear = useQuery().get("academicYear");
-    const { isSetSectionType } = useGetInitialValues();
-    const { program, currentAcademicYear } = getDataStoreKeys()
-    const { loading } = useGetProgramConfig(program);
+    useGetInitialValues()
+    const { urlParamiters,add } = useQueryParams()
+    const { school, academicYear } = urlParamiters()
+    const { isSetSectionType } = useGetInitialValues()
+    const { loading } = useGetProgramConfig();
+    const { currentAcademicYear } = getDataStoreKeys()
 
     useEffect(() => {
-        if ((academicYear === null || academicYear === undefined) || (typeof academicYear === "string" && academicYear?.length === 0)) {
+        if (((academicYear === null || academicYear === undefined) || (typeof academicYear === "string" && academicYear?.length === 0)) && currentAcademicYear) {
             add("academicYear", currentAcademicYear)
         }
-    }, [academicYear])
+    }, [academicYear,currentAcademicYear])
 
     if (!isSetSectionType) {
         return (
