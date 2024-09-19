@@ -6,7 +6,7 @@ import { useState,useEffect } from "react"
 
 const DATASTORE_QUERY = ({
     config: {
-        resource: "dataStore/semisStaffConfigReenrollForm/values",
+        resource: "dataStore/semis/values",
         params: {
             fields: "*"
         }

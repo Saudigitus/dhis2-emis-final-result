@@ -103,7 +103,7 @@ export function useTableData() {
             page,
             pageSize,
             program: program as unknown as string,
-            order: "createdAt:desc",
+            order: getDataStoreData?.defaults?.defaultOrder || "createdAt:desc",
             programStage: registration?.programStage as unknown as string,
             filter: headerFieldsState?.dataElements,
             filterAttributes: headerFieldsState?.attributes,

@@ -33,6 +33,8 @@ interface finalResult extends simpleProgramStage {
 
 interface defaults {
   currentAcademicYear: string
+  allowSearching: boolean
+  defaultOrder: string
 }
 
 interface filterItem {
