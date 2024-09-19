@@ -90,7 +90,6 @@ const TEI_QUERY = ({
   trackedEntity,
   orgUnit,
   order,
-  programStatus
 }: TeiQueryProps) => ({
   results: {
     resource: "tracker/trackedEntities",
@@ -98,7 +97,6 @@ const TEI_QUERY = ({
       program,
       order,
       ouMode,
-      programStatus,
       pageSize,
       trackedEntity,
       orgUnit,
@@ -328,21 +326,19 @@ export default function useExportTemplate() {
         required: true
       },
       {
-        key: `occurredAt`,
+      key: `occurredAt`,
         id: `occurredAt`,
-        label: "Event Date",
-        valueType: "DATE",
+        label: "EventDate",
+        valueType: "TEXT",
         optionSetValue: false,
         options: [],
         optionSetId: null,
-        required: true
-      }
+        required: true}
     ]
 
     const newBeginHeadersFormatted = newBeginHeaders.map((header) => {
       return {
         ...header,
-        metadataType: VariablesTypes.Default,
         sectionDataType: SectionVariablesTypes.EnrollmentDetails
       }
     })
@@ -434,7 +430,7 @@ export default function useExportTemplate() {
 
       for (const tei of allTeis) {
         const {
-          results: { instances: marksData }
+          results: { instances: finalResultData }
         } = await engine.query(
           EVENT_QUERY({
             program: program as unknown as string,
@@ -444,7 +440,7 @@ export default function useExportTemplate() {
           })
         )
 
-        marksInstances = marksInstances.concat(marksData)
+        marksInstances = marksInstances.concat(finalResultData)
       }
 
       const localData = formatResponseRows({
@@ -609,15 +605,20 @@ export default function useExportTemplate() {
         if (header.id === "trackedEntity") {
           dataSheet.getColumn(index + 1).hidden = true
         }
+        if (header.id === "occurredAt") {
+          dataSheet.getColumn(index + 1).hidden = true
+        }
       })
 
+      
+
       // Add second header row
-      const headerRow = dataSheet.addRow(
-        headers.reduce((prev: any, curr: any) => {
-          prev[curr.id] = curr.id
-          return prev
-        }, {})
-      )
+      const headerRow = dataSheet.addRow(headers.reduce((prev: any, curr: any) => {
+        prev[curr.id] = curr.id;
+        return prev;
+      }, {}));
+      // Hide the header IDs row
+      headerRow.hidden = true;
 
       // Add background in the header row
       headers.forEach((header: any, index: any) => {
