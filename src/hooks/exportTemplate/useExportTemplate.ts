@@ -1,7 +1,7 @@
 import { useDataEngine, useDataQuery } from "@dhis2/app-runtime"
 import { format } from "date-fns"
 import { useSearchParams } from "react-router-dom"
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import { HeaderFieldsState } from "../../schema/headersSchema"
 import { ProgramConfigState } from "../../schema/programSchema"
 import type { EventQueryProps } from "../../types/api/WithoutRegistrationTypes"
@@ -21,6 +21,7 @@ import { formatResponseRows } from "../../utils/table/rows/formatResponseRows"
 import { useQueryParams } from "../commons/useQueryParams"
 import { useShowAlerts } from "../commons/useShowAlert"
 import { validationSheetConstructor } from "./validationSheetConstructor"
+import { ProgressState } from "../../schema/linearProgress"
 
 export enum SectionVariablesTypes {
   EnrollmentDetails = "Enrollment Details",
@@ -115,6 +116,7 @@ export default function useExportTemplate() {
   const school = urlParamiters().school as unknown as string
   const [searchParams, _] = useSearchParams()
   const { hide, show } = useShowAlerts()
+  const updateProgress = useSetRecoilState(ProgressState)
   const { refetch: loadOneProgram } = useDataQuery(oneProgramQuery, {
     lazy: true
   })
@@ -396,6 +398,7 @@ export default function useExportTemplate() {
 
   async function handleExportToWord(values: useExportTemplateProps) {
     try {
+      updateProgress({ stage: 'export', progress: 0, buffer: 10 })
       values.setLoadingExport && values.setLoadingExport(true)
 
       const {
@@ -412,10 +415,13 @@ export default function useExportTemplate() {
           orgUnit: school
         })
       )
+      updateProgress({ stage: 'export', progress: 10, buffer: 15 })
 
       const allTeis: [] = eventsInstances.map(
         (x: { trackedEntity: string }) => x.trackedEntity
       )
+
+      updateProgress({ stage: 'export', progress: 40, buffer: 45 })
 
       const {
         results: { instances: teiInstances }
@@ -438,9 +444,9 @@ export default function useExportTemplate() {
             programStage: programConfigDataStore["final-result"].programStage,
             trackedEntity: tei
           })
-        )
-
-        marksInstances = marksInstances.concat(finalResultData)
+        )        
+        updateProgress((progress: any) => ({ stage: 'export', progress: progress.progress + 50 / allTeis.length, buffer: progress.buffer + 55 / allTeis.length }))
+        marksInstances = marksInstances.concat(marksData)
       }
 
       const localData = formatResponseRows({
@@ -514,11 +520,11 @@ export default function useExportTemplate() {
           valueType: headers[i].valueType,
           options: headers[i].optionSetValue
             ? headers[i].options
-                ?.map(
-                  (op: { code: string; displayName: string }) =>
-                    op.code || op.displayName
-                )
-                ?.join(",")
+              ?.map(
+                (op: { code: string; displayName: string }) =>
+                  op.code || op.displayName
+              )
+              ?.join(",")
             : "",
           programId: i === 0 ? currentProgram?.program?.id : "",
           programName: i === 0 ? currentProgram?.program?.displayName : "",
@@ -664,11 +670,9 @@ export default function useExportTemplate() {
               )
 
               // Formula composition for dataValidation
-              const formula = `'${
-                validationSheet.name
-              }'!$${columnLetter}$2:$${columnLetter}$${
-                headers[j].options.length + 1
-              }`
+              const formula = `'${validationSheet.name
+                }'!$${columnLetter}$2:$${columnLetter}$${headers[j].options.length + 1
+                }`
 
               currentCell.dataValidation = {
                 type: "list",
@@ -749,9 +753,10 @@ export default function useExportTemplate() {
         type: { success: true }
       })
       setTimeout(hide, 5000)
+      updateProgress({ stage: 'export', progress: 100, buffer: 100 })
       values.setLoadingExport && values.setLoadingExport(false)
     } catch (err: any) {
-      console.log(err)
+      updateProgress({ progress: null })
       show({
         message: err.message,
         type: { critical: true }

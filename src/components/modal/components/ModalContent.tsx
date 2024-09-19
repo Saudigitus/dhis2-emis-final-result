@@ -44,7 +44,7 @@ function ModalContentComponent(props: ContentProps): React.ReactElement {
     if (allFields.filter((element: any) => (element?.assignedValue === undefined && element.required)).length === 0) {
       const enrollments = []
       for (const event of selected.selectedRows) {
-        console.log(event,"event")
+
         enrollments.push({
           enrollment: event?.enrollment,
           status: allFields[0].assignedValue==="Dropout"?"CANCELLED":"COMPLETED",
