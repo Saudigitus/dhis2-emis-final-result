@@ -1,8 +1,8 @@
 import { useSetRecoilState } from 'recoil';
 import { useShowAlerts } from '../../hooks';
-import { useDataEngine, useDataQuery } from "@dhis2/app-runtime"
+import { useDataEngine} from "@dhis2/app-runtime"
 import { DataStoreStaffFormConfigState, DataStoreState } from '../../schema/dataStoreSchema';
-import { useState } from "react"
+import { useState,useEffect } from "react"
 
 const DATASTORE_QUERY = ({
     config: {
@@ -14,7 +14,7 @@ const DATASTORE_QUERY = ({
 })
 
 const DATASTORE_STAFF_REENROLL_FORMCONFIG = ({
-    config: {
+    configStaff: {
         resource: "dataStore/semisStaffConfigReenrollForm/config",
         params: {
             fields: "*"
@@ -25,42 +25,53 @@ const DATASTORE_STAFF_REENROLL_FORMCONFIG = ({
 export function useDataStore() {
 
     const engine = useDataEngine();
-    const [loader, setLoader] = useState<boolean>(true)
     const setDataStoreState = useSetRecoilState(DataStoreState);
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState<boolean>(true)
     const { hide, show } = useShowAlerts()
+    const [data, setData] = useState<any>(null)
     const setStaffFormConfigDataStore = useSetRecoilState(DataStoreStaffFormConfigState)
 
-    const { data, loading, error } = useDataQuery<{ config: any }>(DATASTORE_QUERY, {
-        onError(error) {
-            show({
-                message: `${("Could not get data")}: ${error.message}`,
-                type: { critical: true }
-            });
-            setTimeout(hide, 5000);
-        },
-        async onComplete(response) {
-            //GET STAFF FORM CONFIG TO HIDE UNNECESSARY FIELDS ON STAFF REENROLL FORM
-            await engine.query(DATASTORE_STAFF_REENROLL_FORMCONFIG)
-                .then(({ config }) => {
-                    setStaffFormConfigDataStore(config)
-                    setLoader(false)
-                }).catch((errorMsg) => {
-                    setLoader(false)
-                    show({
-                        message: `${("Could not get data")}: ${errorMsg.message}`,
-                        type: { critical: true }
-                    });
-                    setTimeout(hide, 5000);
-                })
-            //=======================================================================    
-            setDataStoreState(response?.config)
-        }
-    })
+    const getDataStore = () => {
+        engine.query(DATASTORE_QUERY)
+            .then(async ({ config }) => {
+
+                //GET STAFF FORM CONFIG TO HIDE UNNECESSARY FIELDS ON STAFF REENROLL FORM
+                await engine.query(DATASTORE_STAFF_REENROLL_FORMCONFIG)
+                    .then(({ configStaff }) => {
+                        setStaffFormConfigDataStore(configStaff)
+                        setLoading(false)
+                    }).catch((errorMsg) => {
+                        setLoading(false)
+                        show({
+                            message: `${("Could not get data")}: ${errorMsg.message}`,
+                            type: { critical: true }
+                        });
+                        setTimeout(hide, 5000);
+                    })
+                //=======================================================================    
+                console.log(config)
+                setData(config)
+                setDataStoreState(config)
+            })
+            .catch((error) => {
+                setError(error)
+                setLoading(false)
+                show({
+                    message: `${("Could not get data")}: ${error.message}`,
+                    type: { critical: true }
+                });
+                setTimeout(hide, 5000);
+            })
+    }
+
+    useEffect(() => {
+        getDataStore()
+    },[])
 
     return {
         data,
         loading,
         error,
-        loader
     }
 }

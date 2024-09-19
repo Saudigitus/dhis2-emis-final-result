@@ -8,7 +8,7 @@ import { useGetOptionGroups } from "../hooks/optionGroup/useGetOptionGroups"
 import { useOrgUnitsGroups } from "../hooks/orgUnitsGroup/useOrgUnitsGroups"
 
 export default function AppWrapper(props: AppConfigurationsProps) {
-  const { error, loading, loader } = useDataStore()
+  const { error, loading } = useDataStore()
   const { loadingPRules } = useGetProgramRules()
   const { loadingPRulesVariables } = useGetProgramRulesVariables()
   const { loadingOptionGroups } = useGetOptionGroups()
@@ -19,8 +19,7 @@ export default function AppWrapper(props: AppConfigurationsProps) {
     loadingPRules ||
     loadingPRulesVariables ||
     loadingOptionGroups ||
-    loadingOrgUnitsGroups ||
-    loader
+    loadingOrgUnitsGroups 
   ) {
     return (
       <CenteredContent>
