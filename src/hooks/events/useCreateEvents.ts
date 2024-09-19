@@ -2,6 +2,7 @@ import { useRecoilState } from 'recoil';
 import { useShowAlerts } from '../../hooks';
 import { teiRefetch } from '../../schema/teiRefetchSchema';
 import { useDataMutation } from "@dhis2/app-runtime";
+import { type ApiResponse } from '../../types/bulkImport/Interfaces';
 
 const POST_EVENT: any = {
     resource: 'tracker',
@@ -17,7 +18,7 @@ export function usePostEvent() {
     const { hide, show } = useShowAlerts()
     const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch)
 
-    const [create, { loading, data,error }] = useDataMutation(POST_EVENT, {
+    const [create, { loading, data, error }] = useDataMutation(POST_EVENT, {
         onComplete: () => {
             show({ message: "Final results updated successfully", type: { success: true } })
             setRefetch(!refetch)
@@ -34,6 +35,7 @@ export function usePostEvent() {
     return {
         loadUpdateEvent: loading,
         updateEvent: create,
-        data
+        data: data as unknown as ApiResponse,
+    error
     }
 }

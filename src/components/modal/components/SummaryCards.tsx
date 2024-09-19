@@ -3,8 +3,8 @@ import { ButtonStrip } from "@dhis2/ui";
 import SummaryCard from "../../card/SummaryCard";
 
 interface SummaryCardsProps {
-    created: []
-    conflicts: []
+    created: any[];  
+    conflicts: any[]; 
 }
 
 function SummaryCards(values: SummaryCardsProps): React.ReactElement {
@@ -16,5 +16,6 @@ function SummaryCards(values: SummaryCardsProps): React.ReactElement {
         </ButtonStrip>
     );
 }
+
 
 export default SummaryCards;
