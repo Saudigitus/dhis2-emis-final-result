@@ -52,6 +52,8 @@ import { teiRefetch } from "../../../../schema/teiRefetchSchema";
 // import { HeaderFieldsState } from "../../../../schema/headersSchema";
 import IteractiveProgress from "../../../progress/interactiveProgress";
 import { ProgressState } from "../../../../schema/linearProgress";
+import DropZone from "../../../dropzone/DropZone"
+
 
 function EnrollmentActionsButtons() {
   // const headerFieldsState = useRecoilValue(HeaderFieldsState);
@@ -144,20 +146,20 @@ function EnrollmentActionsButtons() {
 
   const enrollmentOptions: FlyoutOptionsProps[] = [
     {
-      label: "Export students list",
+      label: "Bulk final decision",
       divider: false,
       onClick: () => {
-        setOpenExportEmptyTemplate(() => true);
+        setIsOpen(() => true)
+        setRowData(() => [])
+        setIgnoredEvents(() => [])
+        setFoundEvents(() => [])
       }
     },
     {
-      label: "Update students",
+      label: "Export empty template",
       divider: false,
       onClick: () => {
-        setIsOpen(() => true);
-        setRowData(() => []);
-        setIgnoredEvents(() => []);
-        setFoundEvents(() => []);
+        setOpenExportEmptyTemplate(() => true)
       }
     }
   ];
@@ -201,7 +203,7 @@ function EnrollmentActionsButtons() {
               type: { success: true }
             });
           })
-          .catch(() => {});
+          .catch(() => { });
       },
       className: progress?.progress != null && styles.remove
     },
@@ -245,7 +247,8 @@ function EnrollmentActionsButtons() {
             setFinalIgnoredCount(ignoredEvents.length);
             updateProgress({ progress: 100, buffer: 100 });
           })
-          .catch(() => {});
+          .catch(() => { })
+          .finally(() => { setRefresh(prev => !prev) })
       },
       className: progress?.progress != null && styles.remove
     },
@@ -355,8 +358,8 @@ function EnrollmentActionsButtons() {
             orgUnit === null
               ? "Please select an organisation unit before"
               : noFinalResultStudentSelected.length > 0
-              ? "From selected students, some of them don't have final result"
-              : ""
+                ? "From selected students, some of them don't have final result"
+                : ""
           }
         >
           <span>
@@ -439,7 +442,7 @@ function EnrollmentActionsButtons() {
         </ModalComponent>
       )}
 
-      <DropzoneDialog
+      {/* <DropzoneDialog
         dialogTitle={"Bulk Final Decision"}
         submitButtonText={"Start Import"}
         dropzoneText={"Drag and drop a file here or Browse"}
@@ -463,11 +466,22 @@ function EnrollmentActionsButtons() {
         }}
         onSave={onSave as any}
         clearOnUnmount={true}
-      />
+      /> */}
+
+      {
+        isOpen &&
+        <ModalComponent
+          title={`Bulk Final Decision`}
+          open={isOpen}
+          setOpen={setIsOpen}
+        >
+          <DropZone onSave={onSave} />
+        </ModalComponent>
+      }
 
       {openStudentUpdate && (
         <ModalComponent
-          title={`Bulk final decision Summary`}
+          title={`Bulk final decision summary`}
           open={openStudentUpdate}
           setOpen={setOpenStudentUpdate}
         >
@@ -482,7 +496,7 @@ function EnrollmentActionsButtons() {
               >
                 Students Final Decision Updates preview
               </Tag>
-              <h3>Students List Template Processing Summary</h3>
+              {/* <h3>Students List Template Processing Summary</h3> */}
               <WithPadding />
               <WithPadding />
               <ButtonStrip>
@@ -578,7 +592,7 @@ function EnrollmentActionsButtons() {
                                         <DataTableCell key={column.id}>
                                           {
                                             event[
-                                              `${registration.programStage}.${column.key}`
+                                            `${registration.programStage}.${column.key}`
                                             ]
                                           }
                                         </DataTableCell>
@@ -589,7 +603,7 @@ function EnrollmentActionsButtons() {
                                         <DataTableCell key={column.id}>
                                           {
                                             event[
-                                              `${finalResult.programStage}.${column.key}`
+                                            `${finalResult.programStage}.${column.key}`
                                             ]
                                           }
                                         </DataTableCell>
@@ -673,7 +687,7 @@ function EnrollmentActionsButtons() {
                                           <DataTableCell key={column.id}>
                                             {
                                               event[
-                                                `${registration.programStage}.${column.key}`
+                                              `${registration.programStage}.${column.key}`
                                               ]
                                             }
                                           </DataTableCell>
@@ -684,7 +698,7 @@ function EnrollmentActionsButtons() {
                                           <DataTableCell key={column.id}>
                                             {
                                               event[
-                                                `${finalResult.programStage}.${column.key}`
+                                              `${finalResult.programStage}.${column.key}`
                                               ]
                                             }
                                           </DataTableCell>
