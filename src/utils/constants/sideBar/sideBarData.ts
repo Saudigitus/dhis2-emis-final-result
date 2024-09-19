@@ -107,10 +107,10 @@ function sideBarData(locationParms: string, filterDataElements: filterItem[]): S
                     pathName: "/transfer/staff"
                 }, {
                     icon: gauge,
-                    label: "Final result",
+                    label: "Re-enroll",
                     showBadge: false,
                     disabled: false,
-                    appName: "SEMIS-Final-Result",
+                    appName: "SEMIS-Staff-Re-enroll",
                     route: `final-result?${subItemRoute(locationParms.slice(1), 'staff', filterDataElements)}`,
                     pathName: "/final-result/staff"
                 }
