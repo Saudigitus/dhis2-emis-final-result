@@ -30,6 +30,7 @@ import { teiRefetch } from "../../../../schema/teiRefetchSchema"
 import { HeaderFieldsState } from "../../../../schema/headersSchema"
 import IteractiveProgress from "../../../progress/interactiveProgress"
 import { ProgressState } from "../../../../schema/linearProgress"
+import DropZone from "../../../dropzone/DropZone"
 
 function EnrollmentActionsButtons() {
   const headerFieldsState = useRecoilValue(HeaderFieldsState)
@@ -47,7 +48,7 @@ function EnrollmentActionsButtons() {
   const [rowData, setRowData] = useState<any[]>([])
   const [ignoredEvents, setIgnoredEvents] = useState<any[]>([])
   const [foundEvents, setFoundEvents] = useState<any[]>([]) // Track events to be sent to the system
-  const [, setRefresh] = useRecoilState(teiRefetch)
+  const [refetch, setRefresh] = useRecoilState(teiRefetch)
   const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set())
   const [validValues] = useState<string[]>([])
   const { show } = useShowAlerts()
@@ -101,7 +102,7 @@ function EnrollmentActionsButtons() {
   const validateData = (event: any) => {
     const errors: Array<{ field: string; value: string; error: string }> = []
 
-    if (!validValues.includes(event[`${programStage}.${status}`])) {
+    if (!validValues.includes(event[`${finalResult.programStage}.${status}`])) {
       errors.push({
         field: "Final Decision",
         value: event[`${finalResult.programStage}.${finalResult.status}`],
@@ -118,14 +119,7 @@ function EnrollmentActionsButtons() {
 
   const enrollmentOptions: FlyoutOptionsProps[] = [
     {
-      label: "Export students list",
-      divider: false,
-      onClick: () => {
-        setOpenExportEmptyTemplate(() => true)
-      }
-    },
-    {
-      label: "Update students",
+      label: "Bulk final decision",
       divider: false,
       onClick: () => {
         setIsOpen(() => true)
@@ -133,7 +127,14 @@ function EnrollmentActionsButtons() {
         setIgnoredEvents(() => [])
         setFoundEvents(() => [])
       }
-    }
+    },
+    {
+      label: "Export empty template",
+      divider: false,
+      onClick: () => {
+        setOpenExportEmptyTemplate(() => true)
+      }
+    },
   ]
 
   useEffect(() => {
@@ -217,6 +218,7 @@ function EnrollmentActionsButtons() {
             updateProgress({ progress: 100, buffer: 100 })
           })
           .catch(() => { })
+          .finally(() => { setRefresh(prev => !prev) })
       },
       className: progress?.progress != null && styles.remove
     },
@@ -410,7 +412,7 @@ function EnrollmentActionsButtons() {
         </ModalComponent>
       )}
 
-      <DropzoneDialog
+      {/* <DropzoneDialog
         dialogTitle={"Bulk Final Decision"}
         submitButtonText={"Start Import"}
         dropzoneText={"Drag and drop a file here or Browse"}
@@ -434,11 +436,21 @@ function EnrollmentActionsButtons() {
         }}
         onSave={onSave as any}
         clearOnUnmount={true}
-      />
+      /> */}
+      {
+        isOpen &&
+        <ModalComponent
+          title={`Bulk Final Decision`}
+          open={isOpen}
+          setOpen={setIsOpen}
+        >
+          <DropZone onSave={onSave} />
+        </ModalComponent>
+      }
 
       {openStudentUpdate && (
         <ModalComponent
-          title={`Bulk final decision Summary`}
+          title={`Bulk final decision summary`}
           open={openStudentUpdate}
           setOpen={setOpenStudentUpdate}
         >
@@ -453,7 +465,7 @@ function EnrollmentActionsButtons() {
                 >
                   Students Final Decision Updates preview
                 </Tag>
-                <h3>Students List Template Processing Summary</h3>
+                {/* <h3>Students List Template Processing Summary</h3> */}
                 <WithPadding />
                 <WithPadding />
                 <ButtonStrip>
