@@ -1,11 +1,10 @@
-import { format } from "date-fns";
 import { reducer } from "../commons/formatDistinctValue";
 
-export const promoteTeiPostBody = (students: any, dataValues: any, performanceProgramStages: string[], socioEconomicProgramStage: string, enrollmentDate: string): any => {
-    const buildEventBody = (program: string, orgUnit: string, socioEvents: any) => {
+export const promoteTeiPostBody = (students: any, dataValues: any, socioEconomicProgramStage: string, enrollmentDate: string): any => {
+    const buildEventBody = (program: string, orgUnit: string, socioEvents: any, registrationEvent: any) => {
         const events = []
 
-        for (const [key, value] of Object.entries(reducer(dataValues[0]))) {
+        for (const [key, value] of Object.entries(reducer(dataValues[0], registrationEvent?.dataValues || []))) {
             events.push({
                 occurredAt: enrollmentDate,
                 notes: [],
@@ -19,46 +18,32 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
         }
 
         //REPLICATING SOCIO ECONIMIC EVENTS
-        if(socioEconomicProgramStage){
-        var socioEconomicDataValues: any[] = []
+        if (socioEconomicProgramStage) {
+            var socioEconomicDataValues: any[] = []
 
-        socioEvents?.dataValues.forEach((dataValue: any) => {
-            socioEconomicDataValues.push({
-                dataElement: dataValue?.dataElement,
-                value: dataValue?.value
+            socioEvents?.dataValues.forEach((dataValue: any) => {
+                socioEconomicDataValues.push({
+                    dataElement: dataValue?.dataElement,
+                    value: dataValue?.value
+                })
             })
-        })
-        events.push({
-            occurredAt: enrollmentDate,
-            notes: [],
-            status: "ACTIVE",
-            program,
-            programStage: socioEconomicProgramStage,
-            orgUnit,
-            scheduledAt: enrollmentDate,
-            dataValues: socioEconomicDataValues
-        })}
-
-        /////////////////////
-
-        //CREATING  EMPTIES  EVENTS FOR PERFORMANCE AND FINAL RESULT PROGRAM STAGE
-        performanceProgramStages.forEach(performanceProgramStage => {
             events.push({
                 occurredAt: enrollmentDate,
                 notes: [],
                 status: "ACTIVE",
                 program,
-                programStage: performanceProgramStage,
+                programStage: socioEconomicProgramStage,
                 orgUnit,
-                scheduledAt: enrollmentDate
+                scheduledAt: enrollmentDate,
+                dataValues: socioEconomicDataValues
             })
-        })
+        }
 
         return events
     }
     ////////////////////
 
-    const trackedEntities: any[] = students.map(({ orgUnit, trackedEntity, trackedEntityType, attributes, enrollments, socioEvents }: { orgUnit: string, trackedEntity: string, trackedEntityType: string, attributes: any, enrollments: any, socioEvents: any }) => (
+    const trackedEntities: any[] = students.map(({ orgUnit, trackedEntity, trackedEntityType, attributes, enrollments, socioEvents, registrationEvent }: { orgUnit: string, trackedEntity: string, trackedEntityType: string, attributes: any, enrollments: any, socioEvents: any, registrationEvent: any }) => (
         {
             orgUnit,
             trackedEntity,
@@ -71,7 +56,7 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
                     occurredAt: enrollmentDate,
                     orgUnit,
                     enrolledAt: enrollmentDate,
-                    events: buildEventBody(enrollments[0]?.program, orgUnit, socioEvents)
+                    events: buildEventBody(enrollments[0]?.program, orgUnit, socioEvents, registrationEvent)
                 }
             ]
         }

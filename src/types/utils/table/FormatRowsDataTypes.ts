@@ -5,6 +5,9 @@ import { type OptionSet } from "../../../types/generated"
 
 interface FormatResponseRowsDataProps {
     eventsInstances: [{
+        event:string
+        enrollment:string
+        occurredAt:string
         trackedEntity: string
         dataValues: dataValuesProps[]
     }]
@@ -12,12 +15,7 @@ interface FormatResponseRowsDataProps {
         trackedEntity: string
         attributes: attributesProps[]
     }]
-    marksInstances: [{
-        trackedEntity: string
-        dataValues: dataValuesProps[]
-    }]
     programConfig: ProgramConfig
-    programStageId?: string | undefined
 }
 
 interface FormatResponsePromotionSummaryRowsDataProps {

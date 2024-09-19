@@ -80,7 +80,7 @@ export function useTableData() {
   const headerFieldsState = useRecoilValue(HeaderFieldsState)
   const programConfig = useRecoilValue(ProgramConfigState)
   const { getDataStoreData } = getSelectedKey()
-  const { urlParamiters } = useQueryParams()
+  const { urlParamiters, useQuery } = useQueryParams()
   const setLoading = useSetRecoilState<boolean>(TableLoaderState)
   const [tableData, setTableData] = useState<TableDataProps[]>([])
   const { hide, show } = useShowAlerts()
@@ -95,29 +95,29 @@ export function useTableData() {
   ) {
     setLoading(true)
 
-    //GET ALL CURRENT YEAR REAGISTRATION EVENTS
-    ;(await engine
-      .query(
-        EVENT_QUERY({
-          ouMode: "SELECTED",
-          page,
-          pageSize,
-          program: program as unknown as string,
-          order: "createdAt:desc",
-          programStage: registration?.programStage as unknown as string,
-          filter: headerFieldsState?.dataElements,
-          filterAttributes: headerFieldsState?.attributes,
-          orgUnit: school
-        })
-      )
-      .then(async (response: any) => {
-        const allTeis: [] = response?.results?.instances.map(
-          (x: { trackedEntity: string }) => x.trackedEntity
+      //GET ALL CURRENT YEAR REAGISTRATION EVENTS
+      ; (await engine
+        .query(
+          EVENT_QUERY({
+            ouMode: "SELECTED",
+            page,
+            pageSize,
+            program: program as unknown as string,
+            order: "createdAt:desc",
+            programStage: registration?.programStage as unknown as string,
+            filter: headerFieldsState?.dataElements,
+            filterAttributes: headerFieldsState?.attributes,
+            orgUnit: school
+          })
         )
+        .then(async (response: any) => {
+          const allTeis: [] = response?.results?.instances.map(
+            (x: { trackedEntity: string }) => x.trackedEntity
+          )
 
-        //GET ALL TEIS THAT HAVE REGISTRATION EVENTS 'CAUSE WE NEED THEY ATTRIBUTES
-        allTeis?.length > 0
-          ? ((await engine
+          //GET ALL TEIS THAT HAVE REGISTRATION EVENTS 'CAUSE WE NEED THEY ATTRIBUTES
+          allTeis?.length > 0
+            ? ((await engine
               .query(
                 TEI_QUERY({
                   program: program as unknown as string,
@@ -125,58 +125,18 @@ export function useTableData() {
                 })
               )
               .then(async (teiResponse: any) => {
-                //GET FINAL RESULT EVENT FOR EACH STUDENT
-                const marskEvents: MarksQueryResults = {
-                  results: { instances: [] }
-                }
 
-                for (const tei of allTeis) {
-                  ;(await engine
-                    .query(
-                      EVENT_QUERY({
-                        // ouMode: "SELECTED",
-                        program: program as unknown as string,
-                        order: "createdAt:desc",
-                        programStage:
-                          getDataStoreData?.["final-result"].programStage,
-                        // orgUnit: school,
-                        trackedEntity: tei
-                      })
-                    )
-                    .then((finalResuntEvent: any) => {
-                      marskEvents.results.instances.push(
-                        ...finalResuntEvent?.results?.instances
-                      )
-                    })
-                    .catch((error) => {
-                      setLoading(false)
-                      show({
-                        message: `${"Could not get data"}: ${error.message}`,
-                        type: { critical: true }
-                      })
-                      setTimeout(hide, 5000)
-                    })) as unknown as MarksQueryResults
-                }
-
-                //FORMAT DATA TO LIST ON TABLE
                 const localData = formatResponseRows({
                   eventsInstances: response?.results?.instances,
                   teiInstances: teiResponse?.results?.instances,
-                  marksInstances: marskEvents?.results?.instances,
                   programConfig: programConfig,
-                  programStageId: getDataStoreData["final-result"].programStage
                 })
 
                 //FORMAT DATA TO SELECTION PROCESS
                 var eventsWithTei: any[] = []
                 response.results.instances.map((event: any) => {
-                  const currentEnrollmentMarkEvent =
-                    marskEvents.results.instances.filter(
-                      (markEvent: any) =>
-                        markEvent.enrollment === event.enrollment
-                    )[0]
                   eventsWithTei.push({
-                    ...currentEnrollmentMarkEvent,
+                    ...event,
                     tei: teiResponse?.results?.instances.find(
                       (tei: { trackedEntity: string }) =>
                         tei.trackedEntity === event.trackedEntity
@@ -187,10 +147,10 @@ export function useTableData() {
                 setSelected(
                   clearSelection
                     ? {
-                        rows: eventsWithTei,
-                        selectedRows: [],
-                        isAllRowsSelected: false
-                      }
+                      rows: eventsWithTei,
+                      selectedRows: [],
+                      isAllRowsSelected: false
+                    }
                     : { ...selected, rows: eventsWithTei }
                 )
                 setTableData(localData)
@@ -204,25 +164,24 @@ export function useTableData() {
                 })
                 setTimeout(hide, 5000)
               })) as unknown as TeiQueryResults)
-          : ({ results: { instances: [] } } as unknown as TeiQueryResults)
+            : ({ results: { instances: [] } } as unknown as TeiQueryResults)
 
-        if (allTeis?.length === 0) {
-          setLoading(false)
-          setTableData([])
-        }
-      })
-      .catch((error) => {
-        setLoading(false)
-        show({
-          message: `${"Could not get data"}: ${error.message}`,
-          type: { critical: true }
+          if (allTeis?.length === 0) {
+            setLoading(false)
+            setTableData([])
+          }
         })
-        setTimeout(hide, 5000)
-      })) as unknown as EventQueryResults
+        .catch((error) => {
+          setLoading(false)
+          show({
+            message: `${"Could not get data"}: ${error.message}`,
+            type: { critical: true }
+          })
+          setTimeout(hide, 5000)
+        })) as unknown as EventQueryResults
   }
 
-  return {
-    getData,
-    tableData
-  }
+
+
+  return { getData, tableData }
 }

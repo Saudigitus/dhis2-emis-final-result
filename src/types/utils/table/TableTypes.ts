@@ -7,7 +7,7 @@ interface ConvertArrayToObjectProps {
 
 interface FormatResponseProps {
     data: ProgramConfig, 
-    programStageId: string, 
+    programStageId?: string, 
     registrationProgramStage:string,
     tableColumns: CustomAttributeProps[]
 }

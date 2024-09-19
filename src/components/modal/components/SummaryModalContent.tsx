@@ -34,7 +34,7 @@ function ModalSummaryContent(props: ModalContentProps): React.ReactElement {
 
   return (
     <div>
-      <Tag positive icon={<IconCheckmarkCircle16 />} className={styles.tagContainer}> Students promotion preview </Tag>
+      <Tag positive icon={<IconCheckmarkCircle16 />} className={styles.tagContainer}>Staffs re-enroll preview </Tag>
 
       <WithPadding />
       <Title label="Summary" />
@@ -52,7 +52,7 @@ function ModalSummaryContent(props: ModalContentProps): React.ReactElement {
             <Button small icon={<InfoOutlined className={styles.infoIcon} />} onClick={handleShowDetails}>More details</Button>
           </ButtonStrip>
           <br/>
-          <span style={{color:"red"}}>The following students were not promoted. They already exist on the selected academic year</span>
+          <span style={{color:"red"}}>The following staffs were not re-enrolled. They already exist on the selected academic year</span>
         </>
         : null}
       <WithPadding />

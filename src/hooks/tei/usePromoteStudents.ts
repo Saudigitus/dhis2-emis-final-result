@@ -68,7 +68,7 @@ const usePromoteStudent = () => {
   const { show } = useShowAlerts()
   const [selected, setSelected] = useRecoilState(RowSelectionState)
   const [refetch, setRefetch] = useRecoilState<boolean>(teiRefetch)
-  const performanceProgramStages = useGetUsedPProgramStages()
+  // const performanceProgramStages = useGetUsedPProgramStages()
   const { getDataStoreData } = getSelectedKey()
   const [loadingPromote, setLoadingPromote] = useState<boolean>(false)
 
@@ -120,7 +120,8 @@ const usePromoteStudent = () => {
                       ...student,
                       socioEvents: resp?.events?.instances?.filter(
                         (event: any) => event?.enrollment === row?.enrollment
-                      )?.[0]
+                      )?.[0],
+                      registrationEvent: row
                     })
                   }
                 }
@@ -133,26 +134,26 @@ const usePromoteStudent = () => {
             }
           }
         })
-        .catch((error) => {})
+        .catch((error) => { })
     }
 
     if (studentsAbleToSave.length > 0) {
-      await mutate({
-        data: promoteTeiPostBody(
-          studentsAbleToSave,
-          fieldsWitValue,
-          performanceProgramStages,
-          getDataStoreData["socio-economics"]?.programStage,
-          formatDateToIsoString(enrollmentDate)
-        )
-      }).then(() => {
-        setSelected({ rows: [], selectedRows: [], isAllRowsSelected: false })
-        show({
-          message: "Promotion completed successfully",
-          type: { success: true }
+        await mutate({
+          data: promoteTeiPostBody(
+            studentsAbleToSave,
+            fieldsWitValue,
+            // performanceProgramStages,
+            getDataStoreData["socio-economics"]?.programStage,
+            formatDateToIsoString(enrollmentDate)
+          )
+        }).then(() => {
+          setSelected({ rows: [], selectedRows: [], isAllRowsSelected: false })
+          show({
+            message: "Promotion completed successfully",
+            type: { success: true }
+          })
+          setRefetch(!refetch)
         })
-        setRefetch(!refetch)
-      })
     }
     setLoadingPromote(false)
     setSummaryData({

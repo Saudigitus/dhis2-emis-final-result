@@ -65,6 +65,10 @@ interface dataStoreRecord {
   defaults: defaults
 }
 
+interface dataStoreRecordStaffFormConfig {
+  formShownVaribles: string[]
+}
+
 export type {
   filterItem,
   dataStoreRecord,
@@ -74,5 +78,6 @@ export type {
   attendance,
   simpleProgramStage,
   filters,
-  filterDataElements
+  filterDataElements,
+  dataStoreRecordStaffFormConfig
 }

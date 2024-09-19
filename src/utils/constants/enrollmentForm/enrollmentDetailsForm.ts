@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { type FormSectionProps } from "../../../types/fields/FieldsTypes";
 import { VariablesTypes } from "../../../types/variables/AttributeColumns";
+import { dataStoreRecordStaffFormConfig } from "../../../types/dataStore/DataStoreConfig";
 
 const staticForm = () => {
     return {
@@ -47,16 +48,17 @@ const staticForm = () => {
     }
 }
 
-function enrollmentDetailsForm(enrollmentsDetailsData: any[]): FormSectionProps[] {
+function enrollmentDetailsForm(enrollmentsDetailsData: any[],staffFormConfigDataStore:dataStoreRecordStaffFormConfig): FormSectionProps[] {
     const [enrollmentDetails] = enrollmentsDetailsData || [{ "enrollmentDetails": [] }];
 
     return [
         {
-            section: "Final Result",
-            description: "Student final result",
+            section: "Re-enroll",
+            description: "Staff re-enroll details",
             fields: [
                 staticForm().registeringSchool,
-                ...enrollmentDetails,
+                //FILTERING ONLY THE DATAELEMENTS THAS IS ON DATASTORE STAFF FORM CONFIG
+                ...enrollmentDetails?.filter((dataElements:any) => staffFormConfigDataStore.formShownVaribles.includes(dataElements.id)),
                 staticForm().enrollmentDate
             ]
         }

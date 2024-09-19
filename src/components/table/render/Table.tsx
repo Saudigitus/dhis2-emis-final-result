@@ -63,11 +63,11 @@ function Table() {
     setpageSize(parseInt(event.value, 10))
     setpage(1)
   }
-  console.log(columns)
+
   return (
     <Paper>
       <div className={classes.workingListsContainer}>
-        <h4 className={classes.h4}>Final result</h4>
+        <h4 className={classes.h4}>Staff Re-enroll</h4>
         <WorkingLits />
       </div>
       <WithBorder type="bottom" />

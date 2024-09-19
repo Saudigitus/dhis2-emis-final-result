@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { format } from "date-fns"
 import { Form } from "react-final-form"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { WithPadding, GroupForm } from "../../../components"
 import { ContentProps } from "../../../types/modal/ModalContentTypes"
 import { onSubmitClicked } from "../../../schema/formOnSubmitClicked"
@@ -24,23 +24,18 @@ import {
 import { CustomDhis2RulesEngine } from "../../../hooks/programRules/rules-engine/RulesEngine"
 import { formatKeyValueType } from "../../../utils/programRules/formatKeyValueType"
 import { getSelectedKey } from "../../../utils/commons/dataStore/getSelectedKey"
+import { DataStoreStaffFormConfigState } from "../../../schema/dataStoreSchema"
 
 function ModalContentPromotion(props: ContentProps): React.ReactElement {
-  const { setOpen, setOpenSummary, setSummaryData, enrollmentsDetailsData } =
-    props
+  const { setOpen, setOpenSummary, setSummaryData, enrollmentsDetailsData } = props
   const { useQuery } = useQueryParams()
-  const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> =
-    useRef(null)
+  const formRef: React.MutableRefObject<FormApi<IForm, Partial<IForm>>> = useRef(null)
   const orgUnitName = useQuery().get("schoolName")
   const orgUnit = useQuery().get("school")
   const [, setClicked] = useRecoilState<boolean>(onSubmitClicked)
   const [values, setValues] = useState<object>({ orgUnit })
-  const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([
-    enrollmentsDetailsData
-  ])
-  const [enrollmentDate, setEnrollmentDate] = useState<any>(
-    format(new Date(), "yyyy-MM-dd")
-  )
+  const [fieldsWitValue, setFieldsWitValues] = useState<any[]>([enrollmentsDetailsData])
+  const [enrollmentDate, setEnrollmentDate] = useState<any>(format(new Date(), "yyyy-MM-dd"))
   const [clickedButton, setClickedButton] = useState<string>("")
   const [selected] = useRecoilState(RowSelectionState)
   const { promoteStudents, mutateState, loadingPromote } = usePromoteStudent()
@@ -49,13 +44,14 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     registerschoolstaticform: orgUnitName,
     enrollment_date: format(new Date(), "yyyy-MM-dd")
   })
+  const staffFormConfigDataStore = useRecoilValue(DataStoreStaffFormConfigState)
 
   useEffect(() => {
     setClicked(false)
   }, [])
 
   const { runRulesEngine, updatedVariables } = CustomDhis2RulesEngine({
-    variables: enrollmentDetailsForm(enrollmentsDetailsData),
+    variables: enrollmentDetailsForm(enrollmentsDetailsData, staffFormConfigDataStore),
     values,
     type: "programStageSection",
     formatKeyValueType: formatKeyValueType(enrollmentsDetailsData)
@@ -172,7 +168,6 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     setValues(e)
   }
 
-  // console.log(updatedVariables, enrollmentDetailsForm(enrollmentsDetailsData), enrollmentsDetailsData);
 
   return (
     <WithPadding>
@@ -181,8 +176,8 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
           title={`WARNING! ${selected.selectedRows.length} rows will be affected`}
           warning
         >
-          No one will be able to access this program. Add some Organisation
-          Units to the access list.
+          You are about to re-enroll the selected staffs to a new selected academic year.
+          Please select the academic year bellow and continue
         </NoticeBox>
         <br />
       </React.Fragment>
