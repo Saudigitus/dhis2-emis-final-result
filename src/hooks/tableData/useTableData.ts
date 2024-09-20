@@ -136,7 +136,7 @@ export function useTableData() {
                       EVENT_QUERY({
                         // ouMode: "SELECTED",
                         program: program as unknown as string,
-                        order: "createdAt:desc",
+                        order: getDataStoreData.defaults.defaultOrder || "occurredAt:desc",
                         programStage:
                           getDataStoreData?.["final-result"].programStage,
                         // orgUnit: school,

@@ -29,31 +29,6 @@ export enum SectionVariablesTypes {
   FinalResults = "Final Results"
 }
 
-const oneProgramQuery: any = {
-  program: {
-    resource: "programs",
-    id: ({ programId }: { programId: string }) => programId,
-    params: {
-      fields: [
-        "id,displayName,programTrackedEntityAttributes[mandatory,trackedEntityAttribute[id,displayName,valueType,unique,generated,optionSetValue,optionSet[id,displayName,options[id,displayName,code]]]],programStages[id,displayName,programStageDataElements[compulsory,dataElement[id,displayName,valueType,optionSetValue,optionSet[id,displayName,options[id,displayName,code]]]]"
-      ]
-    }
-  }
-}
-
-const reserveValuesQuery: any = {
-  values: {
-    resource: "trackedEntityAttributes",
-    id: ({
-      numberOfReserve,
-      attributeID
-    }: {
-      numberOfReserve: number
-      attributeID: string
-    }) => `${attributeID}/generateAndReserve?numberToReserve=${numberOfReserve}`
-  }
-}
-
 const EVENT_QUERY = ({
   ouMode,
   page,
@@ -119,40 +94,13 @@ export default function useExportTemplate() {
   const [searchParams, _] = useSearchParams()
   const { hide, show } = useShowAlerts()
   const updateProgress = useSetRecoilState(ProgressState)
-  const { refetch: loadOneProgram } = useDataQuery(oneProgramQuery, {
-    lazy: true
-  })
-  const { refetch: loadReserveValues } = useDataQuery(reserveValuesQuery, {
-    lazy: true
-  })
+  const programConfigState = useRecoilValue(ProgramConfigState);
+
   const { getDataStoreData: programConfigDataStore } = getSelectedKey()
 
   async function generateInformations(inputValues: useExportTemplateProps) {
-    const sectionType: string | null = searchParams.get("sectionType")
-
-    if (!sectionType) {
-      throw new Error("Couldn't find section type in url params")
-    }
-    if (!programConfigDataStore?.program) {
-      throw Error("Couldn't get program uid from datastore << values >>")
-    }
-    const { program: programId, registration }: any = programConfigDataStore
-    const correspondingProgram: any = await loadOneProgram({ programId })
-
-    if (!correspondingProgram?.program) {
-      throw Error(`Couldn't find program << ${programId} >> in DHIS2`)
-    }
-
-    if (!registration) {
-      throw Error(`Couldn't find registration config in datastore`)
-    }
-
-    if (!programConfigDataStore?.["final-result"]) {
-      throw Error(`Couldn't find final-result config in datastore`)
-    }
-
     const currentAttributes =
-      correspondingProgram?.program?.programTrackedEntityAttributes?.map(
+      programConfigState?.programTrackedEntityAttributes?.filter(x => x.displayInList)?.map(
         (p: { mandatory: boolean; trackedEntityAttribute: any }) => {
           return { mandatory: p.mandatory, ...p.trackedEntityAttribute }
         }
@@ -180,20 +128,8 @@ export default function useExportTemplate() {
 
     const reserveValuePayload: any = {}
 
-    for (let attr of newHeaders) {
-      if (attr.unique && attr.generated) {
-        const reserveValueResponse: any = await loadReserveValues({
-          numberOfReserve: +inputValues.studentsNumber,
-          attributeID: attr.id
-        })
-        if (reserveValueResponse?.values?.length > 0) {
-          reserveValuePayload[`${attr.id}`] = reserveValueResponse.values
-        }
-      }
-    }
-
     const registrationProgramStageDataElements =
-      correspondingProgram?.program?.programStages?.reduce(
+      programConfigState?.programStages?.reduce(
         (prev: any, curr: any) => {
           if (curr.id === registration.programStage) {
             const newDataElements =
@@ -226,7 +162,7 @@ export default function useExportTemplate() {
       ) || []
 
     const finalResultsProgramStageDataElements =
-      correspondingProgram?.program?.programStages?.reduce(
+      programConfigState?.programStages?.reduce(
         (prev: any, curr: any) => {
           if (
             curr.id === programConfigDataStore?.["final-result"]?.programStage
@@ -396,7 +332,7 @@ export default function useExportTemplate() {
     return {
       headers: newHeaders || [],
       datas: newDataList || [],
-      currentProgram: correspondingProgram
+      currentProgram: programConfigState
     }
   }
 
@@ -412,7 +348,7 @@ export default function useExportTemplate() {
           ouMode: "SELECTED",
           paging: false,
           program: program as unknown as string,
-          order: "createdAt:desc",
+          order: programConfigDataStore.defaults.defaultOrder || "occurredAt:desc",
           programStage: registration?.programStage as unknown as string,
           filter: headerFieldsState?.dataElements,
           filterAttributes: headerFieldsState?.attributes,
@@ -444,7 +380,7 @@ export default function useExportTemplate() {
         } = await engine.query(
           EVENT_QUERY({
             program: program as unknown as string,
-            order: "createdAt:desc",
+            order: programConfigDataStore.defaults.defaultOrder || "occurredAt:desc",
             programStage: programConfigDataStore["final-result"].programStage,
             trackedEntity: tei
           })
@@ -523,16 +459,16 @@ export default function useExportTemplate() {
           id: headers[i].id,
           name: headers[i].label,
           valueType: headers[i].valueType,
-          options: headers[i].optionSetValue
+          options: headers[i].options
             ? headers[i].options
               ?.map(
-                (op: { code: string; displayName: string }) =>
-                  op.code || op.displayName
+                (op: { value: string; label: string }) =>
+                  op.value || op.label
               )
               ?.join(",")
             : "",
-          programId: i === 0 ? currentProgram?.program?.id : "",
-          programName: i === 0 ? currentProgram?.program?.displayName : "",
+          programId: i === 0 ? currentProgram?.id : "",
+          programName: i === 0 ? currentProgram?.displayName : "",
           none: ""
         })
       }
@@ -663,21 +599,13 @@ export default function useExportTemplate() {
           for (let j = 0; j < headers.length; j++) {
             const currentCell = currentRow.getCell(j + 1)
 
-            if (currentCell && headers[j]?.optionSetValue) {
-              // Get the column letter from the number
-              const columnLetter = convertNumberToLetter(
-                validationSheet.getColumn(headers[j].optionSetId).number
-              )
-
-              // Formula composition for dataValidation
-              const formula = `'${validationSheet.name
-                }'!$${columnLetter}$2:$${columnLetter}$${headers[j].options.length + 1
-                }`
+            if (currentCell && headers[j]?.options) {
+              const formulae = ['"' + headers[j]?.options?.map((item:any) => item.value)?.join(",") + '"'];
 
               currentCell.dataValidation = {
                 type: "list",
                 allowBlank: true,
-                formulae: [formula]
+                formulae: [formulae]
               }
             }
 
