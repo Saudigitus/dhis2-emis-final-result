@@ -123,7 +123,7 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     {
       id: "saveandcontinue",
       type: "submit",
-      label: "Perform promotion",
+      label: "Perform re-enroll",
       primary: true,
       disabled: mutateState.loading || loadingPromote,
       loading: mutateState.loading || loadingPromote,
