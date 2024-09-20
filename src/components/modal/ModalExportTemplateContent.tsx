@@ -9,11 +9,12 @@ import type { ModalExportTemplateProps } from "../../types/modal/ModalProps"
 import useGetExportTemplateForm from "../../hooks/form/useGetExportTemplateForm"
 import useExportTemplate from "../../hooks/exportTemplate/useExportTemplate"
 import { removeFalseKeys } from "../../utils/commons/removeFalseKeys"
-import { useRecoilValue } from "recoil"
+import { useRecoilValue, useSetRecoilState } from "recoil"
 import { ProgressState } from "../../schema/linearProgress"
 import IteractiveProgress from "../progress/interactiveProgress"
-import { styles } from "@material-ui/pickers/views/Calendar/Calendar"
 import style from '../modal/components/modal.module.css'
+import { useGetFileData } from "../../hooks/exportTemplate/getFileData"
+import { useGenerateInfo } from "../../hooks/exportTemplate/generateInformations"
 
 const loading = false
 function ModalExportTemplateContent(
@@ -41,18 +42,29 @@ function ModalExportTemplateContent(
   })
   const [loadingExport, setLoadingExport] = useState(false)
   const progress = useRecoilValue(ProgressState)
-
   const { handleExportToWord } = useExportTemplate()
+  const { getData } = useGetFileData()
+  const { generateInformations } = useGenerateInfo()
+  const updateProgress = useSetRecoilState(ProgressState)
 
   async function onSubmit() {
-    await handleExportToWord({
+    updateProgress({ stage: 'export', progress: 0, buffer: 10 })
+
+    const valores: any = {
       academicYearId: values[registration.academicYear],
       gradeId: values[registration.grade],
       orgUnit: values.orgUnit,
       orgUnitName: values.orgUnitName,
       studentsNumber: values.studentsNumber,
       setLoadingExport
-    })
+    }
+
+    const localData = await getData()
+
+    const { headers, datas, currentProgram } = await generateInformations({ ...valores, studentsNumber: localData.length })
+
+    await handleExportToWord(valores, localData, headers, datas, currentProgram)
+
     setOpen(false)
   }
 
