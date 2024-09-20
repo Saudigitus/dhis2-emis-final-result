@@ -449,7 +449,7 @@ export default function useExportTemplate() {
             trackedEntity: tei
           })
         )
-        
+
         updateProgress((progress: any) => ({ stage: 'export', progress: progress.progress + 50 / allTeis.length, buffer: progress.buffer + 55 / allTeis.length }))
         marksInstances = marksInstances.concat(marksData)
       }
@@ -742,9 +742,7 @@ export default function useExportTemplate() {
         })
         window.saveAs(
           blob,
-          `${capitalizeString(
-            searchParams.get("sectionType") ?? ""
-          )} Data Import - Template.xlsx`
+          `SEMIS - Final result - ${format(new Date(), "yyy-mm-dd")}.xlsx`
         )
       })
 
