@@ -6,6 +6,7 @@ import { useRecoilValue } from "recoil";
 import { ProgressState } from "../../schema/linearProgress";
 import upload from '../../assets/animations/upload.json'
 import styles from '../../components/modal/components/modal.module.css'
+
 export default function IteractiveProgress() {
     const progress = useRecoilValue(ProgressState)
 
