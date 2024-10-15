@@ -51,6 +51,7 @@ function ModalContentComponent(props: ContentProps): React.ReactElement {
           orgUnit: event?.orgUnit,
           program: event?.program,
           enrolledAt:event?.occurredAt,
+          occurredAt:event?.occurredAt,
           trackedEntity: event?.trackedEntity,
           events: [
             {
