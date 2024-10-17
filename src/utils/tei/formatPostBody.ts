@@ -65,7 +65,6 @@ export const promoteTeiPostBody = (students: any, dataValues: any, performancePr
             trackedEntityType,
             enrollments: [
                 {
-                    attributes,
                     program: enrollments[0]?.program,
                     status: "COMPLETED",
                     occurredAt: enrollmentDate,
