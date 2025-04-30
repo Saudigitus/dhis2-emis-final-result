@@ -64,49 +64,49 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
 
   function onSubmit() {
     const allFields = fieldsWitValue.flat()
-    if (
-      allFields.filter(
-        (element: any) =>
-          element?.assignedValue === undefined && element.required
-      ).length === 0
-    ) {
-      // FILTER ALL SELECTED ROWS TEI
-      const trackedEntities = selected.rows
-        .map((row: any) => row.tei)
-        .filter((tei) => {
-          return selected.selectedRows.some(
-            (event) => tei?.trackedEntity === event?.trackedEntity
-          )
-        })
-
-      let idsUnicos = new Set()
-
-      // Filtrar a lista, mantendo apenas os objetos com ids únicos
-      let listaSemDuplicados = selected.rows
-        .map((row: any) => row.tei)
-        .filter((tei) => {
-          return selected.selectedRows.some(
-            (event) => tei?.trackedEntity === event?.trackedEntity
-          )
-        })
-        .filter((obj) => {
-          if (!idsUnicos.has(obj.trackedEntity)) {
-            idsUnicos.add(obj.trackedEntity)
-            return true
-          }
-          return false
-        })
-
-      void promoteStudents(
-        listaSemDuplicados,
-        fieldsWitValue,
-        enrollmentDate,
-        setOpenSummary,
-        setSummaryData
-      ).then(() => {
-        setOpen(false)
+    // if (
+    //   allFields.filter(
+    //     (element: any) =>
+    //       element?.assignedValue === undefined && element.required
+    //   ).length === 0
+    // ) {
+    // FILTER ALL SELECTED ROWS TEI
+    const trackedEntities = selected.rows
+      .map((row: any) => row.tei)
+      .filter((tei) => {
+        return selected.selectedRows.some(
+          (event) => tei?.trackedEntity === event?.trackedEntity
+        )
       })
-    }
+
+    let idsUnicos = new Set()
+
+    // Filtrar a lista, mantendo apenas os objetos com ids únicos
+    let listaSemDuplicados = selected.rows
+      .map((row: any) => row.tei)
+      .filter((tei) => {
+        return selected.selectedRows.some(
+          (event) => tei?.trackedEntity === event?.trackedEntity
+        )
+      })
+      .filter((obj) => {
+        if (!idsUnicos.has(obj.trackedEntity)) {
+          idsUnicos.add(obj.trackedEntity)
+          return true
+        }
+        return false
+      })
+
+    void promoteStudents(
+      listaSemDuplicados,
+      fieldsWitValue,
+      enrollmentDate,
+      setOpenSummary,
+      setSummaryData
+    ).then(() => {
+      setOpen(false)
+    })
+    // }
   }
 
   const modalActions = [
@@ -169,7 +169,6 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
     setValues(e)
   }
 
-
   return (
     <WithPadding>
       <React.Fragment>
@@ -186,9 +185,10 @@ function ModalContentPromotion(props: ContentProps): React.ReactElement {
         {({ handleSubmit, values, form }) => {
           formRef.current = form
           return (
-            <form onSubmit={handleSubmit} onChange={onChange(values)}>
+            <form aria-required onSubmit={handleSubmit} onChange={onChange(values)}>
               {updatedVariables?.map((field: any, index: number) => (
                 <GroupForm
+                  required={true}
                   name={field.section}
                   description={field.description}
                   key={index}
